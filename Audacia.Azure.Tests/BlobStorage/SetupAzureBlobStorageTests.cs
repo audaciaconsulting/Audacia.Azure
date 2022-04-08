@@ -7,7 +7,7 @@ using Audacia.Azure.BlobStorage.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Azure.Azure.Tests.BlobStorage
+namespace Audacia.Azure.Tests.BlobStorage
 {
     public class SetupAzureBlobStorageTests
     {
