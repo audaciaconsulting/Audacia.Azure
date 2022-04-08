@@ -12,6 +12,7 @@
         <AssemblyName>Audacia.Azure.Tests</AssemblyName>
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
+        <LangVersion>10</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -53,7 +54,6 @@
     <ItemGroup>
         <Compile Include="BlobStorage\ConfigAzureBlobStorageTests.cs" />
         <Compile Include="BlobStorage\SetupAzureBlobStorageTests.cs" />
-        <Compile Include="Tests.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
