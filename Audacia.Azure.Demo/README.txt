@@ -1,1 +1,0 @@
-﻿Weather Icons: https://www.iconfinder.com/iconsets/weather-color-2 if want to play with other images

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Images\cloudy.png" />
+      <Content Include="Images\raining.png" />
+      <Content Include="Images\snowing.png" />
+      <Content Include="Images\sunshine.png" />
+      <Content Include="Images\windy.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\Audacia.Azure.BlobStorage\Audacia.Azure.BlobStorage.csproj" />
+      <ProjectReference Include="..\..\src\Audacia.Azure.StorageQueue\Audacia.Azure.StorageQueue.csproj" />
+    </ItemGroup>
+
+</Project>
