@@ -12,8 +12,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ServiceBusQueue\Extensions" />
-      <Folder Include="ServiceBusQueue\Services\Interfaces" />
+      <Folder Include="BlobStorage" />
+      <Folder Include="ServiceBusQueue" />
+      <Folder Include="StorageQueue" />
     </ItemGroup>
 
 </Project>

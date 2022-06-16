@@ -1,11 +1,26 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audacia.Azure", "Audacia.Azure\Audacia.Azure.csproj", "{5D6190FE-D088-4B66-96B4-C2DD65BD5B65}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audacia.Azure.Demo", "Audacia.Azure.Demo\Audacia.Azure.Demo.csproj", "{465721A6-294B-4E27-AC56-4BF9E19C433C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audacia.Azure.Tests", "Audacia.Azure.Tests\Audacia.Azure.Tests.csproj", "{576EEC81-3DD0-412A-A98D-B1D92BA96501}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E5406814-5303-4EE9-9BCC-81DD45CB46AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{A3594333-8008-4174-A9D6-84173D969021}"
+ProjectSection(SolutionItems) = preProject
+	build\pipeline.yaml = build\pipeline.yaml
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{57A6AAB6-2288-4009-BF86-A5E3B6A65687}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audacia.Azure.BlobStorage.Tests", "tests\Audacia.Azure.BlobStorage.Tests\Audacia.Azure.BlobStorage.Tests.csproj", "{47F7F715-62FC-4DD1-8534-C52CDD5363B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audacia.Azure.BlobStorage", "src\Audacia.Azure.BlobStorage\Audacia.Azure.BlobStorage.csproj", "{BB634AD6-4EEC-4BBE-8625-B08B080DAB86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audacia.Azure.StorageQueue", "src\Audacia.Azure.StorageQueue\Audacia.Azure.StorageQueue.csproj", "{2B485DCF-F246-4858-8794-7AFAA27F148F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audacia.Azure.ServiceBus", "src\Audacia.Azure.ServiceBus\Audacia.Azure.ServiceBus.csproj", "{475FF43E-5AAB-4F3D-8151-2BCD2AFD498F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audacia.Azure.Common", "src\Audacia.Azure.Common\Audacia.Azure.Common.csproj", "{01E8623D-FE07-412E-9160-FCDDEDC8FEA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,17 +40,36 @@ Global
 		{42670E37-61D9-4E1D-9441-FDE7854BF4C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42670E37-61D9-4E1D-9441-FDE7854BF4C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42670E37-61D9-4E1D-9441-FDE7854BF4C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5D6190FE-D088-4B66-96B4-C2DD65BD5B65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D6190FE-D088-4B66-96B4-C2DD65BD5B65}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D6190FE-D088-4B66-96B4-C2DD65BD5B65}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D6190FE-D088-4B66-96B4-C2DD65BD5B65}.Release|Any CPU.Build.0 = Release|Any CPU
 		{465721A6-294B-4E27-AC56-4BF9E19C433C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{465721A6-294B-4E27-AC56-4BF9E19C433C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{465721A6-294B-4E27-AC56-4BF9E19C433C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{465721A6-294B-4E27-AC56-4BF9E19C433C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{576EEC81-3DD0-412A-A98D-B1D92BA96501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{576EEC81-3DD0-412A-A98D-B1D92BA96501}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{576EEC81-3DD0-412A-A98D-B1D92BA96501}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{576EEC81-3DD0-412A-A98D-B1D92BA96501}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47F7F715-62FC-4DD1-8534-C52CDD5363B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47F7F715-62FC-4DD1-8534-C52CDD5363B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47F7F715-62FC-4DD1-8534-C52CDD5363B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47F7F715-62FC-4DD1-8534-C52CDD5363B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB634AD6-4EEC-4BBE-8625-B08B080DAB86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB634AD6-4EEC-4BBE-8625-B08B080DAB86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB634AD6-4EEC-4BBE-8625-B08B080DAB86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB634AD6-4EEC-4BBE-8625-B08B080DAB86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B485DCF-F246-4858-8794-7AFAA27F148F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B485DCF-F246-4858-8794-7AFAA27F148F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B485DCF-F246-4858-8794-7AFAA27F148F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B485DCF-F246-4858-8794-7AFAA27F148F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{475FF43E-5AAB-4F3D-8151-2BCD2AFD498F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{475FF43E-5AAB-4F3D-8151-2BCD2AFD498F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{475FF43E-5AAB-4F3D-8151-2BCD2AFD498F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{475FF43E-5AAB-4F3D-8151-2BCD2AFD498F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01E8623D-FE07-412E-9160-FCDDEDC8FEA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01E8623D-FE07-412E-9160-FCDDEDC8FEA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01E8623D-FE07-412E-9160-FCDDEDC8FEA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01E8623D-FE07-412E-9160-FCDDEDC8FEA3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{47F7F715-62FC-4DD1-8534-C52CDD5363B4} = {57A6AAB6-2288-4009-BF86-A5E3B6A65687}
+		{BB634AD6-4EEC-4BBE-8625-B08B080DAB86} = {E5406814-5303-4EE9-9BCC-81DD45CB46AE}
+		{2B485DCF-F246-4858-8794-7AFAA27F148F} = {E5406814-5303-4EE9-9BCC-81DD45CB46AE}
+		{475FF43E-5AAB-4F3D-8151-2BCD2AFD498F} = {E5406814-5303-4EE9-9BCC-81DD45CB46AE}
+		{01E8623D-FE07-412E-9160-FCDDEDC8FEA3} = {E5406814-5303-4EE9-9BCC-81DD45CB46AE}
 	EndGlobalSection
 EndGlobal

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Audacia.Azure.BlobStorage.Services;
+﻿using Audacia.Azure.BlobStorage.Services;
 using Audacia.Azure.BlobStorage.Services.Interfaces;
 using Audacia.Azure.StorageQueue.Services;
 using Audacia.Azure.StorageQueue.Services.Interfaces;

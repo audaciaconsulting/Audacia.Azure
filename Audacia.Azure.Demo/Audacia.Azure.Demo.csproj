@@ -12,6 +12,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Audacia.Azure\Audacia.Azure.csproj" />
+      <ProjectReference Include="..\src\Audacia.Azure.BlobStorage\Audacia.Azure.BlobStorage.csproj" />
+      <ProjectReference Include="..\src\Audacia.Azure.StorageQueue\Audacia.Azure.StorageQueue.csproj" />
     </ItemGroup>
 
 </Project>

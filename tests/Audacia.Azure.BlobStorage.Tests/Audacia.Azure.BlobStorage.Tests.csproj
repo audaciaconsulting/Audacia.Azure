@@ -7,16 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Audacia.Azure\Audacia.Azure.csproj" />
+      <ProjectReference Include="..\..\src\Audacia.Azure.BlobStorage\Audacia.Azure.BlobStorage.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Moq" Version="4.17.2" />
+      <PackageReference Include="Moq" Version="4.18.1" />
       <PackageReference Include="xunit" Version="2.4.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="BlobStorage" />
     </ItemGroup>
 
 </Project>
