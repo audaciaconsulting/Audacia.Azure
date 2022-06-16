@@ -8,14 +8,28 @@ pool: { vmImage: windows-latest }
 
 stages:
   - stage: Build
-    displayName: Build
+    displayName: Build Blob Storage
     jobs:
       - template: pipelines/build/nuget-package.job.yaml@templates
         parameters:
-          projects: 'src/**/*.csproj'
-          tests: 'tests/**/*.Tests.csproj'
+          projects: 'src/Audacia.Azure.BlobStorage/**/*.csproj'
+          tests: 'tests/Audacia.Azure.BlobStorage.Tests/**/*.Tests.csproj'
+  - stage: Build
+      displayName: Build Service Bus
+      jobs:
+        - template: pipelines/build/nuget-package.job.yaml@templates
+          parameters:
+            projects: 'src/Audacia.Azure.ServiceBus/**/*.csproj'
+            tests: 'tests/**/*.Tests.csproj'
+  - stage: Build
+      displayName: Build Storage Queue
+      jobs:
+        - template: pipelines/build/nuget-package.job.yaml@templates
+          parameters:
+            projects: 'src/Audacia.Azure.StorageQueue/**/*.csproj'
+            tests: 'tests/**/*.Tests.csproj'
 
   - stage: Release
     displayName: Release
-    jobs: [ { template: pipelines/release/internal-nuget-package.job.yaml@templates } ]
+    jobs: [ { template: pipelines/release/internal-nuget-package.job.yaml@templates } ] // multiple jobs?
     condition: and(succeeded(), and(not(eq(variables['Build.Reason'], 'PullRequest')), not(eq(variables['Build.Reason'], 'Schedule'))))
