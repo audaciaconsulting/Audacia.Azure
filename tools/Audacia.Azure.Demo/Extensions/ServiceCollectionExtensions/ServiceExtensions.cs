@@ -1,7 +1,8 @@
-﻿using Audacia.Azure.BlobStorage.Services;
-using Audacia.Azure.BlobStorage.Services.Interfaces;
-using Audacia.Azure.StorageQueue.Services;
-using Audacia.Azure.StorageQueue.Services.Interfaces;
+﻿using Audacia.Azure.BlobStorage.AddBlob;
+using Audacia.Azure.BlobStorage.DeleteBlob;
+using Audacia.Azure.BlobStorage.GetBlob;
+using Audacia.Azure.BlobStorage.UpdateBlob;
+using Audacia.Azure.StorageQueue.AddMessageToQueue;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Audacia.Azure.Demo.Extensions.ServiceCollectionExtensions
@@ -10,9 +11,9 @@ namespace Audacia.Azure.Demo.Extensions.ServiceCollectionExtensions
     {
         public static IServiceCollection AddAzureBlobServices(this IServiceCollection serviceCollection)
         {
-            return serviceCollection.AddScoped<IGetAzureBlobStorageService, GetAzureAzureBlobStorageService>()
+            return serviceCollection.AddScoped<IGetAzureBlobStorageService, GetAzureBlobStorageService>()
                 .AddScoped<IAddAzureBlobStorageService, AddAzureBlobStorageService>()
-                .AddScoped<IUpdateAzureBlobStorageService, AzureUpdateAzureBlobStorageService>()
+                .AddScoped<IUpdateAzureBlobStorageService, UpdateAzureBlobStorageService>()
                 .AddScoped<IDeleteAzureBlobStorageService, DeleteAzureBlobStorageService>();
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Audacia.Azure.BlobStorage.Exceptions
 {
@@ -24,12 +25,12 @@ namespace Audacia.Azure.BlobStorage.Exceptions
 
         public static BlobStorageConfigurationException AccountNameNotConfigured()
         {
-            return new BlobStorageConfigurationException(string.Format(MissingConfigExceptionMessage, "account name"));
+            return new BlobStorageConfigurationException(string.Format(CultureInfo.InvariantCulture, MissingConfigExceptionMessage, "account name"));
         }
 
         public static BlobStorageConfigurationException AccountKeyNotConfigured()
         {
-            return new BlobStorageConfigurationException(string.Format(MissingConfigExceptionMessage, "account key"));
+            return new BlobStorageConfigurationException(string.Format(CultureInfo.InvariantCulture, MissingConfigExceptionMessage, "account key"));
         }
 
         public static BlobStorageConfigurationException BlobClientNotConfigured()

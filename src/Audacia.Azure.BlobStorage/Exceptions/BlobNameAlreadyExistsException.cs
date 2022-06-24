@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Audacia.Azure.BlobStorage.Exceptions
 {
@@ -8,7 +9,7 @@ namespace Audacia.Azure.BlobStorage.Exceptions
             "Cannot add Blob: {0} within Container: {1} as there is an existing blob with that name therefore preventing overwriting of any data";
 
         public BlobNameAlreadyExistsException(string blobName, string containerName) : base(
-            string.Format(TemplateExceptionMessage, blobName, containerName))
+            string.Format(CultureInfo.InvariantCulture, TemplateExceptionMessage, blobName, containerName))
         {
         }
     }

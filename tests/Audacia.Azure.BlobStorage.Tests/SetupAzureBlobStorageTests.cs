@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading.Tasks;
+using Audacia.Azure.BlobStorage.AddBlob;
 using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions;
-using Audacia.Azure.BlobStorage.Services;
-using Audacia.Azure.BlobStorage.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace Audacia.Azure.Tests.BlobStorage
+namespace Audacia.Azure.BlobStorage.Tests
 {
     public class SetupAzureBlobStorageTests
     {
@@ -24,7 +24,7 @@ namespace Audacia.Azure.Tests.BlobStorage
             Exception thrownException = null;
             try
             {
-                _addAzureBlobStorageService = new AddAzureBlobStorageService(blobStorageOptions);
+                _addAzureBlobStorageService = new AddAzureBlobStorageService(blobStorageOptions, CultureInfo.InvariantCulture);
             }
             catch (Exception exception)
             {
@@ -50,7 +50,7 @@ namespace Audacia.Azure.Tests.BlobStorage
             Exception thrownException = null;
             try
             {
-                _addAzureBlobStorageService = new AddAzureBlobStorageService(blobStorageOptions);
+                _addAzureBlobStorageService = new AddAzureBlobStorageService(blobStorageOptions, CultureInfo.InvariantCulture);
             }
             catch (Exception exception)
             {
@@ -66,7 +66,8 @@ namespace Audacia.Azure.Tests.BlobStorage
         [Theory]
         [InlineData("Photos-dev", null)]
         [InlineData("Files", "")]
-        public async Task Should_throw_exception_if_account_key_option_value_is_null_or_empty(string accountName,
+        public async Task Should_throw_exception_if_account_key_option_value_is_null_or_empty(
+            string accountName,
             string accountKey)
         {
             // Arrange
@@ -83,7 +84,7 @@ namespace Audacia.Azure.Tests.BlobStorage
             Exception thrownException = null;
             try
             {
-                _addAzureBlobStorageService = new AddAzureBlobStorageService(blobStorageOptions);
+                _addAzureBlobStorageService = new AddAzureBlobStorageService(blobStorageOptions, CultureInfo.InvariantCulture);
             }
             catch (Exception exception)
             {
@@ -99,7 +100,8 @@ namespace Audacia.Azure.Tests.BlobStorage
         [Theory]
         [InlineData(null, "123685924")]
         [InlineData("", "968574125")]
-        public async Task Should_throw_exception_if_account_name_option_value_is_null_or_empty(string accountName,
+        public async Task Should_throw_exception_if_account_name_option_value_is_null_or_empty(
+            string accountName,
             string accountKey)
         {
             // Arrange
@@ -116,7 +118,7 @@ namespace Audacia.Azure.Tests.BlobStorage
             Exception thrownException = null;
             try
             {
-                _addAzureBlobStorageService = new AddAzureBlobStorageService(blobStorageOptions);
+                _addAzureBlobStorageService = new AddAzureBlobStorageService(blobStorageOptions, CultureInfo.InvariantCulture);
             }
             catch (Exception exception)
             {

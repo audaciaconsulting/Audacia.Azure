@@ -1,0 +1,16 @@
+﻿using Audacia.Azure.BlobStorage.Common.Commands;
+
+namespace Audacia.Azure.BlobStorage.DeleteBlob.Commands
+{
+    public class DeleteAzureBlobStorageCommand : BaseBlobCommand
+    {
+        /// <summary>
+        /// Command uses to delete a blob.
+        /// </summary>
+        /// <param name="containerName"></param>
+        /// <param name="blobName"></param>
+        public DeleteAzureBlobStorageCommand(string containerName, string blobName) : base(containerName, blobName)
+        {
+        }
+    }
+}

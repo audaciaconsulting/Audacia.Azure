@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Audacia.Azure.BlobStorage.Exceptions
 {
@@ -8,7 +9,7 @@ namespace Audacia.Azure.BlobStorage.Exceptions
             "There is already a container on this storage account with the name: {0}";
 
         public ContainerAlreadyExistsException(string containerName) : base(
-            string.Format(TemplateExceptionMessage, containerName))
+            string.Format(CultureInfo.InvariantCulture, TemplateExceptionMessage, containerName))
         {
         }
     }

@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
-using Audacia.Azure.BlobStorage.Commands.AddCommands;
+using Audacia.Azure.BlobStorage.AddBlob;
+using Audacia.Azure.BlobStorage.AddBlob.Commands;
 using Audacia.Azure.BlobStorage.Exceptions;
-using Audacia.Azure.BlobStorage.Services.Interfaces;
 using Moq;
 using Xunit;
 
-namespace Audacia.Azure.Tests.BlobStorage
+namespace Audacia.Azure.BlobStorage.Tests
 {
     public class ConfigAzureBlobStorageTests
     {

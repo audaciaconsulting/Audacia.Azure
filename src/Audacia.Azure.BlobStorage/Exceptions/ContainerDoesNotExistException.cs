@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Audacia.Azure.BlobStorage.Exceptions
 {
@@ -8,7 +9,7 @@ namespace Audacia.Azure.BlobStorage.Exceptions
             "Container: {0} does not exist therefore unable to find the blob within the specified container";
 
         public ContainerDoesNotExistException(string containerName) : base(
-            string.Format(TemplateExceptionMessage, containerName))
+            string.Format(CultureInfo.InvariantCulture, TemplateExceptionMessage, containerName))
         {
         }
     }

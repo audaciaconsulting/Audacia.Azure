@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Audacia.Azure.BlobStorage.Exceptions
 {
@@ -8,7 +9,7 @@ namespace Audacia.Azure.BlobStorage.Exceptions
             "Unable to delete Blob: {0} within Container: {1} as it does not exist";
 
         public BlobDoesNotExistException(string blobName, string containerName) : base(
-            string.Format(TemplateExceptionMessage, blobName, containerName))
+            string.Format(CultureInfo.InvariantCulture, TemplateExceptionMessage, blobName, containerName))
         {
         }
     }

@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Audacia.Azure.BlobStorage.Commands.AddCommands;
-using Audacia.Azure.BlobStorage.Commands.DeleteCommands;
-using Audacia.Azure.BlobStorage.Commands.UpdateCommands;
-using Audacia.Azure.BlobStorage.Services.Interfaces;
+using Audacia.Azure.BlobStorage.AddBlob;
+using Audacia.Azure.BlobStorage.AddBlob.Commands;
+using Audacia.Azure.BlobStorage.DeleteBlob;
+using Audacia.Azure.BlobStorage.DeleteBlob.Commands;
+using Audacia.Azure.BlobStorage.GetBlob;
+using Audacia.Azure.BlobStorage.UpdateBlob;
+using Audacia.Azure.BlobStorage.UpdateBlob.Commands;
 using Audacia.Azure.Demo.Models.Requests;
 using Audacia.Azure.ReturnOptions.ImageOption;
 using Microsoft.AspNetCore.Http;
@@ -53,7 +56,9 @@ namespace Audacia.Azure.Demo.Controllers
 
                 return Ok(blobs);
             }
+#pragma warning disable CA1031
             catch (Exception e)
+#pragma warning restore CA1031
             {
                 _logger.LogError(e.Message);
 
