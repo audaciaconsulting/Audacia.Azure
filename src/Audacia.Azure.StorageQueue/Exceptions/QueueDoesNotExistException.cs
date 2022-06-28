@@ -6,7 +6,8 @@ namespace Audacia.Azure.StorageQueue.Exceptions
     {
         private const string TemplateExceptionMessage = "There is no queue with the name: {0}";
 
-        public QueueDoesNotExistException(string queueName) : base(string.Format(TemplateExceptionMessage, queueName))
+        public QueueDoesNotExistException(string queueName, IFormatProvider formatProvider) : base(
+            string.Format(formatProvider, TemplateExceptionMessage, queueName))
         {
         }
     }

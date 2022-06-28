@@ -54,6 +54,8 @@ namespace Audacia.Azure.StorageQueue.Common.Services
             IOptions<QueueStorageOption> queueStorageConfig,
             IFormatProvider formatProvider)
         {
+            FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
+
             if (queueStorageConfig?.Value == null)
             {
                 throw StorageQueueConfigurationException.OptionsNotConfigured();
@@ -61,16 +63,15 @@ namespace Audacia.Azure.StorageQueue.Common.Services
 
             if (string.IsNullOrEmpty(queueStorageConfig.Value.AccountName))
             {
-                throw StorageQueueConfigurationException.AccountNameNotConfigured();
+                throw StorageQueueConfigurationException.AccountNameNotConfigured(FormatProvider);
             }
 
             if (string.IsNullOrEmpty(queueStorageConfig.Value.AccountKey))
             {
-                throw StorageQueueConfigurationException.AccountKeyNotConfigured();
+                throw StorageQueueConfigurationException.AccountKeyNotConfigured(FormatProvider);
             }
 
             _accountName = queueStorageConfig.Value.AccountName;
-            FormatProvider = formatProvider;
 
             StorageAccountConnectionString = string.Format(FormatProvider, _storageAccountConnectionString,
                 queueStorageConfig.Value.AccountName, queueStorageConfig.Value.AccountKey);
@@ -91,7 +92,7 @@ namespace Audacia.Azure.StorageQueue.Common.Services
 
             if (!queueExists)
             {
-                throw new QueueDoesNotExistException(queueName);
+                throw new QueueDoesNotExistException(queueName, FormatProvider);
             }
         }
 

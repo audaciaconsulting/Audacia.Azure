@@ -13,15 +13,18 @@ namespace Audacia.Azure.StorageQueue.Models
 
         public string Message { get; }
 
-        public DateTime InsertedOn { get; set; }
+        public DateTime InsertedOn { get; }
 
         public DateTime Received { get; }
 
-        public AzureQueueStorageMessage(string messageId,
+#pragma warning disable ACL1003
+        public AzureQueueStorageMessage(
+            string messageId,
             string popReceipt,
             string message,
             DateTime insertedOn,
             DateTime received)
+#pragma warning restore ACL1003
         {
             MessageId = messageId;
             PopReceipt = popReceipt;

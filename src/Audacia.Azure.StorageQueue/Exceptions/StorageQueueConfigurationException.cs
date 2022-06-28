@@ -22,16 +22,16 @@ namespace Audacia.Azure.StorageQueue.Exceptions
             return new StorageQueueConfigurationException(OptionsNotConfiguredExceptionMessage);
         }
 
-        public static StorageQueueConfigurationException AccountNameNotConfigured()
+        public static StorageQueueConfigurationException AccountNameNotConfigured(IFormatProvider formatProvider)
         {
-            return new StorageQueueConfigurationException(string.Format(MissingConfigExceptionMessage, "account name"));
+            return new StorageQueueConfigurationException(string.Format(formatProvider, MissingConfigExceptionMessage, "account name"));
         }
-        
-        public static StorageQueueConfigurationException AccountKeyNotConfigured()
+
+        public static StorageQueueConfigurationException AccountKeyNotConfigured(IFormatProvider formatProvider)
         {
-            return new StorageQueueConfigurationException(string.Format(MissingConfigExceptionMessage, "account key"));
+            return new StorageQueueConfigurationException(string.Format(formatProvider, MissingConfigExceptionMessage, "account key"));
         }
-        
+
         public static StorageQueueConfigurationException QueueClientNotConfigured()
         {
             return new StorageQueueConfigurationException(QueueClientNotConfiguredExceptionMessage);

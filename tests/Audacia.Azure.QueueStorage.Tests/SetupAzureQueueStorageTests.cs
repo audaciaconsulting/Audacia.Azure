@@ -1,33 +1,32 @@
 ﻿using System;
 using System.Globalization;
 using System.Threading.Tasks;
-using Audacia.Azure.BlobStorage.AddBlob;
-using Audacia.Azure.BlobStorage.Config;
-using Audacia.Azure.BlobStorage.Exceptions;
+using Audacia.Azure.StorageQueue.AddMessageToQueue;
+using Audacia.Azure.StorageQueue.Config;
+using Audacia.Azure.StorageQueue.Exceptions;
 using Microsoft.Extensions.Options;
-using Xunit;
 
-namespace Audacia.Azure.BlobStorage.Tests
+namespace Audacia.Azure.QueueStorage.Tests
 {
-    public class SetupAzureBlobStorageTests
+    public class SetupAzureQueueStorageTests
     {
-        private IAddAzureBlobStorageService _addAzureBlobStorageService;
+        private IAddAzureQueueStorageService _addAzureQueueStorageService;
 
         [Fact]
         public async Task Should_throw_exception_if_option_value_is_null()
         {
             // Arrange
-            var blobStorageOptions = Options.Create<BlobStorageOption>(null);
+            var queueStorageOption = Options.Create<QueueStorageOption>(null);
 
             // Act
-            var expectedException = BlobStorageConfigurationException.OptionsNotConfigured();
+            var expectedException = StorageQueueConfigurationException.OptionsNotConfigured();
             Exception thrownException = null;
             try
             {
-                _addAzureBlobStorageService =
-                    new AddAzureBlobStorageService(blobStorageOptions, CultureInfo.InvariantCulture);
+                _addAzureQueueStorageService =
+                    new AddAzureQueueStorageService(queueStorageOption, CultureInfo.InvariantCulture);
             }
-            catch (BlobStorageConfigurationException exception)
+            catch (StorageQueueConfigurationException exception)
             {
                 thrownException = exception;
             }
@@ -42,20 +41,20 @@ namespace Audacia.Azure.BlobStorage.Tests
         public async Task Should_throw_exception_if_option_value_is_empty()
         {
             // Arrange
-            var blobStorageOption = new BlobStorageOption();
+            var queueStorageOption = new QueueStorageOption();
 
-            var blobStorageOptions = Options.Create(blobStorageOption);
+            var queueStorageOptions = Options.Create(queueStorageOption);
 
             // Act
             var expectedException =
-                BlobStorageConfigurationException.AccountNameNotConfigured(CultureInfo.InvariantCulture);
+                StorageQueueConfigurationException.AccountNameNotConfigured(CultureInfo.InvariantCulture);
             Exception thrownException = null;
             try
             {
-                _addAzureBlobStorageService =
-                    new AddAzureBlobStorageService(blobStorageOptions, CultureInfo.InvariantCulture);
+                _addAzureQueueStorageService =
+                    new AddAzureQueueStorageService(queueStorageOptions, CultureInfo.InvariantCulture);
             }
-            catch (BlobStorageConfigurationException exception)
+            catch (StorageQueueConfigurationException exception)
             {
                 thrownException = exception;
             }
@@ -74,24 +73,24 @@ namespace Audacia.Azure.BlobStorage.Tests
             string accountKey)
         {
             // Arrange
-            var blobStorageOption = new BlobStorageOption
+            var queueStorageOption = new QueueStorageOption
             {
                 AccountName = accountName,
                 AccountKey = accountKey
             };
 
-            var blobStorageOptions = Options.Create(blobStorageOption);
+            var queueStorageOptions = Options.Create(queueStorageOption);
 
             // Act
             var expectedException =
-                BlobStorageConfigurationException.AccountKeyNotConfigured(CultureInfo.InvariantCulture);
+                StorageQueueConfigurationException.AccountKeyNotConfigured(CultureInfo.InvariantCulture);
             Exception thrownException = null;
             try
             {
-                _addAzureBlobStorageService =
-                    new AddAzureBlobStorageService(blobStorageOptions, CultureInfo.InvariantCulture);
+                _addAzureQueueStorageService =
+                    new AddAzureQueueStorageService(queueStorageOptions, CultureInfo.InvariantCulture);
             }
-            catch (BlobStorageConfigurationException exception)
+            catch (StorageQueueConfigurationException exception)
             {
                 thrownException = exception;
             }
@@ -110,24 +109,24 @@ namespace Audacia.Azure.BlobStorage.Tests
             string accountKey)
         {
             // Arrange
-            var blobStorageOption = new BlobStorageOption
+            var queueStorageOption = new QueueStorageOption
             {
                 AccountName = accountName,
                 AccountKey = accountKey
             };
 
-            var blobStorageOptions = Options.Create(blobStorageOption);
+            var queueStorageOptions = Options.Create(queueStorageOption);
 
             // Act
             var expectedException =
-                BlobStorageConfigurationException.AccountNameNotConfigured(CultureInfo.InvariantCulture);
+                StorageQueueConfigurationException.AccountNameNotConfigured(CultureInfo.InvariantCulture);
             Exception thrownException = null;
             try
             {
-                _addAzureBlobStorageService =
-                    new AddAzureBlobStorageService(blobStorageOptions, CultureInfo.InvariantCulture);
+                _addAzureQueueStorageService =
+                    new AddAzureQueueStorageService(queueStorageOptions, CultureInfo.InvariantCulture);
             }
-            catch (BlobStorageConfigurationException exception)
+            catch (StorageQueueConfigurationException exception)
             {
                 thrownException = exception;
             }
