@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Audacia.Azure.BlobStorage.Models;
 
 namespace Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions
@@ -7,8 +8,8 @@ namespace Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions
     {
         private const string TemplateExceptionMessage = "Cannot add Blob: {0} which is of type {1} be null";
 
-        public BlobDataCannotBeNullException(string blobName, BlobDataType blobDataType) : base(
-            string.Format(TemplateExceptionMessage, blobName, blobDataType.ToString()))
+        public BlobDataCannotBeNullException(string blobName, BlobDataType blobDataType, IFormatProvider formatProvider) : base(
+            string.Format(formatProvider, TemplateExceptionMessage, blobName, blobDataType.ToString()))
         {
         }
     }

@@ -13,8 +13,8 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <returns>A bool depending on the success of the upload</returns>
-        Task<bool> ExecuteAsync(AddAzureBlobStorageBase64Command command);
-        
+        Task<bool> ExecuteAsync(AddAzureBlobStorageBaseSixtyFourCommand command);
+
         /// <summary>
         /// Adds a blob to Azure Blob Storage account when you would like to upload a blob where the data is located
         /// on the local file server.
@@ -30,7 +30,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <returns>A bool depending on the success of the upload</returns>
         Task<bool> ExecuteAsync(AddAzureBlobStorageBytesCommand command);
-        
+
         /// <summary>
         /// Adds a blob to Azure Blob Storage account when you have a stream containing the data of the blob you want
         /// to upload to the storage account.

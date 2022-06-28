@@ -8,8 +8,8 @@ namespace Audacia.Azure.BlobStorage.Exceptions
         private const string TemplateExceptionMessage =
             "Cannot add Blob: {0} within Container: {1} as there is an existing blob with that name therefore preventing overwriting of any data";
 
-        public BlobNameAlreadyExistsException(string blobName, string containerName) : base(
-            string.Format(CultureInfo.InvariantCulture, TemplateExceptionMessage, blobName, containerName))
+        public BlobNameAlreadyExistsException(string blobName, string containerName, IFormatProvider formatProvider) : base(
+            string.Format(formatProvider, TemplateExceptionMessage, blobName, containerName))
         {
         }
     }

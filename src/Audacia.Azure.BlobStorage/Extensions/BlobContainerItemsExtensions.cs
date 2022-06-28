@@ -1,11 +1,10 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Azure.Storage.Blobs.Models;
 
 namespace Audacia.Azure.BlobStorage.Extensions
 {
-    public static class BlobContainerItems
+    public static class BlobContainerItemsExtensions
     {
         /// <summary>
         /// Checks if the new proposed container name already existing within the storage account.

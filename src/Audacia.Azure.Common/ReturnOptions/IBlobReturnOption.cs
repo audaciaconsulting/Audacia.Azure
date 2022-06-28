@@ -1,4 +1,6 @@
-﻿namespace Audacia.Azure.ReturnOptions
+﻿using System;
+
+namespace Audacia.Azure.Common.ReturnOptions
 {
     public interface IBlobReturnOption<T>
     {
@@ -6,6 +8,6 @@
 
         T Result { get; }
 
-        T Parse(string blobName, byte[] bytes, string blobClientUrl = null);
+        T Parse(string blobName, byte[] bytes, Uri blobClientUrl);
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Audacia.Azure.BlobStorage.Common.Services;
 using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions;
-using Audacia.Azure.ReturnOptions;
+using Audacia.Azure.Common.ReturnOptions;
 using Azure.Storage.Blobs;
 using Microsoft.Extensions.Options;
 
@@ -24,7 +24,8 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// </summary>
         /// <param name="blobServiceClient"></param>
         /// <param name="formatProvider"></param>
-        public GetAzureBlobStorageService(BlobServiceClient blobServiceClient, IFormatProvider formatProvider) : base(blobServiceClient, formatProvider)
+        public GetAzureBlobStorageService(BlobServiceClient blobServiceClient, IFormatProvider formatProvider) : base(
+            blobServiceClient, formatProvider)
         {
         }
 
@@ -33,7 +34,8 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// </summary>
         /// <param name="blobStorageConfig"></param>
         /// <param name="formatProvider"></param>
-        public GetAzureBlobStorageService(IOptions<BlobStorageOption> blobStorageConfig, IFormatProvider formatProvider) : base(blobStorageConfig, formatProvider)
+        public GetAzureBlobStorageService(IOptions<BlobStorageOption> blobStorageConfig, IFormatProvider formatProvider)
+            : base(blobStorageConfig, formatProvider)
         {
         }
 
@@ -59,10 +61,10 @@ namespace Audacia.Azure.BlobStorage.GetBlob
                 var blobBytes = await GetBlobBytesAsync(containerClient, blobName);
 
                 return new TResponse().Parse(blobName, blobBytes,
-                    string.Format(FormatProvider, StorageAccountWithContainer, containerName));
+                    new Uri(string.Format(FormatProvider, StorageAccountWithContainer, containerName)));
             }
 
-            throw new ContainerDoesNotExistException(containerName);
+            throw new ContainerDoesNotExistException(containerName, FormatProvider);
         }
 
         /// <summary>
@@ -75,7 +77,8 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
         /// <returns>A <see cref="IBlobReturnOption"/> which has been configured by the generic arguments.</returns>
-        public async Task<IDictionary<string, T>> GetSomeAsync<T, TResponse>(string containerName,
+        public async Task<IDictionary<string, T>> GetSomeAsync<T, TResponse>(
+            string containerName,
             IEnumerable<string> blobNames)
             where TResponse : IBlobReturnOption<T>, new()
         {
@@ -86,20 +89,38 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             {
                 var containerClient = BlobServiceClient.GetBlobContainerClient(containerName);
 
-                var blobBytesDictionary = new Dictionary<string, T>();
-                foreach (var blobName in blobNames)
-                {
-                    var blobBytes = await GetBlobBytesAsync(containerClient, blobName);
-                    var parsedResult = new TResponse().Parse(blobName, blobBytes,
-                        string.Format(FormatProvider, StorageAccountWithContainer, containerName));
-
-                    blobBytesDictionary.Add(blobName, parsedResult);
-                }
-
-                return blobBytesDictionary;
+                return await GetBlobsAsync<T, TResponse>(containerName, blobNames, containerClient);
             }
 
-            throw new ContainerDoesNotExistException(containerName);
+            throw new ContainerDoesNotExistException(containerName, FormatProvider);
+        }
+
+        /// <summary>
+        /// Gets all the blob bytes from the collection of blob names.
+        /// </summary>
+        /// <param name="containerName">The name of the container where the blob you want to return is stored in.</param>
+        /// <param name="blobNames">A collection of blob names you are wanting to return.</param>
+        /// <param name="containerClient">Client of the container which blobs are located.</param>
+        /// <typeparam name="T">The type of data which you want the blob to be converted into. This must match one of the
+        /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
+        /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
+        /// <returns></returns>
+        private async Task<IDictionary<string, T>> GetBlobsAsync<T, TResponse>(
+            string containerName,
+            IEnumerable<string> blobNames,
+            BlobContainerClient? containerClient) where TResponse : IBlobReturnOption<T>, new()
+        {
+            var blobBytesDictionary = new Dictionary<string, T>();
+            foreach (var blobName in blobNames)
+            {
+                var blobBytes = await GetBlobBytesAsync(containerClient, blobName);
+                var parsedResult = new TResponse().Parse(blobName, blobBytes,
+                    new Uri(string.Format(FormatProvider, StorageAccountWithContainer, containerName)));
+
+                blobBytesDictionary.Add(blobName, parsedResult);
+            }
+
+            return blobBytesDictionary;
         }
 
         /// <summary>
@@ -119,30 +140,33 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             if (containerExists)
             {
                 var containerClient = BlobServiceClient.GetBlobContainerClient(containerName);
-                var pagedBlobs = containerClient.GetBlobs();
 
-                var blobs = pagedBlobs.ToList();
-
-                var blobBytesDictionary = new Dictionary<string, T>();
-
-                foreach (var blob in blobs)
-                {
-                    var blobBytes = await GetBlobBytesAsync(containerClient, blob.Name);
-                    var parsedResult = new TResponse().Parse(blob.Name, blobBytes,
-                        string.Format(FormatProvider, StorageAccountWithContainer, containerName));
-
-                    blobBytesDictionary.Add(blob.Name, parsedResult);
-                }
-
-                return blobBytesDictionary;
+                return await GetAllBlobsAsync<T, TResponse>(containerClient, containerName);
             }
 
-            throw new ContainerDoesNotExistException(containerName);
+            throw new ContainerDoesNotExistException(containerName, FormatProvider);
         }
 
-        private static async Task<byte[]> GetBlobsAsync(BlobContainerClient containerClient, string blobName)
+        private async Task<Dictionary<string, T>> GetAllBlobsAsync<T, TResponse>(
+            BlobContainerClient containerClient, string containerName)
+            where TResponse : IBlobReturnOption<T>, new()
         {
+            var pagedBlobs = containerClient.GetBlobs();
 
+            var blobs = pagedBlobs.ToList();
+
+            var blobBytesDictionary = new Dictionary<string, T>();
+
+            foreach (var blob in blobs)
+            {
+                var blobBytes = await GetBlobBytesAsync(containerClient, blob.Name);
+                var parsedResult = new TResponse().Parse(blob.Name, blobBytes,
+                    new Uri(string.Format(FormatProvider, StorageAccountWithContainer, containerName)));
+
+                blobBytesDictionary.Add(blob.Name, parsedResult);
+            }
+
+            return blobBytesDictionary;
         }
 
         /// <summary>

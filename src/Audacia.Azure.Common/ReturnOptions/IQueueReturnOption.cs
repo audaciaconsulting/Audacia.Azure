@@ -1,4 +1,4 @@
-﻿namespace Audacia.Azure.ReturnOptions
+﻿namespace Audacia.Azure.Common.ReturnOptions
 {
     public interface IQueueReturnOption<T>
     {

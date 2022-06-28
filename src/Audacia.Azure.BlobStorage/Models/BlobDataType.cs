@@ -8,12 +8,12 @@ namespace Audacia.Azure.BlobStorage.Models
     public enum BlobDataType
     {
         [EnumMember(Value = "Base 64")]
-        Base64,
+        BaseSixtyFour,
         Stream,
-        
+
         [EnumMember(Value = "Byte Array")]
         ByteArray,
-        
+
         [EnumMember(Value = "File Location")]
         FileLocation
     }

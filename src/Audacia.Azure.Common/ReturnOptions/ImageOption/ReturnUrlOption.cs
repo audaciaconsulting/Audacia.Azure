@@ -1,31 +1,32 @@
 ﻿using System;
 
-namespace Audacia.Azure.ReturnOptions.ImageOption
+namespace Audacia.Azure.Common.ReturnOptions.ImageOption
 {
     public class ReturnUrlOption : IBlobReturnOption<string>
     {
         private string _blobName;
 
         /// <summary>
-        /// Name of the blob received from the storage account.
+        /// Gets the Name of the blob received from the storage account.
         /// </summary>
         public string BlobName => _blobName;
 
-        private string _result;
-
         /// <summary>
-        /// The returning value from blob storage containing the guid which it was saved within the storage account.
+        /// Gets the returning value from blob storage containing the guid which it was saved within the storage account.
         /// </summary>
-        public string Result => _result;
+        public string Result { get; private set; }
 
-        public string Parse(string blobName, byte[] bytes, string blobClientUrl = null)
+        public string Parse(string blobName, byte[] bytes, Uri blobClientUrl)
         {
             if (blobClientUrl == null)
             {
-                throw new Exception("Need to provide the blob service client url for return the url option");
+                throw new ArgumentNullException(
+                    nameof(blobClientUrl),
+                    "Need to provide the blob service client url for return the url option");
             }
+
             _blobName = blobName;
-            _result = $"{blobClientUrl}/{blobName}";
+            Result = $"{blobClientUrl}/{blobName}";
 
             return Result;
         }

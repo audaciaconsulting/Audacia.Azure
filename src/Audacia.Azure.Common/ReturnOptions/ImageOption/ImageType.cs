@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Audacia.Azure.ReturnOptions.ImageOption
+namespace Audacia.Azure.Common.ReturnOptions.ImageOption
 {
     public enum ImageType
     {

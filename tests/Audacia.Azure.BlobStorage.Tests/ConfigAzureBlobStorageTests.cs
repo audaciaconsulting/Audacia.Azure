@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Globalization;
+using System.Threading.Tasks;
 using Audacia.Azure.BlobStorage.AddBlob;
 using Audacia.Azure.BlobStorage.AddBlob.Commands;
 using Audacia.Azure.BlobStorage.Exceptions;
@@ -24,7 +25,8 @@ namespace Audacia.Azure.BlobStorage.Tests
 
             var cmd = new AddAzureBlobStorageFileCommand(containerName, "selfie.png", string.Empty);
 
-            var expectedException = ContainerNameInvalidException.UnableToFindWithContainerName();
+            var expectedException =
+                ContainerNameInvalidException.UnableToFindWithContainerName(CultureInfo.InvariantCulture);
             mockService.Setup(x =>
                     x.ExecuteAsync(It.IsAny<AddAzureBlobStorageFileCommand>()))
                 .ThrowsAsync(expectedException);
@@ -39,7 +41,9 @@ namespace Audacia.Azure.BlobStorage.Tests
         [Theory]
         [InlineData("Pictures", true)]
         [InlineData("Icons", false)]
-        public async Task Should_throw_exception_when_container_already_exists(string containerName, bool shouldThrowException)
+        public async Task Should_throw_exception_when_container_already_exists(
+            string containerName,
+            bool shouldThrowException)
         {
             // Arrange
             var mockService = new Mock<IAddAzureBlobStorageService>();
@@ -48,7 +52,7 @@ namespace Audacia.Azure.BlobStorage.Tests
 
             var cmd = new AddAzureBlobStorageFileCommand(containerName, "selfie.png", string.Empty);
 
-            var expectedException = new ContainerDoesNotExistException(containerName);
+            var expectedException = new ContainerDoesNotExistException(containerName, CultureInfo.InvariantCulture);
             mockService.Setup(x =>
                     x.ExecuteAsync(It.Is<AddAzureBlobStorageFileCommand>(y => y.ContainerName == "Pictures")))
                 .ThrowsAsync(expectedException);

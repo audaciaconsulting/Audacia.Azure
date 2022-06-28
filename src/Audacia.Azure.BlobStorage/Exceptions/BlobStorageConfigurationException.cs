@@ -23,14 +23,14 @@ namespace Audacia.Azure.BlobStorage.Exceptions
             return new BlobStorageConfigurationException(OptionsNotConfiguredExceptionMessage);
         }
 
-        public static BlobStorageConfigurationException AccountNameNotConfigured()
+        public static BlobStorageConfigurationException AccountNameNotConfigured(IFormatProvider formatProvider)
         {
-            return new BlobStorageConfigurationException(string.Format(CultureInfo.InvariantCulture, MissingConfigExceptionMessage, "account name"));
+            return new BlobStorageConfigurationException(string.Format(formatProvider, MissingConfigExceptionMessage, "account name"));
         }
 
-        public static BlobStorageConfigurationException AccountKeyNotConfigured()
+        public static BlobStorageConfigurationException AccountKeyNotConfigured(IFormatProvider formatProvider)
         {
-            return new BlobStorageConfigurationException(string.Format(CultureInfo.InvariantCulture, MissingConfigExceptionMessage, "account key"));
+            return new BlobStorageConfigurationException(string.Format(formatProvider, MissingConfigExceptionMessage, "account key"));
         }
 
         public static BlobStorageConfigurationException BlobClientNotConfigured()

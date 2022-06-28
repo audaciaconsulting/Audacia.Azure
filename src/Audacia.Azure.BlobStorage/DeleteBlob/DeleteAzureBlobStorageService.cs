@@ -59,7 +59,7 @@ namespace Audacia.Azure.BlobStorage.DeleteBlob
                 }
             }
 
-            throw new BlobDoesNotExistException(command.BlobName, command.ContainerName);
+            throw new BlobDoesNotExistException(command.BlobName, command.ContainerName, FormatProvider);
         }
     }
 }

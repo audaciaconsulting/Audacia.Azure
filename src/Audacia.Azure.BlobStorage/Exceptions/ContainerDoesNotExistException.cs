@@ -8,8 +8,8 @@ namespace Audacia.Azure.BlobStorage.Exceptions
         private const string TemplateExceptionMessage =
             "Container: {0} does not exist therefore unable to find the blob within the specified container";
 
-        public ContainerDoesNotExistException(string containerName) : base(
-            string.Format(CultureInfo.InvariantCulture, TemplateExceptionMessage, containerName))
+        public ContainerDoesNotExistException(string containerName, IFormatProvider formatProvider) : base(
+            string.Format(formatProvider, TemplateExceptionMessage, containerName))
         {
         }
     }

@@ -8,8 +8,8 @@ namespace Audacia.Azure.BlobStorage.Exceptions
         private const string TemplateExceptionMessage =
             "There is already a container on this storage account with the name: {0}";
 
-        public ContainerAlreadyExistsException(string containerName) : base(
-            string.Format(CultureInfo.InvariantCulture, TemplateExceptionMessage, containerName))
+        public ContainerAlreadyExistsException(string containerName, IFormatProvider formatProvider) : base(
+            string.Format(formatProvider, TemplateExceptionMessage, containerName))
         {
         }
     }

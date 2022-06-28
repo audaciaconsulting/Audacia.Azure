@@ -22,8 +22,8 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// </summary>
         /// <param name="blobServiceClient"></param>
         /// <param name="formatProvider"></param>
-        public UpdateAzureBlobStorageService(BlobServiceClient blobServiceClient, IFormatProvider formatProvider) : base(
-            blobServiceClient, formatProvider)
+        public UpdateAzureBlobStorageService(BlobServiceClient blobServiceClient, IFormatProvider formatProvider)
+            : base(blobServiceClient, formatProvider)
         {
         }
 
@@ -32,7 +32,9 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// </summary>
         /// <param name="blobStorageConfig"></param>
         /// <param name="formatProvider"></param>
-        public UpdateAzureBlobStorageService(IOptions<BlobStorageOption> blobStorageConfig, IFormatProvider formatProvider) : base(
+        public UpdateAzureBlobStorageService(
+            IOptions<BlobStorageOption> blobStorageConfig,
+            IFormatProvider formatProvider) : base(
             blobStorageConfig, formatProvider)
         {
         }
@@ -56,24 +58,25 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
                 return await UpdateBlobInBlobStorageAsync(container, command, blobData);
             }
 
-            throw new ContainerDoesNotExistException(command.ContainerName);
+            throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
         }
 
-        private static byte[] FileLocationBlobChecks(string blobName, string fileLocation)
+        private byte[] FileLocationBlobChecks(string blobName, string fileLocation)
         {
             if (fileLocation == null)
             {
-                throw new BlobDataCannotBeNullException(blobName, BlobDataType.FileLocation);
+                throw new BlobDataCannotBeNullException(blobName, BlobDataType.FileLocation, FormatProvider);
             }
 
             if (fileLocation.Length == 0)
             {
-                throw new BlobDataCannotBeEmptyException(blobName, BlobDataType.FileLocation);
+                throw new BlobDataCannotBeEmptyException(blobName, BlobDataType.FileLocation, FormatProvider);
             }
 
             if (!File.Exists(fileLocation))
             {
-                throw new BlobFileLocationNeedsToExistException(blobName, BlobDataType.FileLocation, fileLocation);
+                throw new BlobFileLocationNeedsToExistException(blobName, BlobDataType.FileLocation, fileLocation,
+                    FormatProvider);
             }
 
             var blobData = GetFileData(fileLocation);
@@ -100,19 +103,19 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
                 return await UpdateBlobInBlobStorageAsync(container, command, blobData);
             }
 
-            throw new ContainerDoesNotExistException(command.ContainerName);
+            throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
         }
 
-        private static byte[] BytesBlobChecks(string blobName, byte[] bytesBlobData)
+        private byte[] BytesBlobChecks(string blobName, byte[] bytesBlobData)
         {
             if (bytesBlobData == null)
             {
-                throw new BlobDataCannotBeNullException(blobName, BlobDataType.ByteArray);
+                throw new BlobDataCannotBeNullException(blobName, BlobDataType.ByteArray, FormatProvider);
             }
 
             if (bytesBlobData.Length == 0)
             {
-                throw new BlobDataCannotBeEmptyException(blobName, BlobDataType.ByteArray);
+                throw new BlobDataCannotBeEmptyException(blobName, BlobDataType.ByteArray, FormatProvider);
             }
 
             return bytesBlobData;
@@ -137,19 +140,19 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
                 return await UpdateBlobInBlobStorageAsync(container, command, blobData);
             }
 
-            throw new ContainerDoesNotExistException(command.ContainerName);
+            throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
         }
 
-        private static byte[] BaseSixtyFourBlobChecks(string blobName, string baseSixtyFourBlobData)
+        private byte[] BaseSixtyFourBlobChecks(string blobName, string baseSixtyFourBlobData)
         {
             if (baseSixtyFourBlobData == null)
             {
-                throw new BlobDataCannotBeNullException(blobName, BlobDataType.Base64);
+                throw new BlobDataCannotBeNullException(blobName, BlobDataType.BaseSixtyFour, FormatProvider);
             }
 
             if (baseSixtyFourBlobData.Length == 0)
             {
-                throw new BlobDataCannotBeEmptyException(blobName, BlobDataType.Base64);
+                throw new BlobDataCannotBeEmptyException(blobName, BlobDataType.BaseSixtyFour, FormatProvider);
             }
 
             var buffer = new Span<byte>(new byte[baseSixtyFourBlobData.Length]);
@@ -157,7 +160,8 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
 
             if (isValidBaseSixtyFour)
             {
-                throw new BlobDataCannotBeInvalidBase64Exception(blobName, baseSixtyFourBlobData);
+                throw new BlobDataCannotBeInvalidBaseSixtyFourException(blobName, baseSixtyFourBlobData,
+                    FormatProvider);
             }
 
             return buffer.ToArray();
@@ -184,10 +188,10 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
                 return await RemoveBlobAsync(blobClient, command, blobData);
             }
 
-            throw new ContainerDoesNotExistException(command.ContainerName);
+            throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
         }
 
-        private static async Task<bool> RemoveBlobAsync(
+        private async Task<bool> RemoveBlobAsync(
             BlobClient blobClient,
             UpdateAzureBlobStorageStreamCommand command,
             Stream blobData)
@@ -209,25 +213,25 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
                 }
             }
 
-            throw new BlobDoesNotExistException(command.BlobName, command.ContainerName);
+            throw new BlobDoesNotExistException(command.BlobName, command.ContainerName, FormatProvider);
         }
 
-        private static Stream StreamBlobDataCheck(string blobName, Stream streamBlobData)
+        private Stream StreamBlobDataCheck(string blobName, Stream streamBlobData)
         {
             if (streamBlobData == null)
             {
-                throw new BlobDataCannotBeNullException(blobName, BlobDataType.Stream);
+                throw new BlobDataCannotBeNullException(blobName, BlobDataType.Stream, FormatProvider);
             }
 
             if (streamBlobData.Length <= 0)
             {
-                throw new BlobDataCannotBeEmptyException(blobName, BlobDataType.Stream);
+                throw new BlobDataCannotBeEmptyException(blobName, BlobDataType.Stream, FormatProvider);
             }
 
             return streamBlobData;
         }
 
-        private static async Task<bool> UpdateBlobInBlobStorageAsync(
+        private async Task<bool> UpdateBlobInBlobStorageAsync(
             BlobContainerClient container,
             BaseUpdateBlobStorageCommand command,
             byte[] blobData)
@@ -252,7 +256,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
                 }
             }
 
-            throw new BlobDoesNotExistException(command.BlobName, command.ContainerName);
+            throw new BlobDoesNotExistException(command.BlobName, command.ContainerName, FormatProvider);
         }
     }
 }

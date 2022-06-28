@@ -12,19 +12,19 @@ namespace Audacia.Azure.BlobStorage.Exceptions
         {
         }
 
-        public static ContainerNameInvalidException UnableToFindWithContainerName()
+        public static ContainerNameInvalidException UnableToFindWithContainerName(IFormatProvider formatProvider)
         {
             return new ContainerNameInvalidException(string.Format(
-                CultureInfo.InvariantCulture,
+                formatProvider,
                 TemplateExceptionMessage,
                 "Find",
                 string.Empty));
         }
 
-        public static ContainerNameInvalidException UnableToCreateWithContainerName(string containerName)
+        public static ContainerNameInvalidException UnableToCreateWithContainerName(string containerName, IFormatProvider formatProvider)
         {
             return new ContainerNameInvalidException(string.Format(
-                CultureInfo.InvariantCulture,
+                formatProvider,
                 TemplateExceptionMessage,
                 "Create",
                 containerName));

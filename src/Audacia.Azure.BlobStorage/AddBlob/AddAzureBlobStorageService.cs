@@ -34,7 +34,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         {
         }
 
-        public async Task<bool> ExecuteAsync(AddAzureBlobStorageBase64Command command)
+        public async Task<bool> ExecuteAsync(AddAzureBlobStorageBaseSixtyFourCommand command)
         {
             ContainerChecks(command.ContainerName, command.DoesContainerExist);
 
@@ -117,7 +117,8 @@ namespace Audacia.Azure.BlobStorage.AddBlob
             return false;
         }
 
-        private static async Task<bool> UploadStreamBlobAsync(BlobClient blobClient,
+        private async Task<bool> UploadStreamBlobAsync(
+            BlobClient blobClient,
             AddAzureBlobStorageStreamCommand command)
         {
             var blobExists = await blobClient.ExistsAsync();
@@ -135,7 +136,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
                 }
             }
 
-            throw new BlobNameAlreadyExistsException(command.BlobName, command.ContainerName);
+            throw new BlobNameAlreadyExistsException(command.BlobName, command.ContainerName, FormatProvider);
         }
 
         /// <summary>
@@ -146,7 +147,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <param name="blobData">Byte array of the blob being uploaded.</param>
         /// <returns>A bool depending on the success of the upload</returns>
         /// <exception cref="BlobNameAlreadyExistsException"></exception>
-        private static async Task<bool> UploadBlobToBlobStorageAsync(
+        private async Task<bool> UploadBlobToBlobStorageAsync(
             BlobContainerClient container,
             BaseAddBlobStorageCommand command,
             byte[] blobData)
@@ -160,7 +161,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
                 return await UploadFileBlobAsync(blobData, blobClient);
             }
 
-            throw new BlobNameAlreadyExistsException(command.BlobName, command.ContainerName);
+            throw new BlobNameAlreadyExistsException(command.BlobName, command.ContainerName, FormatProvider);
         }
 
         private static async Task<bool> UploadFileBlobAsync(byte[] blobData, BlobClient blobClient)

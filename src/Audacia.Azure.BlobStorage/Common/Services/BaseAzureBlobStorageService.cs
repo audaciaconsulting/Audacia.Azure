@@ -32,8 +32,12 @@ namespace Audacia.Azure.BlobStorage.Common.Services
             FormatProvider = formatProvider;
         }
 
-        protected BaseAzureBlobStorageService(IOptions<BlobStorageOption> blobStorageConfig, IFormatProvider formatProvider)
+        protected BaseAzureBlobStorageService(
+            IOptions<BlobStorageOption> blobStorageConfig,
+            IFormatProvider formatProvider)
         {
+            FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
+
             if (blobStorageConfig?.Value == null)
             {
                 throw BlobStorageConfigurationException.OptionsNotConfigured();
@@ -41,15 +45,13 @@ namespace Audacia.Azure.BlobStorage.Common.Services
 
             if (string.IsNullOrEmpty(blobStorageConfig.Value.AccountName))
             {
-                throw BlobStorageConfigurationException.AccountNameNotConfigured();
+                throw BlobStorageConfigurationException.AccountNameNotConfigured(FormatProvider);
             }
 
             if (string.IsNullOrEmpty(blobStorageConfig.Value.AccountKey))
             {
-                throw BlobStorageConfigurationException.AccountKeyNotConfigured();
+                throw BlobStorageConfigurationException.AccountKeyNotConfigured(FormatProvider);
             }
-
-            FormatProvider = formatProvider;
 
             var storageAccountConnectionString = string.Format(FormatProvider, _storageAccountConnectionString,
                 blobStorageConfig.Value.AccountName, blobStorageConfig.Value.AccountKey);
@@ -63,7 +65,7 @@ namespace Audacia.Azure.BlobStorage.Common.Services
         {
             if (string.IsNullOrEmpty(containerName))
             {
-                throw ContainerNameInvalidException.UnableToFindWithContainerName();
+                throw ContainerNameInvalidException.UnableToFindWithContainerName(FormatProvider);
             }
 
             return BlobServiceClient.GetBlobContainerClient(containerName);
@@ -73,7 +75,7 @@ namespace Audacia.Azure.BlobStorage.Common.Services
         {
             if (string.IsNullOrEmpty(containerName))
             {
-                throw ContainerNameInvalidException.UnableToCreateWithContainerName(containerName);
+                throw ContainerNameInvalidException.UnableToCreateWithContainerName(containerName, FormatProvider);
             }
 
             return await BlobServiceClient.CreateBlobContainerAsync(containerName);
@@ -93,13 +95,13 @@ namespace Audacia.Azure.BlobStorage.Common.Services
             var checkContainerExists = storageAccountContainers.AlreadyExists(containerName);
             if (doesContainerExist && !checkContainerExists)
             {
-                throw new ContainerDoesNotExistException(containerName);
+                throw new ContainerDoesNotExistException(containerName, FormatProvider);
             }
 
             // We should check that there is no containers already existing with the name passed in.
             if (!doesContainerExist && checkContainerExists)
             {
-                throw new ContainerAlreadyExistsException(containerName);
+                throw new ContainerAlreadyExistsException(containerName, FormatProvider);
             }
         }
     }
