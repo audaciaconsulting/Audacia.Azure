@@ -33,12 +33,11 @@ namespace Audacia.Azure.StorageQueue.Common.Services
         /// Client variation of the Constructor.
         /// </summary>
         /// <param name="queueClient"><see cref="QueueClient"/> from Ioc</param>
-        /// <param name="formatProvider"></param>
         /// <exception cref="StorageQueueConfigurationException">If <see cref="QueueClient"/> has not been configured.</exception>
-        protected BaseQueueStorageService(QueueClient queueClient, IFormatProvider formatProvider)
+        protected BaseQueueStorageService(QueueClient queueClient)
         {
             QueueClient = queueClient ?? throw StorageQueueConfigurationException.QueueClientNotConfigured();
-            FormatProvider = formatProvider;
+            FormatProvider = CultureInfo.InvariantCulture;
             _accountName = queueClient.AccountName;
         }
 
@@ -46,15 +45,12 @@ namespace Audacia.Azure.StorageQueue.Common.Services
         /// Options variation of the Constructor.
         /// </summary>
         /// <param name="queueStorageConfig">Options of <see cref="QueueStorageOption"/>.</param>
-        /// <param name="formatProvider"></param>
         /// <exception cref="StorageQueueConfigurationException">
         /// Exception if there is a miss configuration with <see cref="QueueStorageOption"/>.
         /// </exception>
-        protected BaseQueueStorageService(
-            IOptions<QueueStorageOption> queueStorageConfig,
-            IFormatProvider formatProvider)
+        protected BaseQueueStorageService(IOptions<QueueStorageOption> queueStorageConfig)
         {
-            FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
+            FormatProvider = CultureInfo.InvariantCulture;
 
             if (queueStorageConfig?.Value == null)
             {

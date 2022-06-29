@@ -13,14 +13,12 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
     /// </summary>
     public abstract class BaseAzureUpdateStorageService : BaseAzureBlobStorageService
     {
-        protected BaseAzureUpdateStorageService(BlobServiceClient blobServiceClient, IFormatProvider formatProvider)
-            : base(blobServiceClient, formatProvider)
+        protected BaseAzureUpdateStorageService(BlobServiceClient blobServiceClient)
+            : base(blobServiceClient)
         {
         }
 
-        protected BaseAzureUpdateStorageService(
-            IOptions<BlobStorageOption> blobStorageConfig,
-            IFormatProvider formatProvider) : base(blobStorageConfig, formatProvider)
+        protected BaseAzureUpdateStorageService(IOptions<BlobStorageOption> blobStorageConfig) : base(blobStorageConfig)
         {
         }
 

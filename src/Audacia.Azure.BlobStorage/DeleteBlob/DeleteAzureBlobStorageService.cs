@@ -19,7 +19,7 @@ namespace Audacia.Azure.BlobStorage.DeleteBlob
         /// Constructor option for when adding the <see cref="BlobServiceClient"/> has being added to the DI.
         /// </summary>
         /// <param name="blobServiceClient"></param>
-        public DeleteAzureBlobStorageService(BlobServiceClient blobServiceClient, IFormatProvider formatProvider) : base(blobServiceClient, formatProvider)
+        public DeleteAzureBlobStorageService(BlobServiceClient blobServiceClient) : base(blobServiceClient)
         {
         }
 
@@ -27,8 +27,8 @@ namespace Audacia.Azure.BlobStorage.DeleteBlob
         /// Constructor option for using the Options pattern with <see cref="BlobStorageOption"/>.
         /// </summary>
         /// <param name="blobStorageConfig"></param>
-        public DeleteAzureBlobStorageService(IOptions<BlobStorageOption> blobStorageConfig, IFormatProvider formatProvider) : base(
-            blobStorageConfig, formatProvider)
+        public DeleteAzureBlobStorageService(IOptions<BlobStorageOption> blobStorageConfig) : base(
+            blobStorageConfig)
         {
         }
 

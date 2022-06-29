@@ -17,6 +17,9 @@
       <Content Include="Images\snowing.png" />
       <Content Include="Images\sunshine.png" />
       <Content Include="Images\windy.png" />
+      <Content Update="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
     <ItemGroup>

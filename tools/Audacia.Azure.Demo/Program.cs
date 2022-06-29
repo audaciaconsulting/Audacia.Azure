@@ -1,5 +1,8 @@
+using System;
+using System.Globalization;
 using Audacia.Azure.Demo.Extensions.ServiceCollectionExtensions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -13,7 +16,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddConfigOptions(builder.Configuration)
-    .AddConfigOptions(builder.Configuration)
     .AddAzureBlobServices()
     .AddAzureQueueServices();
 

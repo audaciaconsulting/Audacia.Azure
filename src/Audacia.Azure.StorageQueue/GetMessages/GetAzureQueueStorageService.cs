@@ -22,9 +22,7 @@ namespace Audacia.Azure.StorageQueue.GetMessages
         /// Constructor option for when adding the <see cref="QueueClient"/> has being added to the DI.
         /// </summary>
         /// <param name="queueClient"></param>
-        /// <param name="formatProvider"></param>
-        protected GetAzureQueueStorageService(QueueClient queueClient, IFormatProvider formatProvider) : base(
-            queueClient, formatProvider)
+        protected GetAzureQueueStorageService(QueueClient queueClient) : base(queueClient)
         {
         }
 
@@ -32,10 +30,8 @@ namespace Audacia.Azure.StorageQueue.GetMessages
         /// Constructor option for using the Options pattern with <see cref="QueueStorageOption"/>.
         /// </summary>
         /// <param name="queueStorageConfig"></param>
-        /// <param name="formatProvider"></param>
         protected GetAzureQueueStorageService(
-            IOptions<QueueStorageOption> queueStorageConfig, IFormatProvider formatProvider) : base(
-            queueStorageConfig, formatProvider)
+            IOptions<QueueStorageOption> queueStorageConfig) : base(queueStorageConfig)
         {
         }
 

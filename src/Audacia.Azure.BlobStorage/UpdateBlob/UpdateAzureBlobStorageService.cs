@@ -21,9 +21,8 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// Constructor option for when adding the <see cref="BlobServiceClient"/> has being added to the DI.
         /// </summary>
         /// <param name="blobServiceClient"></param>
-        /// <param name="formatProvider"></param>
-        public UpdateAzureBlobStorageService(BlobServiceClient blobServiceClient, IFormatProvider formatProvider)
-            : base(blobServiceClient, formatProvider)
+        public UpdateAzureBlobStorageService(BlobServiceClient blobServiceClient)
+            : base(blobServiceClient)
         {
         }
 
@@ -31,11 +30,8 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// Constructor option for using the Options pattern with <see cref="BlobStorageOption"/>.
         /// </summary>
         /// <param name="blobStorageConfig"></param>
-        /// <param name="formatProvider"></param>
-        public UpdateAzureBlobStorageService(
-            IOptions<BlobStorageOption> blobStorageConfig,
-            IFormatProvider formatProvider) : base(
-            blobStorageConfig, formatProvider)
+        public UpdateAzureBlobStorageService(IOptions<BlobStorageOption> blobStorageConfig) : base(
+            blobStorageConfig)
         {
         }
 

@@ -25,7 +25,7 @@ namespace Audacia.Azure.BlobStorage.Tests
             try
             {
                 _addAzureBlobStorageService =
-                    new AddAzureBlobStorageService(blobStorageOptions, CultureInfo.InvariantCulture);
+                    new AddAzureBlobStorageService(blobStorageOptions);
             }
             catch (BlobStorageConfigurationException exception)
             {
@@ -53,7 +53,7 @@ namespace Audacia.Azure.BlobStorage.Tests
             try
             {
                 _addAzureBlobStorageService =
-                    new AddAzureBlobStorageService(blobStorageOptions, CultureInfo.InvariantCulture);
+                    new AddAzureBlobStorageService(blobStorageOptions);
             }
             catch (BlobStorageConfigurationException exception)
             {
@@ -89,7 +89,7 @@ namespace Audacia.Azure.BlobStorage.Tests
             try
             {
                 _addAzureBlobStorageService =
-                    new AddAzureBlobStorageService(blobStorageOptions, CultureInfo.InvariantCulture);
+                    new AddAzureBlobStorageService(blobStorageOptions);
             }
             catch (BlobStorageConfigurationException exception)
             {
@@ -125,7 +125,7 @@ namespace Audacia.Azure.BlobStorage.Tests
             try
             {
                 _addAzureBlobStorageService =
-                    new AddAzureBlobStorageService(blobStorageOptions, CultureInfo.InvariantCulture);
+                    new AddAzureBlobStorageService(blobStorageOptions);
             }
             catch (BlobStorageConfigurationException exception)
             {

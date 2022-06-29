@@ -24,19 +24,17 @@ namespace Audacia.Azure.BlobStorage.Common.Services
 
         protected BlobServiceClient BlobServiceClient { get; }
 
-        protected BaseAzureBlobStorageService(BlobServiceClient blobServiceClient, IFormatProvider formatProvider)
+        protected BaseAzureBlobStorageService(BlobServiceClient blobServiceClient)
         {
             BlobServiceClient = blobServiceClient ?? throw BlobStorageConfigurationException.BlobClientNotConfigured();
 
             _accountName = blobServiceClient.AccountName;
-            FormatProvider = formatProvider;
+            FormatProvider = CultureInfo.InvariantCulture;
         }
 
-        protected BaseAzureBlobStorageService(
-            IOptions<BlobStorageOption> blobStorageConfig,
-            IFormatProvider formatProvider)
+        protected BaseAzureBlobStorageService(IOptions<BlobStorageOption> blobStorageConfig)
         {
-            FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
+            FormatProvider = CultureInfo.InvariantCulture;
 
             if (blobStorageConfig?.Value == null)
             {

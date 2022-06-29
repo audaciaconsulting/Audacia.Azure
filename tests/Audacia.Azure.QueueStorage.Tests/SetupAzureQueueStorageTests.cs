@@ -24,7 +24,7 @@ namespace Audacia.Azure.QueueStorage.Tests
             try
             {
                 _addAzureQueueStorageService =
-                    new AddAzureQueueStorageService(queueStorageOption, CultureInfo.InvariantCulture);
+                    new AddAzureQueueStorageService(queueStorageOption);
             }
             catch (StorageQueueConfigurationException exception)
             {
@@ -52,7 +52,7 @@ namespace Audacia.Azure.QueueStorage.Tests
             try
             {
                 _addAzureQueueStorageService =
-                    new AddAzureQueueStorageService(queueStorageOptions, CultureInfo.InvariantCulture);
+                    new AddAzureQueueStorageService(queueStorageOptions);
             }
             catch (StorageQueueConfigurationException exception)
             {
@@ -88,7 +88,7 @@ namespace Audacia.Azure.QueueStorage.Tests
             try
             {
                 _addAzureQueueStorageService =
-                    new AddAzureQueueStorageService(queueStorageOptions, CultureInfo.InvariantCulture);
+                    new AddAzureQueueStorageService(queueStorageOptions);
             }
             catch (StorageQueueConfigurationException exception)
             {
@@ -124,7 +124,7 @@ namespace Audacia.Azure.QueueStorage.Tests
             try
             {
                 _addAzureQueueStorageService =
-                    new AddAzureQueueStorageService(queueStorageOptions, CultureInfo.InvariantCulture);
+                    new AddAzureQueueStorageService(queueStorageOptions);
             }
             catch (StorageQueueConfigurationException exception)
             {
