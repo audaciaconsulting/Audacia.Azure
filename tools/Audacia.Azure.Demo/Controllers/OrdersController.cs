@@ -1,5 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Audacia.Azure.Demo.Models.Requests.Queue;
+using Audacia.Azure.StorageQueue.AddMessageToQueue;
+using Audacia.Azure.StorageQueue.DeleteMessageFromQueue;
+using Audacia.Azure.StorageQueue.GetMessages;
+using Audacia.Azure.StorageQueue.GetMessages.Commands;
+using Audacia.Azure.StorageQueue.Models;
+using Azure.Storage.Queues.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -9,41 +19,61 @@ namespace Audacia.Azure.Demo.Controllers
     [Route("[controller]")]
     public class OrdersController : ControllerBase
     {
+        private readonly IGetAzureQueueStorageService _getAzureQueueStorageService;
+
+        private readonly IAddAzureQueueStorageService _addAzureQueueStorageService;
+
+        private readonly IDeleteAzureQueueStorageService _deleteAzureQueueStorageService;
+
         private readonly ILogger<OrdersController> _logger;
 
-        public OrdersController(ILogger<OrdersController> logger)
+        public OrdersController(IGetAzureQueueStorageService getAzureQueueStorageService,
+            IAddAzureQueueStorageService addAzureQueueStorageService,
+            IDeleteAzureQueueStorageService deleteAzureQueueStorageService,
+            ILogger<OrdersController> logger)
         {
+            _getAzureQueueStorageService = getAzureQueueStorageService;
+            _addAzureQueueStorageService = addAzureQueueStorageService;
+            _deleteAzureQueueStorageService = deleteAzureQueueStorageService;
             _logger = logger;
         }
 
-        [HttpGet, Route("{id}")]
-        public async Task<IActionResult> Get([FromQuery] int id)
+        [HttpGet, Route("Queue/{queueName}")]
+        [ProducesResponseType(typeof(AzureQueueStorageMessage), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get(string queueName)
         {
-            return Ok();
+            var command = new GetMessageStorageQueueCommand(queueName);
+            var messages = await _getAzureQueueStorageService.GetAsync(command);
+
+            return Ok(messages);
         }
 
-        [HttpGet, Route("GetAll")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet, Route("Queue/GetAll/{queueName}")]
+        [ProducesResponseType(typeof(IEnumerable<AzureQueueStorageMessage>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetAll(string queueName)
         {
-            return Ok();
+            var command = new GetMessagesStorageQueueCommand(queueName, 10);
+            var messages = await _getAzureQueueStorageService.GetSomeAsync(command);
+
+            return Ok(messages);
         }
 
-        [HttpPost]
+        [HttpPost, Route("Queue/Add")]
+        [ProducesResponseType(typeof(SendReceipt), StatusCodes.Status200OK)]
         public async Task<IActionResult> Post([FromForm] AddQueueRequest request)
         {
-            return Ok();
+            var messages = await _addAzureQueueStorageService.ExecuteAsync(request.QueueName, request.Message);
+
+            return Ok(messages);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Put()
+        [HttpDelete, Route("Queue/{queueName}/{id}")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Delete(string queueName, string id)
         {
-            return Ok();
-        }
+            var result = await _deleteAzureQueueStorageService.ExecuteAsync(queueName, id);
 
-        [HttpDelete]
-        public async Task<IActionResult> Delete([FromForm] object request)
-        {
-            return Ok();
+            return Ok(result);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Audacia.Azure.StorageQueue.DeleteMessageFromQueue
         /// Constructor option for when adding the <see cref="QueueClient"/> has being added to the DI.
         /// </summary>
         /// <param name="queueClient"></param>
-        protected DeleteAzureQueueStorageService(QueueClient queueClient) : base(
+        public DeleteAzureQueueStorageService(QueueClient queueClient) : base(
             queueClient)
         {
         }
@@ -27,8 +27,7 @@ namespace Audacia.Azure.StorageQueue.DeleteMessageFromQueue
         /// Constructor option for using the Options pattern with <see cref="QueueStorageOption"/>.
         /// </summary>
         /// <param name="queueStorageConfig"></param>
-        protected DeleteAzureQueueStorageService(
-            IOptions<QueueStorageOption> queueStorageConfig) : base(
+        public DeleteAzureQueueStorageService(IOptions<QueueStorageOption> queueStorageConfig) : base(
             queueStorageConfig)
         {
         }
@@ -43,7 +42,7 @@ namespace Audacia.Azure.StorageQueue.DeleteMessageFromQueue
         {
             await PreQueueChecksAsync(queueName);
 
-            var queueMessages = await QueueClient.ReceiveMessagesAsync();
+            var queueMessages = await QueueClient.ReceiveMessagesAsync(32);
 
             var peekedMessages = queueMessages.Value;
 
@@ -53,7 +52,7 @@ namespace Audacia.Azure.StorageQueue.DeleteMessageFromQueue
             {
                 using var deleteResponse = await QueueClient.DeleteMessageAsync(messageId, peekMessage.PopReceipt);
 
-                return deleteResponse.Status == 200;
+                return deleteResponse.Status == 204;
             }
 
             return false;

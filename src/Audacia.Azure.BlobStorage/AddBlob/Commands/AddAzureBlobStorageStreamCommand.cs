@@ -4,6 +4,8 @@ namespace Audacia.Azure.BlobStorage.AddBlob.Commands
 {
     public class AddAzureBlobStorageStreamCommand : BaseAddBlobStorageCommand
     {
+        public string ContentType { get; }
+
         /// <summary>
         /// Gets stream of the blob which you want to upload to storage.
         /// </summary>

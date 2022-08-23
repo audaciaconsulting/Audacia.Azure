@@ -47,7 +47,7 @@ namespace Audacia.Azure.Demo.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IDictionary<string, string>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(string containerName)
         {
             try
@@ -60,9 +60,9 @@ namespace Audacia.Azure.Demo.Controllers
             catch (Exception e)
 #pragma warning restore CA1031
             {
-                _logger.LogError(e.Message);
+                _logger.LogError(e.Message, e);
 
-                return BadRequest(e.Message);
+                throw;
             }
         }
 
@@ -71,7 +71,8 @@ namespace Audacia.Azure.Demo.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post([FromForm] AddBlobRequest request)
         {
-            var uniqueBlobName = Guid.NewGuid().ToString();
+            var fileExtension = request.File.FileName.Split('.');
+            var uniqueBlobName = $"{Guid.NewGuid().ToString()}.{fileExtension[^1]}";
 
             await using var fileStream = request.File.OpenReadStream();
 

@@ -3,6 +3,8 @@ using Audacia.Azure.BlobStorage.DeleteBlob;
 using Audacia.Azure.BlobStorage.GetBlob;
 using Audacia.Azure.BlobStorage.UpdateBlob;
 using Audacia.Azure.StorageQueue.AddMessageToQueue;
+using Audacia.Azure.StorageQueue.DeleteMessageFromQueue;
+using Audacia.Azure.StorageQueue.GetMessages;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Audacia.Azure.Demo.Extensions.ServiceCollectionExtensions
@@ -19,7 +21,9 @@ namespace Audacia.Azure.Demo.Extensions.ServiceCollectionExtensions
 
         public static IServiceCollection AddAzureQueueServices(this IServiceCollection serviceCollection)
         {
-            return serviceCollection.AddScoped<IAddAzureQueueStorageService, AddAzureQueueStorageService>();
+            return serviceCollection.AddScoped<IGetAzureQueueStorageService, GetAzureQueueStorageService>()
+                .AddScoped<IAddAzureQueueStorageService, AddAzureQueueStorageService>()
+                .AddScoped<IDeleteAzureQueueStorageService, DeleteAzureQueueStorageService>();
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Audacia.Azure.StorageQueue.Extensions
     public static class PeekedMessagesExtensions
     {
         /// <summary>
-        /// Returns all the <see cref="PeekedMessage"/> with the <see cref="PeekedMessage.MessageId"/> of <paramref name="messageId"/>.
+        /// Returns all the <see cref="QueueMessage"/> with the <see cref="QueueMessage.MessageId"/> of <paramref name="messageId"/>.
         /// </summary>
         /// <param name="source"></param>
         /// <param name="messageId"></param>
