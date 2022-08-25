@@ -8,6 +8,7 @@ using Audacia.Azure.BlobStorage.Models;
 using Audacia.Azure.BlobStorage.UpdateBlob.Commands;
 using Azure;
 using Azure.Storage.Blobs;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Audacia.Azure.BlobStorage.UpdateBlob
@@ -20,18 +21,24 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// <summary>
         /// Constructor option for when adding the <see cref="BlobServiceClient"/> has being added to the DI.
         /// </summary>
+        /// <param name="logger">Logger to giving extra information.</param>
         /// <param name="blobServiceClient"></param>
-        public UpdateAzureBlobStorageService(BlobServiceClient blobServiceClient)
-            : base(blobServiceClient)
+        public UpdateAzureBlobStorageService(
+            ILogger<UpdateAzureBlobStorageService> logger,
+            BlobServiceClient blobServiceClient)
+            : base(logger, blobServiceClient)
         {
         }
 
         /// <summary>
         /// Constructor option for using the Options pattern with <see cref="BlobStorageOption"/>.
         /// </summary>
+        /// <param name="logger">Logger to giving extra information.</param>
         /// <param name="blobStorageConfig"></param>
-        public UpdateAzureBlobStorageService(IOptions<BlobStorageOption> blobStorageConfig) : base(
-            blobStorageConfig)
+        public UpdateAzureBlobStorageService(
+            ILogger<UpdateAzureBlobStorageService> logger,
+            IOptions<BlobStorageOption> blobStorageConfig) : base(
+            logger, blobStorageConfig)
         {
         }
 

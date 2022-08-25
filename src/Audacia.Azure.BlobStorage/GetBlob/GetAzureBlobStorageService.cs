@@ -8,6 +8,7 @@ using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions;
 using Audacia.Azure.Common.ReturnOptions;
 using Azure.Storage.Blobs;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Audacia.Azure.BlobStorage.GetBlob
@@ -22,18 +23,24 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// <summary>
         /// Constructor option for when adding the <see cref="BlobServiceClient"/> has being added to the DI.
         /// </summary>
+        /// <param name="logger">Logger to giving extra information.</param>
         /// <param name="blobServiceClient"></param>
-        public GetAzureBlobStorageService(BlobServiceClient blobServiceClient) : base(
-            blobServiceClient)
+        public GetAzureBlobStorageService(
+            ILogger<GetAzureBlobStorageService> logger,
+            BlobServiceClient blobServiceClient) : base(
+            logger,  blobServiceClient)
         {
         }
 
         /// <summary>
         /// Constructor option for using the Options pattern with <see cref="BlobStorageOption"/>.
         /// </summary>
+        /// <param name="logger">Logger to giving extra information.</param>
         /// <param name="blobStorageConfig"></param>
-        public GetAzureBlobStorageService(IOptions<BlobStorageOption> blobStorageConfig)
-            : base(blobStorageConfig)
+        public GetAzureBlobStorageService(
+            ILogger<GetAzureBlobStorageService> logger,
+            IOptions<BlobStorageOption> blobStorageConfig)
+            : base(logger, blobStorageConfig)
         {
         }
 
@@ -178,15 +185,10 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             var blobClient = containerClient.GetBlobClient(blobName);
             var blobDownloadInfo = await blobClient.DownloadAsync();
 
-            byte[] blobBytes;
-            using (var memoryStream = new MemoryStream())
-            {
-                await blobDownloadInfo.Value.Content.CopyToAsync(memoryStream);
+            await using var memoryStream = new MemoryStream();
+            await blobDownloadInfo.Value.Content.CopyToAsync(memoryStream);
 
-                blobBytes = memoryStream.ToArray();
-
-                await memoryStream.DisposeAsync();
-            }
+            var blobBytes = memoryStream.ToArray();
 
             return blobBytes;
         }

@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using Audacia.Azure.BlobStorage.AddBlob;
 using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Moq;
 using Xunit;
 
 namespace Audacia.Azure.BlobStorage.Tests
@@ -18,14 +20,15 @@ namespace Audacia.Azure.BlobStorage.Tests
         {
             // Arrange
             var blobStorageOptions = Options.Create<BlobStorageOption>(null);
-
+            var mockLogger = new Mock<ILogger<AddAzureBlobStorageService>>();
+            
             // Act
             var expectedException = BlobStorageConfigurationException.OptionsNotConfigured();
             Exception thrownException = null;
             try
             {
                 _addAzureBlobStorageService =
-                    new AddAzureBlobStorageService(blobStorageOptions);
+                    new AddAzureBlobStorageService(mockLogger.Object, blobStorageOptions);
             }
             catch (BlobStorageConfigurationException exception)
             {
@@ -45,6 +48,7 @@ namespace Audacia.Azure.BlobStorage.Tests
             var blobStorageOption = new BlobStorageOption();
 
             var blobStorageOptions = Options.Create(blobStorageOption);
+            var mockLogger = new Mock<ILogger<AddAzureBlobStorageService>>();
 
             // Act
             var expectedException =
@@ -53,7 +57,7 @@ namespace Audacia.Azure.BlobStorage.Tests
             try
             {
                 _addAzureBlobStorageService =
-                    new AddAzureBlobStorageService(blobStorageOptions);
+                    new AddAzureBlobStorageService(mockLogger.Object, blobStorageOptions);
             }
             catch (BlobStorageConfigurationException exception)
             {
@@ -81,7 +85,8 @@ namespace Audacia.Azure.BlobStorage.Tests
             };
 
             var blobStorageOptions = Options.Create(blobStorageOption);
-
+            var mockLogger = new Mock<ILogger<AddAzureBlobStorageService>>();
+            
             // Act
             var expectedException =
                 BlobStorageConfigurationException.AccountKeyNotConfigured(CultureInfo.InvariantCulture);
@@ -89,7 +94,7 @@ namespace Audacia.Azure.BlobStorage.Tests
             try
             {
                 _addAzureBlobStorageService =
-                    new AddAzureBlobStorageService(blobStorageOptions);
+                    new AddAzureBlobStorageService(mockLogger.Object, blobStorageOptions);
             }
             catch (BlobStorageConfigurationException exception)
             {
@@ -117,7 +122,8 @@ namespace Audacia.Azure.BlobStorage.Tests
             };
 
             var blobStorageOptions = Options.Create(blobStorageOption);
-
+            var mockLogger = new Mock<ILogger<AddAzureBlobStorageService>>();
+            
             // Act
             var expectedException =
                 BlobStorageConfigurationException.AccountNameNotConfigured(CultureInfo.InvariantCulture);
@@ -125,7 +131,7 @@ namespace Audacia.Azure.BlobStorage.Tests
             try
             {
                 _addAzureBlobStorageService =
-                    new AddAzureBlobStorageService(blobStorageOptions);
+                    new AddAzureBlobStorageService(mockLogger.Object, blobStorageOptions);
             }
             catch (BlobStorageConfigurationException exception)
             {

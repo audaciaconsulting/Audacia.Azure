@@ -5,6 +5,7 @@ using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions;
 using Audacia.Azure.BlobStorage.Extensions;
 using Azure.Storage.Blobs;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Audacia.Azure.BlobStorage.Common.Services
@@ -20,22 +21,37 @@ namespace Audacia.Azure.BlobStorage.Common.Services
 
         public Uri StorageAccountUrl => new(string.Format(FormatProvider, _storageAccountUrl, _accountName));
 
-        public IFormatProvider FormatProvider { get; }
+        protected ILogger Logger { get; }
+
+        protected IFormatProvider FormatProvider { get; }
 
         protected BlobServiceClient BlobServiceClient { get; }
 
-        protected BaseAzureBlobStorageService(BlobServiceClient blobServiceClient)
+        protected BaseAzureBlobStorageService(ILogger logger, BlobServiceClient blobServiceClient)
         {
             BlobServiceClient = blobServiceClient ?? throw BlobStorageConfigurationException.BlobClientNotConfigured();
 
+            Logger = logger;
             _accountName = blobServiceClient.AccountName;
             FormatProvider = CultureInfo.InvariantCulture;
         }
 
-        protected BaseAzureBlobStorageService(IOptions<BlobStorageOption> blobStorageConfig)
+        protected BaseAzureBlobStorageService(ILogger logger, IOptions<BlobStorageOption> blobStorageConfig)
         {
             FormatProvider = CultureInfo.InvariantCulture;
 
+            OptionsConfigCheck(blobStorageConfig);
+
+            var storageAccountConnectionString = string.Format(FormatProvider, _storageAccountConnectionString,
+                blobStorageConfig.Value.AccountName, blobStorageConfig.Value.AccountKey);
+
+            BlobServiceClient = new BlobServiceClient(storageAccountConnectionString);
+            Logger = logger;
+            _accountName = blobStorageConfig.Value.AccountName;
+        }
+
+        private void OptionsConfigCheck(IOptions<BlobStorageOption> blobStorageConfig)
+        {
             if (blobStorageConfig?.Value == null)
             {
                 throw BlobStorageConfigurationException.OptionsNotConfigured();
@@ -50,13 +66,6 @@ namespace Audacia.Azure.BlobStorage.Common.Services
             {
                 throw BlobStorageConfigurationException.AccountKeyNotConfigured(FormatProvider);
             }
-
-            var storageAccountConnectionString = string.Format(FormatProvider, _storageAccountConnectionString,
-                blobStorageConfig.Value.AccountName, blobStorageConfig.Value.AccountKey);
-
-            BlobServiceClient = new BlobServiceClient(storageAccountConnectionString);
-
-            _accountName = blobStorageConfig.Value.AccountName;
         }
 
         protected BlobContainerClient GetContainer(string containerName)

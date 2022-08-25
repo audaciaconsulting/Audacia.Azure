@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Audacia.Azure.BlobStorage.Common.Services;
 using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.DeleteBlob.Commands;
@@ -18,17 +19,23 @@ namespace Audacia.Azure.BlobStorage.DeleteBlob
         /// <summary>
         /// Constructor option for when adding the <see cref="BlobServiceClient"/> has being added to the DI.
         /// </summary>
-        /// <param name="blobServiceClient"></param>
-        public DeleteAzureBlobStorageService(BlobServiceClient blobServiceClient) : base(blobServiceClient)
+        /// <param name="logger">Logger to giving extra information.</param>
+        /// <param name="blobServiceClient">Client for accessing blob's.</param>
+        public DeleteAzureBlobStorageService(
+            ILogger<DeleteAzureBlobStorageService> logger,
+            BlobServiceClient blobServiceClient) : base(logger, blobServiceClient)
         {
         }
 
         /// <summary>
         /// Constructor option for using the Options pattern with <see cref="BlobStorageOption"/>.
         /// </summary>
-        /// <param name="blobStorageConfig"></param>
-        public DeleteAzureBlobStorageService(IOptions<BlobStorageOption> blobStorageConfig) : base(
-            blobStorageConfig)
+        /// <param name="logger">Logger to giving extra information.</param>
+        /// <param name="blobStorageConfig">Blob storage options containing information of where to get blobs from.</param>
+        public DeleteAzureBlobStorageService(
+            ILogger<DeleteAzureBlobStorageService> logger,
+            IOptions<BlobStorageOption> blobStorageConfig) : base(
+            logger, blobStorageConfig)
         {
         }
 
@@ -40,9 +47,8 @@ namespace Audacia.Azure.BlobStorage.DeleteBlob
         /// <exception cref="BlobDoesNotExistException"></exception>
         public async Task<bool> ExecuteAsync(DeleteAzureBlobStorageCommand command)
         {
-            var containerClient = BlobServiceClient.GetBlobContainerClient(command.ContainerName);
+            var blobClient = GetBlobClient(command.ContainerName, command.BlobName);
 
-            var blobClient = containerClient.GetBlobClient(command.BlobName);
             var blobExists = await blobClient.ExistsAsync();
 
             if (blobExists.Value)
@@ -51,15 +57,30 @@ namespace Audacia.Azure.BlobStorage.DeleteBlob
                 {
                     await blobClient.DeleteAsync();
 
+                    Logger.LogInformation($"Deleted blob: {command.BlobName} from Container: {command.ContainerName}");
                     return true;
                 }
-                catch (RequestFailedException)
+                catch (RequestFailedException requestFailedException)
                 {
+                    Logger.LogError(requestFailedException, requestFailedException.Message);
                     return false;
                 }
             }
 
             throw new BlobDoesNotExistException(command.BlobName, command.ContainerName, FormatProvider);
+        }
+
+        /// <summary>
+        /// Returns a blob client based off an container and blob name.
+        /// </summary>
+        /// <param name="containerName">Name of the container where the Blob is.</param>
+        /// <param name="blobName">Name of the blob within an Azure blob container.</param>
+        /// <returns>Returns the blob client based off the container and blob name.</returns>
+        private BlobClient GetBlobClient(string containerName, string blobName)
+        {
+            var containerClient = BlobServiceClient.GetBlobContainerClient(containerName);
+
+            return containerClient.GetBlobClient(blobName);
         }
     }
 }

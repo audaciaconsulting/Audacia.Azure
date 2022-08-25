@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Audacia.Azure.BlobStorage.Common.Services;
 using Audacia.Azure.BlobStorage.Config;
 using Azure.Storage.Blobs;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Audacia.Azure.BlobStorage.UpdateBlob
@@ -13,12 +14,13 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
     /// </summary>
     public abstract class BaseAzureUpdateStorageService : BaseAzureBlobStorageService
     {
-        protected BaseAzureUpdateStorageService(BlobServiceClient blobServiceClient)
-            : base(blobServiceClient)
+        protected BaseAzureUpdateStorageService(ILogger logger, BlobServiceClient blobServiceClient)
+            : base(logger, blobServiceClient)
         {
         }
 
-        protected BaseAzureUpdateStorageService(IOptions<BlobStorageOption> blobStorageConfig) : base(blobStorageConfig)
+        protected BaseAzureUpdateStorageService(ILogger logger, IOptions<BlobStorageOption> blobStorageConfig) : base(
+            logger, blobStorageConfig)
         {
         }
 

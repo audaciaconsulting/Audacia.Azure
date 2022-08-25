@@ -7,6 +7,7 @@ using Audacia.Azure.BlobStorage.Exceptions;
 using Audacia.Azure.BlobStorage.UpdateBlob;
 using Azure;
 using Azure.Storage.Blobs;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Audacia.Azure.BlobStorage.AddBlob
@@ -19,18 +20,24 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <summary>
         /// Constructor option for when adding the <see cref="BlobServiceClient"/> has being added to the DI.
         /// </summary>
+        /// <param name="logger">Logger to giving extra information.</param>
         /// <param name="blobServiceClient"></param>
-        public AddAzureBlobStorageService(BlobServiceClient blobServiceClient) : base(
-            blobServiceClient)
+        public AddAzureBlobStorageService(
+            ILogger<AddAzureBlobStorageService> logger,
+            BlobServiceClient blobServiceClient) : base(
+            logger, blobServiceClient)
         {
         }
 
         /// <summary>
         /// Constructor option for using the Options pattern with <see cref="BlobStorageOption"/>.
         /// </summary>
+        /// <param name="logger">Logger to giving extra information.</param>
         /// <param name="blobStorageConfig"></param>
-        public AddAzureBlobStorageService(IOptions<BlobStorageOption> blobStorageConfig)
-            : base(blobStorageConfig)
+        public AddAzureBlobStorageService(
+            ILogger<AddAzureBlobStorageService> logger,
+            IOptions<BlobStorageOption> blobStorageConfig)
+            : base(logger, blobStorageConfig)
         {
         }
 
@@ -39,15 +46,9 @@ namespace Audacia.Azure.BlobStorage.AddBlob
             ContainerChecks(command.ContainerName, command.DoesContainerExist);
 
             var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist);
+            var blobData = Convert.FromBase64String(command.BlobData);
 
-            if (container != null)
-            {
-                var blobData = Convert.FromBase64String(command.BlobData);
-
-                return await UploadBlobToBlobStorageAsync(container, command, blobData);
-            }
-
-            return false;
+            return await UploadBlobToBlobStorageAsync(container, command, blobData);
         }
 
         /// <summary>
@@ -62,15 +63,9 @@ namespace Audacia.Azure.BlobStorage.AddBlob
             ContainerChecks(command.ContainerName, command.DoesContainerExist);
 
             var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist);
+            var blobData = GetFileData(command.FilePath);
 
-            if (container != null)
-            {
-                var blobData = GetFileData(command.FilePath);
-
-                return await UploadBlobToBlobStorageAsync(container, command, blobData);
-            }
-
-            return false;
+            return await UploadBlobToBlobStorageAsync(container, command, blobData);
         }
 
         /// <summary>
@@ -86,12 +81,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
 
             var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist);
 
-            if (container != null)
-            {
-                return await UploadBlobToBlobStorageAsync(container, command, command.BlobData);
-            }
-
-            return false;
+            return await UploadBlobToBlobStorageAsync(container, command, command.BlobData);
         }
 
         /// <summary>
@@ -106,15 +96,9 @@ namespace Audacia.Azure.BlobStorage.AddBlob
             ContainerChecks(command.ContainerName, command.DoesContainerExist);
 
             var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist);
+            var blobClient = container.GetBlobClient(command.BlobName);
 
-            if (container != null)
-            {
-                var blobClient = container.GetBlobClient(command.BlobName);
-
-                return await UploadStreamBlobAsync(blobClient, command);
-            }
-
-            return false;
+            return await UploadStreamBlobAsync(blobClient, command);
         }
 
         private async Task<bool> UploadStreamBlobAsync(
@@ -128,10 +112,13 @@ namespace Audacia.Azure.BlobStorage.AddBlob
                 try
                 {
                     await blobClient.UploadAsync(command.BlobData);
+                    Logger.LogInformation(
+                        $"Upload blob data for blob: {command.BlobName} to container: {command.ContainerName}");
                     return true;
                 }
-                catch (RequestFailedException)
+                catch (RequestFailedException requestFailedException)
                 {
+                    Logger.LogError(requestFailedException, requestFailedException.Message);
                     return false;
                 }
             }
@@ -158,6 +145,8 @@ namespace Audacia.Azure.BlobStorage.AddBlob
 
             if (!blobExists.Value)
             {
+                Logger.LogInformation(
+                    $"Uploading blob: {command.BlobName} data to container: {command.ContainerName}");
                 return await UploadFileBlobAsync(blobData, blobClient);
             }
 
