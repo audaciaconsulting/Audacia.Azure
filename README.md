@@ -1,9 +1,8 @@
 # Audacia.Azure
 This solution contains 3 Nuget packages which are for the following Azure services.
 
-1. Azure Service Bus - Audacia.Azure.ServiceBus
-2. Azure Blob Storage - Audacia.Azure.BlobStorage
-3. Azure Storage Queue - Audacia.Azure.StorageQueue
+1. Azure Blob Storage - Audacia.Azure.BlobStorage
+2. Azure Storage Queue - Audacia.Azure.StorageQueue
 
 ## Usage
 Use any of the Nuget packages when you want to connect/ integrate with any of the packages allowing for quick set up of adding, updating and removing objects from Blob storage, consuming and adding to Storage queue.

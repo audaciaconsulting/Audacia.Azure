@@ -55,15 +55,12 @@ namespace Audacia.Azure.StorageQueue.GetMessages
                     await DeleteMessageAsync(nextMessage.Value);
                 }
 
-                if (nextMessage.Value.InsertedOn != null)
-                {
-                    return new AzureQueueStorageMessage(
-                        nextMessage.Value.MessageId,
-                        nextMessage.Value.PopReceipt,
-                        nextMessage.Value.MessageText,
-                        nextMessage.Value.InsertedOn.Value.DateTime,
-                        DateTime.Now);
-                }
+                return new AzureQueueStorageMessage(
+                    nextMessage.Value.MessageId,
+                    nextMessage.Value.PopReceipt,
+                    nextMessage.Value.MessageText,
+                    nextMessage.Value.InsertedOn,
+                    DateTime.Now);
             }
 
             return null;
@@ -90,23 +87,21 @@ namespace Audacia.Azure.StorageQueue.GetMessages
                 var response = await QueueClient.ReceiveMessagesAsync(command.AmountToReceive);
                 var nextMessages = response.Value;
 
-                var allMessagesHaveInsertedOn = await ProcessDeletingMessageAsync(command, nextMessages);
-                if (allMessagesHaveInsertedOn)
-                {
-                    return nextMessages.Select(message => new AzureQueueStorageMessage(
-                            message.MessageId,
-                            message.PopReceipt,
-                            message.MessageText,
-                            message.InsertedOn.Value.DateTime,
-                            DateTime.Now))
-                        .ToList();
-                }
+                await ProcessDeletingMessageAsync(command, nextMessages);
+
+                return nextMessages.Select(message => new AzureQueueStorageMessage(
+                        message.MessageId,
+                        message.PopReceipt,
+                        message.MessageText,
+                        message.InsertedOn,
+                        DateTime.Now))
+                    .ToList();
             }
 
             return new List<AzureQueueStorageMessage>();
         }
 
-        private async Task<bool> ProcessDeletingMessageAsync(
+        private async Task ProcessDeletingMessageAsync(
             GetMessagesStorageQueueCommand command,
             IEnumerable<QueueMessage> nextMessages)
         {
@@ -117,18 +112,6 @@ namespace Audacia.Azure.StorageQueue.GetMessages
                     await DeleteMessageAsync(nextMessage);
                 }
             }
-
-            var allMessagesHaveInsertedOn = true;
-            foreach (var message in nextMessages)
-            {
-                if (!(message.InsertedOn is { } offset))
-                {
-                    allMessagesHaveInsertedOn = false;
-                    break;
-                }
-            }
-
-            return allMessagesHaveInsertedOn;
         }
     }
 }

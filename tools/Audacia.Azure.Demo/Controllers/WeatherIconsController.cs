@@ -62,7 +62,7 @@ namespace Audacia.Azure.Demo.Controllers
             {
                 _logger.LogError(e.Message, e);
 
-                throw;
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 

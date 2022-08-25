@@ -13,7 +13,7 @@ namespace Audacia.Azure.StorageQueue.Models
 
         public string Message { get; }
 
-        public DateTime InsertedOn { get; }
+        public DateTimeOffset? InsertedOn { get; }
 
         public DateTime Received { get; }
 
@@ -22,7 +22,7 @@ namespace Audacia.Azure.StorageQueue.Models
             string messageId,
             string popReceipt,
             string message,
-            DateTime insertedOn,
+            DateTimeOffset? insertedOn,
             DateTime received)
 #pragma warning restore ACL1003
         {
