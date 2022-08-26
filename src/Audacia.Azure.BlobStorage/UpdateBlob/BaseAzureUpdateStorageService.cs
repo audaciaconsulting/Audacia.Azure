@@ -14,11 +14,21 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
     /// </summary>
     public abstract class BaseAzureUpdateStorageService : BaseAzureBlobStorageService
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="blobServiceClient"></param>
         protected BaseAzureUpdateStorageService(ILogger logger, BlobServiceClient blobServiceClient)
             : base(logger, blobServiceClient)
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="blobStorageConfig"></param>
         protected BaseAzureUpdateStorageService(ILogger logger, IOptions<BlobStorageOption> blobStorageConfig) : base(
             logger, blobStorageConfig)
         {

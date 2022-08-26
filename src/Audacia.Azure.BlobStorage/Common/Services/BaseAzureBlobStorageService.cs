@@ -10,6 +10,9 @@ using Microsoft.Extensions.Options;
 
 namespace Audacia.Azure.BlobStorage.Common.Services
 {
+    /// <summary>
+    /// Base Service class for all the Azure Blob services, containing shared methods and properties to use.
+    /// </summary>
     public abstract class BaseAzureBlobStorageService
     {
         private readonly string _storageAccountConnectionString =
@@ -19,14 +22,34 @@ namespace Audacia.Azure.BlobStorage.Common.Services
 
         private readonly string _accountName;
 
+        /// <summary>
+        /// Gets the URL of where the Storage account is hosted.
+        /// </summary>
         public Uri StorageAccountUrl => new(string.Format(FormatProvider, _storageAccountUrl, _accountName));
 
+        /// <summary>
+        /// Gets the logger to allow for providing extra information throughout the flow of the services.
+        /// </summary>
         protected ILogger Logger { get; }
 
+        /// <summary>
+        /// Gets the format provider for formatting exception messages.
+        /// </summary>
         protected IFormatProvider FormatProvider { get; }
 
+        /// <summary>
+        /// Gets an instance of the service client for a blob to provide an object to carry out the required operations.
+        /// </summary>
         protected BlobServiceClient BlobServiceClient { get; }
 
+        /// <summary>
+        /// Base constructor checking <see cref="BlobServiceClient"/> is valid and creating an instance if so. 
+        /// </summary>
+        /// <param name="logger">Logger for providing extra information when services are called.</param>
+        /// <param name="blobServiceClient">An instance of the blob service client to call operations on.</param>
+        /// <exception cref="BlobStorageConfigurationException">
+        /// Exception thrown if the <see cref="BlobServiceClient"/> passed in is null.
+        /// </exception>
         protected BaseAzureBlobStorageService(ILogger logger, BlobServiceClient blobServiceClient)
         {
             BlobServiceClient = blobServiceClient ?? throw BlobStorageConfigurationException.BlobClientNotConfigured();
@@ -36,6 +59,11 @@ namespace Audacia.Azure.BlobStorage.Common.Services
             FormatProvider = CultureInfo.InvariantCulture;
         }
 
+        /// <summary>
+        /// Base constructor checking <see cref="BlobServiceClient"/> is valid and creating an instance if so. 
+        /// </summary>
+        /// <param name="logger">Logger for providing extra information when services are called.</param>
+        /// <param name="blobStorageConfig">Config options for creating a new <see cref="BlobServiceClient"/>.</param>
         protected BaseAzureBlobStorageService(ILogger logger, IOptions<BlobStorageOption> blobStorageConfig)
         {
             FormatProvider = CultureInfo.InvariantCulture;
@@ -50,6 +78,13 @@ namespace Audacia.Azure.BlobStorage.Common.Services
             _accountName = blobStorageConfig.Value.AccountName;
         }
 
+        /// <summary>
+        /// Checks if the <paramref name="blobStorageConfig"/> are valid to create a <see cref="BlobServiceClient"/>.
+        /// </summary>
+        /// <param name="blobStorageConfig">An instance of the <see cref="BlobStorageOption"/>.</param>
+        /// <exception cref="BlobStorageConfigurationException">
+        /// Exception thrown when a property from the <see cref="BlobStorageOption"/> is either null or empty.
+        /// </exception>
         private void OptionsConfigCheck(IOptions<BlobStorageOption> blobStorageConfig)
         {
             if (blobStorageConfig?.Value == null)
@@ -68,6 +103,16 @@ namespace Audacia.Azure.BlobStorage.Common.Services
             }
         }
 
+        /// <summary>
+        /// Gets a <see cref="BlobContainerClient"/> from an Azure blob storage account.
+        /// </summary>
+        /// <param name="containerName">Name of the container.</param>
+        /// <returns>
+        /// The instance of the <see cref="BlobContainerClient"/> with the name <paramref name="containerName"/>.
+        /// </returns>
+        /// <exception cref="ContainerNameInvalidException">
+        /// Exception thrown when the name of the container is invalid.
+        /// </exception>
         protected BlobContainerClient GetContainer(string containerName)
         {
             if (string.IsNullOrEmpty(containerName))
@@ -78,6 +123,14 @@ namespace Audacia.Azure.BlobStorage.Common.Services
             return BlobServiceClient.GetBlobContainerClient(containerName);
         }
 
+        /// <summary>
+        /// Creates a new container with an Azure blob storage account.
+        /// </summary>
+        /// <param name="containerName">Name of the container which is getting created.</param>
+        /// <returns>An instance of the newly created <see cref="BlobContainerClient"/>.</returns>
+        /// <exception cref="ContainerNameInvalidException">
+        /// Exception thrown when the name of the container is invalid.
+        /// </exception>
         protected async Task<BlobContainerClient> CreateContainerAsync(string containerName)
         {
             if (string.IsNullOrEmpty(containerName))
@@ -85,16 +138,23 @@ namespace Audacia.Azure.BlobStorage.Common.Services
                 throw ContainerNameInvalidException.UnableToCreateWithContainerName(containerName, FormatProvider);
             }
 
-            return await BlobServiceClient.CreateBlobContainerAsync(containerName);
+            return await BlobServiceClient.CreateBlobContainerAsync(containerName).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Checks if the container is pre existing.
         /// </summary>
-        /// <param name="containerName"></param>
-        /// <param name="doesContainerExist"></param>
-        /// <exception cref="ContainerDoesNotExistException"></exception>
-        /// <exception cref="ContainerAlreadyExistsException"></exception>
+        /// <param name="containerName">Name of the container where the blob lives.</param>
+        /// <param name="doesContainerExist">
+        /// Whether the container exists and whether that matches what has been passed apart of the command.
+        /// </param>
+        /// <exception cref="ContainerDoesNotExistException">
+        /// Exception thrown when configuration is not set to create a new container and the container specified does
+        /// not exist.
+        /// </exception>
+        /// <exception cref="ContainerAlreadyExistsException">
+        /// Exception thrown when configuration wants to create a new container however it already exists.
+        /// </exception>
         protected void ContainerChecks(string containerName, bool doesContainerExist)
         {
             var storageAccountContainers = BlobServiceClient.GetBlobContainers();

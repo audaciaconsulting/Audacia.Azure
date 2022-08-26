@@ -24,7 +24,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// Constructor option for when adding the <see cref="BlobServiceClient"/> has being added to the DI.
         /// </summary>
         /// <param name="logger">Logger to giving extra information.</param>
-        /// <param name="blobServiceClient"></param>
+        /// <param name="blobServiceClient">Blob Service client used get blobs from Azure.</param>
         public GetAzureBlobStorageService(
             ILogger<GetAzureBlobStorageService> logger,
             BlobServiceClient blobServiceClient) : base(
@@ -36,7 +36,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// Constructor option for using the Options pattern with <see cref="BlobStorageOption"/>.
         /// </summary>
         /// <param name="logger">Logger to giving extra information.</param>
-        /// <param name="blobStorageConfig"></param>
+        /// <param name="blobStorageConfig"><see cref="BlobStorageOption"/> allowing us to create a <see cref="BlobServiceClient"/>.</param>
         public GetAzureBlobStorageService(
             ILogger<GetAzureBlobStorageService> logger,
             IOptions<BlobStorageOption> blobStorageConfig)
@@ -53,6 +53,10 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
         /// <returns>A <see cref="IBlobReturnOption"/> which has been configured by the generic arguments.</returns>
+        /// <exception cref="ContainerDoesNotExistException">
+        /// Exception thrown when configuration is not set to create a new container and the container specified does
+        /// not exist.
+        /// </exception>
         public async Task<T> GetAsync<T, TResponse>(string containerName, string blobName)
             where TResponse : IBlobReturnOption<T>, new()
         {
@@ -82,6 +86,10 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
         /// <returns>A <see cref="IBlobReturnOption"/> which has been configured by the generic arguments.</returns>
+        /// <exception cref="ContainerDoesNotExistException">
+        /// Exception thrown when configuration is not set to create a new container and the container specified does
+        /// not exist.
+        /// </exception>
         public async Task<IDictionary<string, T>> GetSomeAsync<T, TResponse>(
             string containerName,
             IEnumerable<string> blobNames)
@@ -109,7 +117,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// <typeparam name="T">The type of data which you want the blob to be converted into. This must match one of the
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
-        /// <returns></returns>
+        /// <returns>Dictionary of Blobs, where the key is the name of the blob and the value is the blob itself.</returns>
         private async Task<IDictionary<string, T>> GetBlobsAsync<T, TResponse>(
             string containerName,
             IEnumerable<string> blobNames,
@@ -136,6 +144,10 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
         /// <returns>A collection of <see cref="IBlobReturnOption"/> which has been configured by the generic arguments.</returns>
+        /// <exception cref="ContainerDoesNotExistException">
+        /// Exception thrown when configuration is not set to create a new container and the container specified does
+        /// not exist.
+        /// </exception>
         public async Task<IDictionary<string, T>> GetAllAsync<T, TResponse>(string containerName)
             where TResponse : IBlobReturnOption<T>, new()
         {

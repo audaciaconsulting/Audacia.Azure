@@ -1,5 +1,8 @@
 ﻿namespace Audacia.Azure.BlobStorage.Common.Commands
 {
+    /// <summary>
+    /// Base command for all Azure blob services.
+    /// </summary>
     public abstract class BaseBlobCommand
     {
         /// <summary>
@@ -12,6 +15,11 @@
         /// </summary>
         public string BlobName { get; }
 
+        /// <summary>
+        /// Base command for all Azure blob services.
+        /// </summary>
+        /// <param name="containerName">Name of the container.</param>
+        /// <param name="blobName">Name of the blob.</param>
         internal BaseBlobCommand(string containerName, string blobName)
         {
             ContainerName = containerName;
