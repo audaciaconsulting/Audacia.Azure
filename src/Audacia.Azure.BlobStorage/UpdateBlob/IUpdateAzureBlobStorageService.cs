@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Audacia.Azure.BlobStorage.UpdateBlob.Commands;
+﻿using Audacia.Azure.BlobStorage.UpdateBlob.Commands;
 
 namespace Audacia.Azure.BlobStorage.UpdateBlob
 {

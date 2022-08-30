@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using Audacia.Azure.StorageQueue.Config;
 using Audacia.Azure.StorageQueue.Exceptions;
 using Azure.Storage.Queues;

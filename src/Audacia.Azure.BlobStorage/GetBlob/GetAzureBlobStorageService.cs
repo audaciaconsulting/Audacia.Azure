@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Audacia.Azure.BlobStorage.Common.Services;
+﻿using Audacia.Azure.BlobStorage.Common.Services;
 using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions;
 using Audacia.Azure.Common.ReturnOptions;
@@ -67,7 +62,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             {
                 var containerClient = BlobServiceClient.GetBlobContainerClient(containerName);
 
-                var blobBytes = await GetBlobBytesAsync(containerClient, blobName);
+                var blobBytes = await GetBlobBytesAsync(containerClient, blobName).ConfigureAwait(false);
 
                 return new TResponse().Parse(blobName, blobBytes,
                     new Uri(string.Format(FormatProvider, StorageAccountWithContainer, containerName)));
@@ -90,11 +85,17 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
+        /// <exception cref="ArgumentNullException"><paramref name="blobNames"/> is null.</exception>
         public async Task<IDictionary<string, T>> GetSomeAsync<T, TResponse>(
             string containerName,
             IEnumerable<string> blobNames)
             where TResponse : IBlobReturnOption<T>, new()
         {
+            if (blobNames == null)
+            {
+                throw new ArgumentNullException(nameof(blobNames));
+            }
+            
             var containers = BlobServiceClient.GetBlobContainers();
             var containerExists = containers.Any(container => container.Name == containerName);
 
@@ -102,7 +103,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             {
                 var containerClient = BlobServiceClient.GetBlobContainerClient(containerName);
 
-                return await GetBlobsAsync<T, TResponse>(containerName, blobNames, containerClient);
+                return await GetBlobsAsync<T, TResponse>(containerName, blobNames, containerClient).ConfigureAwait(false);
             }
 
             throw new ContainerDoesNotExistException(containerName, FormatProvider);
@@ -126,7 +127,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             var blobBytesDictionary = new Dictionary<string, T>();
             foreach (var blobName in blobNames)
             {
-                var blobBytes = await GetBlobBytesAsync(containerClient, blobName);
+                var blobBytes = await GetBlobBytesAsync(containerClient, blobName).ConfigureAwait(false);
                 var parsedResult = new TResponse().Parse(blobName, blobBytes,
                     new Uri(string.Format(FormatProvider, StorageAccountWithContainer, containerName)));
 
@@ -158,7 +159,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             {
                 var containerClient = BlobServiceClient.GetBlobContainerClient(containerName);
 
-                return await GetAllBlobsAsync<T, TResponse>(containerClient, containerName);
+                return await GetAllBlobsAsync<T, TResponse>(containerClient, containerName).ConfigureAwait(false);
             }
 
             throw new ContainerDoesNotExistException(containerName, FormatProvider);
@@ -176,7 +177,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
 
             foreach (var blob in blobs)
             {
-                var blobBytes = await GetBlobBytesAsync(containerClient, blob.Name);
+                var blobBytes = await GetBlobBytesAsync(containerClient, blob.Name).ConfigureAwait(false);
                 var parsedResult = new TResponse().Parse(blob.Name, blobBytes,
                     new Uri(string.Format(FormatProvider, StorageAccountWithContainer, containerName)));
 
@@ -195,10 +196,10 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         private static async Task<byte[]> GetBlobBytesAsync(BlobContainerClient containerClient, string blobName)
         {
             var blobClient = containerClient.GetBlobClient(blobName);
-            var blobDownloadInfo = await blobClient.DownloadAsync();
+            var blobDownloadInfo = await blobClient.DownloadAsync().ConfigureAwait(false);
 
-            await using var memoryStream = new MemoryStream();
-            await blobDownloadInfo.Value.Content.CopyToAsync(memoryStream);
+            using var memoryStream = new MemoryStream();
+            await blobDownloadInfo.Value.Content.CopyToAsync(memoryStream).ConfigureAwait(false);
 
             var blobBytes = memoryStream.ToArray();
 

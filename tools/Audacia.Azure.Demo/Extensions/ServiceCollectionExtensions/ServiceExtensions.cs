@@ -5,7 +5,6 @@ using Audacia.Azure.BlobStorage.UpdateBlob;
 using Audacia.Azure.StorageQueue.AddMessageToQueue;
 using Audacia.Azure.StorageQueue.DeleteMessageFromQueue;
 using Audacia.Azure.StorageQueue.GetMessages;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Audacia.Azure.Demo.Extensions.ServiceCollectionExtensions
 {

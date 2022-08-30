@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Azure.Storage.Queues.Models;
+﻿using Azure.Storage.Queues.Models;
 
 namespace Audacia.Azure.StorageQueue.Extensions
 {

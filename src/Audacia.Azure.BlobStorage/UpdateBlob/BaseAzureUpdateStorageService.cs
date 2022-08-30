@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using Audacia.Azure.BlobStorage.Common.Services;
+﻿using Audacia.Azure.BlobStorage.Common.Services;
 using Audacia.Azure.BlobStorage.Config;
 using Azure.Storage.Blobs;
 using Microsoft.Extensions.Logging;
@@ -15,20 +12,20 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
     public abstract class BaseAzureUpdateStorageService : BaseAzureBlobStorageService
     {
         /// <summary>
-        /// 
+        /// Constructor for the base updating blob services.
         /// </summary>
-        /// <param name="logger"></param>
-        /// <param name="blobServiceClient"></param>
+        /// <param name="logger">Logger to giving extra information.</param>
+        /// <param name="blobServiceClient">An instance of the blob service client to call operations on.</param>
         protected BaseAzureUpdateStorageService(ILogger logger, BlobServiceClient blobServiceClient)
             : base(logger, blobServiceClient)
         {
         }
 
         /// <summary>
-        /// 
+        /// Constructor for the base updating blob services.
         /// </summary>
-        /// <param name="logger"></param>
-        /// <param name="blobStorageConfig"></param>
+        /// <param name="logger">Logger to giving extra information.</param>
+        /// <param name="blobStorageConfig">Config options for creating a new <see cref="BlobServiceClient"/>.</param>
         protected BaseAzureUpdateStorageService(ILogger logger, IOptions<BlobStorageOption> blobStorageConfig) : base(
             logger, blobStorageConfig)
         {
@@ -57,7 +54,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// <summary>
         /// Gets or creates a <see cref="BlobContainerClient"/>.
         /// </summary>
-        /// <param name="containerName">The name of the container</param>
+        /// <param name="containerName">The name of the container.</param>
         /// <param name="doesContainerExist">Whether or not you expect the container to exist.</param>
         /// <returns>Returns the existing or newly created <see cref="BlobContainerClient"/>.</returns>
         protected async Task<BlobContainerClient> GetOrCreateContainerAsync(
@@ -67,7 +64,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
             BlobContainerClient container;
             if (!doesContainerExist)
             {
-                container = await CreateContainerAsync(containerName);
+                container = await CreateContainerAsync(containerName).ConfigureAwait(false);
             }
             else
             {

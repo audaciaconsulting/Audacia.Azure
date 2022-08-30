@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Audacia.Azure.BlobStorage.AddBlob.Commands
+﻿namespace Audacia.Azure.BlobStorage.AddBlob.Commands
 {
     public class AddAzureBlobStorageStreamCommand : BaseAddBlobStorageCommand
     {

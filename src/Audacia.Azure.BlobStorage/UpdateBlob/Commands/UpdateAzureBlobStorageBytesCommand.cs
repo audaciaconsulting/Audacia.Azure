@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace Audacia.Azure.BlobStorage.UpdateBlob.Commands
+﻿namespace Audacia.Azure.BlobStorage.UpdateBlob.Commands
 {
     public class UpdateAzureBlobStorageBytesCommand : BaseUpdateBlobStorageCommand
     {

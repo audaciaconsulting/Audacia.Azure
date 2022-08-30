@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Audacia.Azure.Common.ReturnOptions;
+﻿using Audacia.Azure.Common.ReturnOptions;
 
 namespace Audacia.Azure.BlobStorage.GetBlob
 {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using Audacia.Azure.BlobStorage.Config;
+﻿using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions;
 using Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions;
 using Audacia.Azure.BlobStorage.Models;
@@ -47,36 +44,41 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
         /// <exception cref="ContainerDoesNotExistException">
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
         public async Task<bool> ExecuteAsync(UpdateAzureBlobStorageFileCommand command)
         {
-            ContainerChecks(command.ContainerName, command.DoesContainerExist);
-
-            var blobData = FileLocationBlobChecks(command.BlobName, command.FilePath);
-
-            var container = GetContainer(command.ContainerName);
-
-            if (container != null)
+            if (command != null)
             {
-                return await UpdateBlobInBlobStorageAsync(container, command, blobData).ConfigureAwait(false);
+                ContainerChecks(command.ContainerName, command.DoesContainerExist);
+
+                var blobData = FileLocationBlobChecks(command.BlobName, command.FilePath);
+
+                var container = GetContainer(command.ContainerName);
+
+                if (container is not null)
+                {
+                    return await UpdateBlobInBlobStorageAsync(container, command, blobData).ConfigureAwait(false);
+                }
+
+                throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
             }
 
-            throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
+            throw new ArgumentNullException(nameof(command));
         }
 
         /// <summary>
-        /// 
+        /// Checks if the file location for getting the blob data exists.
         /// </summary>
-        /// <param name="blobName"></param>
-        /// <param name="fileLocation"></param>
-        /// <returns></returns>
-        /// <exception cref="BlobDataCannotBeNullException"></exception>
-        /// <exception cref="BlobDataCannotBeEmptyException"></exception>
-        /// <exception cref="BlobFileLocationNeedsToExistException"></exception>
+        /// <param name="blobName">Name of the blob.</param>
+        /// <param name="fileLocation">Location to find the data for the blob.</param>
+        /// <returns>Byte array of the data at the specified file location.</returns>
+        /// <exception cref="BlobDataCannotBeNullException"><paramref name="fileLocation"/> is null.</exception>
+        /// <exception cref="BlobDataCannotBeEmptyException"><paramref name="fileLocation"/> is an empty string.</exception>
+        /// <exception cref="BlobFileLocationNeedsToExistException">No file exists at <paramref name="fileLocation"/>.</exception>
         private byte[] FileLocationBlobChecks(string blobName, string fileLocation)
         {
             if (fileLocation == null)
@@ -105,27 +107,40 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ContainerDoesNotExistException">
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
+        /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
         public async Task<bool> ExecuteAsync(UpdateAzureBlobStorageBytesCommand command)
         {
-            ContainerChecks(command.ContainerName, command.DoesContainerExist);
-
-            var blobData = BytesBlobChecks(command.BlobName, command.BlobData);
-
-            var container = GetContainer(command.ContainerName);
-
-            if (container != null)
+            if (command != null)
             {
-                return await UpdateBlobInBlobStorageAsync(container, command, blobData).ConfigureAwait(false);
+                ContainerChecks(command.ContainerName, command.DoesContainerExist);
+
+                var blobData = BytesBlobChecks(command.BlobName, command.BlobData);
+
+                var container = GetContainer(command.ContainerName);
+
+                if (container is not null)
+                {
+                    return await UpdateBlobInBlobStorageAsync(container, command, blobData).ConfigureAwait(false);
+                }
+
+                throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
             }
 
-            throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
+            throw new ArgumentNullException(nameof(command));
         }
 
+        /// <summary>
+        /// Checks the byte array of the blob data to see if it's valid.
+        /// </summary>
+        /// <param name="blobName">Name of the blob.</param>
+        /// <param name="bytesBlobData">Byte array of the data of the blob.</param>
+        /// <returns>Byte array with the data for the blob.</returns>
+        /// <exception cref="BlobDataCannotBeNullException"><paramref name="bytesBlobData"/> is null.</exception>
+        /// <exception cref="BlobDataCannotBeEmptyException"><paramref name="bytesBlobData"/> has an length of 0.</exception>
         private byte[] BytesBlobChecks(string blobName, byte[] bytesBlobData)
         {
             if (bytesBlobData == null)
@@ -150,20 +165,26 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
+        /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
         public async Task<bool> ExecuteAsync(UpdateAzureBlobStorageBaseSixtyFourCommand command)
         {
-            ContainerChecks(command.ContainerName, command.DoesContainerExist);
-
-            var blobData = BaseSixtyFourBlobChecks(command.BlobName, command.BlobData);
-
-            var container = GetContainer(command.ContainerName);
-
-            if (container != null)
+            if (command != null)
             {
-                return await UpdateBlobInBlobStorageAsync(container, command, blobData);
+                ContainerChecks(command.ContainerName, command.DoesContainerExist);
+
+                var blobData = BaseSixtyFourBlobChecks(command.BlobName, command.BlobData);
+
+                var container = GetContainer(command.ContainerName);
+
+                if (container is not null)
+                {
+                    return await UpdateBlobInBlobStorageAsync(container, command, blobData).ConfigureAwait(false);
+                }
+
+                throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
             }
 
-            throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
+            throw new ArgumentNullException(nameof(command));
         }
 
         private byte[] BaseSixtyFourBlobChecks(string blobName, string baseSixtyFourBlobData)
@@ -195,37 +216,44 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ContainerDoesNotExistException">
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
+        /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
         public async Task<bool> ExecuteAsync(UpdateAzureBlobStorageStreamCommand command)
         {
-            ContainerChecks(command.ContainerName, command.DoesContainerExist);
-
-            var blobData = StreamBlobDataCheck(command.BlobName, command.BlobData);
-
-            var container = GetContainer(command.ContainerName);
-
-            if (container != null)
+            if (command != null)
             {
-                var blobClient = container.GetBlobClient(command.BlobName);
+                ContainerChecks(command.ContainerName, command.DoesContainerExist);
 
-                return await ReSyncBlobAsync(blobClient, command, blobData).ConfigureAwait(false);
+                var blobData = StreamBlobDataCheck(command.BlobName, command.BlobData);
+
+                var container = GetContainer(command.ContainerName);
+
+                if (container is not null)
+                {
+                    var blobClient = container.GetBlobClient(command.BlobName);
+
+                    return await ReSyncBlobAsync(blobClient, command, blobData).ConfigureAwait(false);
+                }
+
+                throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
             }
 
-            throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
+            throw new ArgumentNullException(nameof(command));
         }
 
         /// <summary>
-        /// 
+        /// Remove the existing blob and re uploads the blob with the new blob data.
         /// </summary>
-        /// <param name="blobClient"></param>
-        /// <param name="command"></param>
-        /// <param name="blobData"></param>
-        /// <returns></returns>
-        /// <exception cref="BlobDoesNotExistException"></exception>
+        /// <param name="blobClient">The <see cref="BlobClient"/> to remove and upload a blob.</param>
+        /// <param name="command">Command containing information such as the blob and container name.</param>
+        /// <param name="blobData">Stream of the blob data.</param>
+        /// <returns>Boolean whether the removing and uploading of the blob has been successful.</returns>
+        /// <exception cref="BlobDoesNotExistException">
+        /// The blob been updated does not exist with the specified container.
+        /// </exception>
         private async Task<bool> ReSyncBlobAsync(
             BlobClient blobClient,
             UpdateAzureBlobStorageStreamCommand command,
@@ -323,20 +351,21 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
             BaseUpdateBlobStorageCommand command,
             byte[] blobData)
         {
-            await blobClient.DeleteAsync().ConfigureAwait(false);
-
-            await using var ms = new MemoryStream(blobData, false).ConfigureAwait(false);
-            try
+            using (await blobClient.DeleteAsync().ConfigureAwait(false))
             {
-                await blobClient.UploadAsync(ms).ConfigureAwait(false);
-                Logger.LogInformation(
-                    $"Upload blob data for blob: {command.BlobName} to container: {command.ContainerName}");
-                return true;
-            }
-            catch (RequestFailedException requestFailedException)
-            {
-                Logger.LogError(requestFailedException, requestFailedException.Message);
-                return false;
+                using var ms = new MemoryStream(blobData, false);
+                try
+                {
+                    await blobClient.UploadAsync(ms).ConfigureAwait(false);
+                    Logger.LogInformation(
+                        $"Upload blob data for blob: {command.BlobName} to container: {command.ContainerName}");
+                    return true;
+                }
+                catch (RequestFailedException requestFailedException)
+                {
+                    Logger.LogError(requestFailedException, requestFailedException.Message);
+                    return false;
+                }
             }
         }
     }

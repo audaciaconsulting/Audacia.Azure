@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-
-namespace Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions
+﻿namespace Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions
 {
     public class BlobDataCannotBeInvalidBaseSixtyFourException : Exception
     {

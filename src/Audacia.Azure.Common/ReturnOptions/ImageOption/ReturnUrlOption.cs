@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Audacia.Azure.Common.ReturnOptions.ImageOption
+﻿namespace Audacia.Azure.Common.ReturnOptions.ImageOption
 {
     public class ReturnUrlOption : IBlobReturnOption<string>
     {

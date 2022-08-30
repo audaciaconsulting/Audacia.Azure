@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace Audacia.Azure.Demo.Models.Requests.Queue
+﻿namespace Audacia.Azure.Demo.Models.Requests.Queue
 {
     public class AddQueueRequest
     {

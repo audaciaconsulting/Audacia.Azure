@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Audacia.Azure.StorageQueue.Exceptions
+﻿namespace Audacia.Azure.StorageQueue.Exceptions
 {
     public class StorageQueueConfigurationException : Exception
     {

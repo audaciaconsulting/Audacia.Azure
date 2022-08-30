@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Audacia.Azure.BlobStorage.DeleteBlob.Commands;
+﻿using Audacia.Azure.BlobStorage.DeleteBlob.Commands;
 
 namespace Audacia.Azure.BlobStorage.DeleteBlob
 {

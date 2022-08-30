@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using Audacia.Azure.BlobStorage.AddBlob;
+﻿using Audacia.Azure.BlobStorage.AddBlob;
 using Audacia.Azure.BlobStorage.AddBlob.Commands;
 using Audacia.Azure.BlobStorage.DeleteBlob;
 using Audacia.Azure.BlobStorage.DeleteBlob.Commands;
@@ -11,9 +7,7 @@ using Audacia.Azure.BlobStorage.UpdateBlob;
 using Audacia.Azure.BlobStorage.UpdateBlob.Commands;
 using Audacia.Azure.Common.ReturnOptions.ImageOption;
 using Audacia.Azure.Demo.Models.Requests;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Audacia.Azure.Demo.Controllers
 {

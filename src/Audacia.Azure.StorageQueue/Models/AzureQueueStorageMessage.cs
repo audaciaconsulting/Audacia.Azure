@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Audacia.Azure.StorageQueue.Models
+﻿namespace Audacia.Azure.StorageQueue.Models
 {
     /// <summary>
     /// Message object pulled from the queue.

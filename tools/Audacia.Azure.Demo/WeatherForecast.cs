@@ -1,5 +1,3 @@
-using System;
-
 namespace Audacia.Azure.Demo
 {
     public class WeatherForecast

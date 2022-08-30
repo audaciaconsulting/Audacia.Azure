@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Audacia.Azure.BlobStorage.Common.Services;
 using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.DeleteBlob.Commands;
@@ -44,30 +42,27 @@ namespace Audacia.Azure.BlobStorage.DeleteBlob
         /// </summary>
         /// <param name="command">Command request containing all the information to remove a blob.</param>
         /// <returns>Whether the removing of the blob was successful.</returns>
-        /// <exception cref="BlobDoesNotExistException"></exception>
+        /// <exception cref="BlobDoesNotExistException">
+        /// Exception thrown when the blob trying to be deleted is not within the specified container.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">Command for service is null therefore cannot continue.</exception>
         public async Task<bool> ExecuteAsync(DeleteAzureBlobStorageCommand command)
         {
-            var blobClient = GetBlobClient(command.ContainerName, command.BlobName);
-
-            var blobExists = await blobClient.ExistsAsync();
-
-            if (blobExists.Value)
+            if (command != null)
             {
-                try
-                {
-                    await blobClient.DeleteAsync();
+                var blobClient = GetBlobClient(command.ContainerName, command.BlobName);
 
-                    Logger.LogInformation($"Deleted blob: {command.BlobName} from Container: {command.ContainerName}");
-                    return true;
-                }
-                catch (RequestFailedException requestFailedException)
+                var blobExists = await blobClient.ExistsAsync().ConfigureAwait(false);
+
+                if (blobExists.Value)
                 {
-                    Logger.LogError(requestFailedException, requestFailedException.Message);
-                    return false;
+                    return await DeleteBlobAsync(blobClient, command).ConfigureAwait(false);
                 }
+
+                throw new BlobDoesNotExistException(command.BlobName, command.ContainerName, FormatProvider);
             }
 
-            throw new BlobDoesNotExistException(command.BlobName, command.ContainerName, FormatProvider);
+            throw new ArgumentNullException(nameof(command));
         }
 
         /// <summary>
@@ -81,6 +76,24 @@ namespace Audacia.Azure.BlobStorage.DeleteBlob
             var containerClient = BlobServiceClient.GetBlobContainerClient(containerName);
 
             return containerClient.GetBlobClient(blobName);
+        }
+
+        private async Task<bool> DeleteBlobAsync(BlobClient blobClient, DeleteAzureBlobStorageCommand command)
+        {
+            try
+            {
+                using (await blobClient.DeleteAsync().ConfigureAwait(false))
+                {
+                    Logger.LogInformation(
+                        $"Deleted blob: {command.BlobName} from Container: {command.ContainerName}");
+                    return true;
+                }
+            }
+            catch (RequestFailedException requestFailedException)
+            {
+                Logger.LogError(requestFailedException, requestFailedException.Message);
+                return false;
+            }
         }
     }
 }

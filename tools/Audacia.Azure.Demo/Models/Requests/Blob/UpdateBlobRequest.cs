@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace Audacia.Azure.Demo.Models.Requests
+﻿namespace Audacia.Azure.Demo.Models.Requests
 {
     public class UpdateBlobRequest
     {

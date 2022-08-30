@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Audacia.Azure.StorageQueue.Common.Services;
+﻿using Audacia.Azure.StorageQueue.Common.Services;
 using Audacia.Azure.StorageQueue.Config;
 using Audacia.Azure.StorageQueue.GetMessages.Commands;
 using Audacia.Azure.StorageQueue.Models;
@@ -21,7 +16,7 @@ namespace Audacia.Azure.StorageQueue.GetMessages
         /// <summary>
         /// Constructor option for when adding the <see cref="QueueClient"/> has being added to the DI.
         /// </summary>
-        /// <param name="queueClient"></param>
+        /// <param name="queueClient">Queue client used get message from Azure queue storage.</param>
         public GetAzureQueueStorageService(QueueClient queueClient) : base(queueClient)
         {
         }

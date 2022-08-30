@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-
-namespace Audacia.Azure.BlobStorage.Exceptions
+﻿namespace Audacia.Azure.BlobStorage.Exceptions
 {
     public class BlobDoesNotExistException : Exception
     {

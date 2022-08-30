@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Audacia.Azure.StorageQueue.Common.Services;
+﻿using Audacia.Azure.StorageQueue.Common.Services;
 using Audacia.Azure.StorageQueue.Config;
 using Audacia.Azure.StorageQueue.Extensions;
 using Azure.Storage.Queues;
@@ -17,7 +14,7 @@ namespace Audacia.Azure.StorageQueue.DeleteMessageFromQueue
         /// <summary>
         /// Constructor option for when adding the <see cref="QueueClient"/> has being added to the DI.
         /// </summary>
-        /// <param name="queueClient"></param>
+        /// <param name="queueClient">Queue client used get message from Azure queue storage.</param>
         public DeleteAzureQueueStorageService(QueueClient queueClient) : base(
             queueClient)
         {
@@ -26,7 +23,7 @@ namespace Audacia.Azure.StorageQueue.DeleteMessageFromQueue
         /// <summary>
         /// Constructor option for using the Options pattern with <see cref="QueueStorageOption"/>.
         /// </summary>
-        /// <param name="queueStorageConfig"></param>
+        /// <param name="queueStorageConfig">Config options used to create an instance of <see cref="QueueClient"/>.</param>
         public DeleteAzureQueueStorageService(IOptions<QueueStorageOption> queueStorageConfig) : base(
             queueStorageConfig)
         {
@@ -40,9 +37,9 @@ namespace Audacia.Azure.StorageQueue.DeleteMessageFromQueue
         /// <returns>Bool whether the message was deleted from the queue.</returns>
         public async Task<bool> ExecuteAsync(string queueName, string messageId)
         {
-            await PreQueueChecksAsync(queueName);
+            await PreQueueChecksAsync(queueName).ConfigureAwait(false);
 
-            var queueMessages = await QueueClient.ReceiveMessagesAsync(32);
+            var queueMessages = await QueueClient.ReceiveMessagesAsync(32).ConfigureAwait(false);
 
             var peekedMessages = queueMessages.Value;
 
@@ -50,7 +47,7 @@ namespace Audacia.Azure.StorageQueue.DeleteMessageFromQueue
 
             if (peekMessage != null)
             {
-                using var deleteResponse = await QueueClient.DeleteMessageAsync(messageId, peekMessage.PopReceipt);
+                using var deleteResponse = await QueueClient.DeleteMessageAsync(messageId, peekMessage.PopReceipt).ConfigureAwait(false);
 
                 return deleteResponse.Status == 204;
             }

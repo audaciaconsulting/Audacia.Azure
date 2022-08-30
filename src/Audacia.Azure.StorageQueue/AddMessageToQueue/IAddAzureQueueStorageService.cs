@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Azure.Storage.Queues.Models;
+﻿using Azure.Storage.Queues.Models;
 
 namespace Audacia.Azure.StorageQueue.AddMessageToQueue
 {

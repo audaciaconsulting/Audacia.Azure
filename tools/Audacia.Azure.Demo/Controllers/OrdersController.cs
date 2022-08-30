@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Audacia.Azure.Demo.Models.Requests.Queue;
+﻿using Audacia.Azure.Demo.Models.Requests.Queue;
 using Audacia.Azure.StorageQueue.AddMessageToQueue;
 using Audacia.Azure.StorageQueue.DeleteMessageFromQueue;
 using Audacia.Azure.StorageQueue.GetMessages;
 using Audacia.Azure.StorageQueue.GetMessages.Commands;
 using Audacia.Azure.StorageQueue.Models;
 using Azure.Storage.Queues.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Audacia.Azure.Demo.Controllers
 {

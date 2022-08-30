@@ -1,8 +1,6 @@
 ﻿using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.StorageQueue.Config;
 using Azure.Storage.Blobs;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Audacia.Azure.Demo.Extensions.ServiceCollectionExtensions
 {

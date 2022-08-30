@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using Audacia.Azure.BlobStorage.AddBlob.Commands;
+﻿using Audacia.Azure.BlobStorage.AddBlob.Commands;
 using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions;
 using Audacia.Azure.BlobStorage.UpdateBlob;
@@ -48,19 +45,21 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// </summary>
         /// <param name="command">Command with information about the blob and the container where the blob is being added.</param>
         /// <returns>A boolean on whether the blob has been successfully added.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
         public async Task<bool> ExecuteAsync(AddAzureBlobStorageBaseSixtyFourCommand command)
         {
-            if (command == null)
+            if (command is not null)
             {
-                return false;
+                ContainerChecks(command.ContainerName, command.DoesContainerExist);
+
+                var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist)
+                    .ConfigureAwait(false);
+                var blobData = Convert.FromBase64String(command.BlobData);
+
+                return await UploadBlobToBlobStorageAsync(container, command, blobData).ConfigureAwait(false);
             }
             
-            ContainerChecks(command.ContainerName, command.DoesContainerExist);
-
-            var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist).ConfigureAwait(false);
-            var blobData = Convert.FromBase64String(command.BlobData);
-
-            return await UploadBlobToBlobStorageAsync(container, command, blobData).ConfigureAwait(false);
+            throw new ArgumentNullException(nameof(command));
         }
 
         /// <summary>
@@ -72,14 +71,21 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <exception cref="BlobNameAlreadyExistsException">
         /// A blob with the same name as the one on the command exists within the specified container.
         /// </exception>
+        /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
         public async Task<bool> ExecuteAsync(AddAzureBlobStorageFileCommand command)
         {
-            ContainerChecks(command.ContainerName, command.DoesContainerExist);
+            if (command != null)
+            {
+                ContainerChecks(command.ContainerName, command.DoesContainerExist);
 
-            var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist).ConfigureAwait(false);
-            var blobData = GetFileData(command.FilePath);
+                var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist)
+                    .ConfigureAwait(false);
+                var blobData = GetFileData(command.FilePath);
 
-            return await UploadBlobToBlobStorageAsync(container, command, blobData).ConfigureAwait(false);
+                return await UploadBlobToBlobStorageAsync(container, command, blobData).ConfigureAwait(false);
+            }
+
+            throw new ArgumentNullException(nameof(command));
         }
 
         /// <summary>
@@ -91,13 +97,20 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <exception cref="BlobNameAlreadyExistsException">
         /// A blob with the same name as the one on the command exists within the specified container.
         /// </exception>
+        /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
         public async Task<bool> ExecuteAsync(AddAzureBlobStorageBytesCommand command)
         {
-            ContainerChecks(command.ContainerName, command.DoesContainerExist);
+            if (command != null)
+            {
+                ContainerChecks(command.ContainerName, command.DoesContainerExist);
 
-            var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist).ConfigureAwait(false);
+                var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist)
+                    .ConfigureAwait(false);
 
-            return await UploadBlobToBlobStorageAsync(container, command, command.BlobData).ConfigureAwait(false);
+                return await UploadBlobToBlobStorageAsync(container, command, command.BlobData).ConfigureAwait(false);
+            }
+
+            throw new ArgumentNullException(nameof(command));
         }
 
         /// <summary>

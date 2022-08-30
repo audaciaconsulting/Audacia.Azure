@@ -1,21 +1,33 @@
-﻿using System;
-using System.Globalization;
-
-namespace Audacia.Azure.BlobStorage.Exceptions
+﻿namespace Audacia.Azure.BlobStorage.Exceptions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class BlobNameAlreadyExistsException : Exception
     {
         private const string TemplateExceptionMessage =
             "Cannot add Blob: {0} within Container: {1} as there is an existing blob with that name therefore preventing overwriting of any data";
 
+        /// <summary>
+        /// Thrown when a blob is being added to a container which already has a blob with the same name.
+        /// </summary>
         public BlobNameAlreadyExistsException()
         {
         }
 
+        /// <summary>
+        /// Thrown when a blob is being added to a container which already has a blob with the same name.
+        /// </summary>
+        /// <param name="message">Message for when the blob which already exists within a container.</param>
         public BlobNameAlreadyExistsException(string message) : base(message)
         {
         }
 
+        /// <summary>
+        /// Thrown when a blob is being added to a container which already has a blob with the same name.
+        /// </summary>
+        /// <param name="message">Message for when the blob which already exists within a container.</param>
+        /// <param name="innerException">Exception thrown detailing the full error.</param>
         public BlobNameAlreadyExistsException(string message, Exception innerException) : base(message, innerException)
         {
         }
