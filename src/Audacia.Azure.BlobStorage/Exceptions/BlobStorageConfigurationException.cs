@@ -1,5 +1,8 @@
 ﻿namespace Audacia.Azure.BlobStorage.Exceptions
 {
+    /// <summary>
+    /// Exception for when there is config missing in creating an Blob services.
+    /// </summary>
     public class BlobStorageConfigurationException : Exception
     {
         private const string OptionsNotConfiguredExceptionMessage =
@@ -12,10 +15,28 @@
             "Need to add BlobServiceClient to the DI";
 
         /// <summary>
-        /// 
+        /// Exception for when there is config missing in creating an Blob services.
         /// </summary>
-        /// <param name="exceptionMessage"></param>
+        public BlobStorageConfigurationException()
+        {
+        }
+
+        /// <summary>
+        /// Exception for when there is config missing in creating an Blob services.
+        /// </summary>
+        /// <param name="exceptionMessage">Message of the Exception.</param>
         public BlobStorageConfigurationException(string exceptionMessage) : base(exceptionMessage)
+        {
+        }
+
+        /// <summary>
+        /// Exception for when there is config missing in creating an Blob services.
+        /// </summary>
+        /// <param name="message">Message of the Exception.</param>
+        /// <param name="innerException">Inner Exception thrown.</param>
+        public BlobStorageConfigurationException(string message, Exception innerException) : base(
+            message,
+            innerException)
         {
         }
 
@@ -29,27 +50,29 @@
         }
 
         /// <summary>
-        /// 
+        /// Exception for when the account name has not been configured.
         /// </summary>
         /// <param name="formatProvider"></param>
         /// <returns></returns>
         public static BlobStorageConfigurationException AccountNameNotConfigured(IFormatProvider formatProvider)
         {
-            return new BlobStorageConfigurationException(string.Format(formatProvider, MissingConfigExceptionMessage, "account name"));
+            return new BlobStorageConfigurationException(string.Format(formatProvider, MissingConfigExceptionMessage,
+                "account name"));
         }
 
         /// <summary>
-        /// 
+        /// Exception for when the account key has not been configured.
         /// </summary>
         /// <param name="formatProvider"></param>
         /// <returns></returns>
         public static BlobStorageConfigurationException AccountKeyNotConfigured(IFormatProvider formatProvider)
         {
-            return new BlobStorageConfigurationException(string.Format(formatProvider, MissingConfigExceptionMessage, "account key"));
+            return new BlobStorageConfigurationException(string.Format(formatProvider, MissingConfigExceptionMessage,
+                "account key"));
         }
 
         /// <summary>
-        /// 
+        /// Exception for when the blob client has not been configured to the IoC.
         /// </summary>
         /// <returns></returns>
         public static BlobStorageConfigurationException BlobClientNotConfigured()

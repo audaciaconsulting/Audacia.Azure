@@ -11,7 +11,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// Adds a blob to Azure Blob Storage account when you would like to upload a blob where the data is in base 64 format.
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
-        /// <returns>A bool depending on the success of the upload</returns>
+        /// <returns>A bool depending on the success of the upload.</returns>
         Task<bool> ExecuteAsync(AddAzureBlobStorageBaseSixtyFourCommand command);
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// on the local file server.
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
-        /// <returns>A bool depending on the success of the upload</returns>
+        /// <returns>A bool depending on the success of the upload.</returns>
         Task<bool> ExecuteAsync(AddAzureBlobStorageFileCommand command);
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// the storage account.
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
-        /// <returns>A bool depending on the success of the upload</returns>
+        /// <returns>A bool depending on the success of the upload.</returns>
         Task<bool> ExecuteAsync(AddAzureBlobStorageBytesCommand command);
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// to upload to the storage account.
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
-        /// <returns>A bool depending on the success of the upload</returns>
+        /// <returns>A bool depending on the success of the upload.</returns>
         Task<bool> ExecuteAsync(AddAzureBlobStorageStreamCommand command);
     }
 }

@@ -24,7 +24,7 @@ namespace Audacia.Azure.StorageQueue.GetMessages
         /// <summary>
         /// Constructor option for using the Options pattern with <see cref="QueueStorageOption"/>.
         /// </summary>
-        /// <param name="queueStorageConfig"></param>
+        /// <param name="queueStorageConfig">Config option used to create <see cref="QueueClient"/>.</param>
         public GetAzureQueueStorageService(IOptions<QueueStorageOption> queueStorageConfig) : base(queueStorageConfig)
         {
         }
@@ -38,16 +38,16 @@ namespace Audacia.Azure.StorageQueue.GetMessages
         /// <returns>The message from the queue if there is one.</returns>
         public async Task<AzureQueueStorageMessage> GetAsync(GetMessageStorageQueueCommand command)
         {
-            await PreQueueChecksAsync(command.QueueName);
+            await PreQueueChecksAsync(command.QueueName).ConfigureAwait(false);
 
-            var queueProperties = await QueueClient.GetPropertiesAsync();
+            var queueProperties = await QueueClient.GetPropertiesAsync().ConfigureAwait(false);
             if (queueProperties.Value.ApproximateMessagesCount > 0)
             {
-                var nextMessage = await QueueClient.ReceiveMessageAsync();
+                var nextMessage = await QueueClient.ReceiveMessageAsync().ConfigureAwait(false);
 
                 if (command.DeleteMessageAfterReceiving)
                 {
-                    await DeleteMessageAsync(nextMessage.Value);
+                    await DeleteMessageAsync(nextMessage.Value).ConfigureAwait(false);
                 }
 
                 return new AzureQueueStorageMessage(
@@ -74,15 +74,15 @@ namespace Audacia.Azure.StorageQueue.GetMessages
         /// </returns>
         public async Task<IEnumerable<AzureQueueStorageMessage>> GetSomeAsync(GetMessagesStorageQueueCommand command)
         {
-            await PreQueueChecksAsync(command.QueueName);
+            await PreQueueChecksAsync(command.QueueName).ConfigureAwait(false);
 
-            var queueProperties = await QueueClient.GetPropertiesAsync();
+            var queueProperties = await QueueClient.GetPropertiesAsync().ConfigureAwait(false);
             if (queueProperties.Value.ApproximateMessagesCount > 0)
             {
-                var response = await QueueClient.ReceiveMessagesAsync(command.AmountToReceive);
+                var response = await QueueClient.ReceiveMessagesAsync(command.AmountToReceive).ConfigureAwait(false);
                 var nextMessages = response.Value;
 
-                await ProcessDeletingMessageAsync(command, nextMessages);
+                await ProcessDeletingMessageAsync(command, nextMessages).ConfigureAwait(false);
 
                 return nextMessages.Select(message => new AzureQueueStorageMessage(
                         message.MessageId,
@@ -104,7 +104,7 @@ namespace Audacia.Azure.StorageQueue.GetMessages
             {
                 foreach (var nextMessage in nextMessages)
                 {
-                    await DeleteMessageAsync(nextMessage);
+                    await DeleteMessageAsync(nextMessage).ConfigureAwait(false);
                 }
             }
         }

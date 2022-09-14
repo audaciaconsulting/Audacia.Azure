@@ -1,7 +1,7 @@
 ﻿namespace Audacia.Azure.BlobStorage.Exceptions
 {
     /// <summary>
-    /// 
+    /// Thrown when a blob is being added to a container which already has a blob with the same name.
     /// </summary>
     public class BlobNameAlreadyExistsException : Exception
     {
