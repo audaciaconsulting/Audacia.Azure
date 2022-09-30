@@ -22,7 +22,7 @@ namespace Audacia.Azure.StorageQueue.AddMessageToQueue
         /// <summary>
         /// Constructor option for using the Options pattern with <see cref="QueueStorageOption"/>.
         /// </summary>
-        /// <param name="queueStorageConfig"></param>
+        /// <param name="queueStorageConfig">Config option containing information on how to create <see cref="QueueClient"/>.</param>
         public AddAzureQueueStorageService(IOptions<QueueStorageOption> queueStorageConfig) : base(queueStorageConfig)
         {
         }

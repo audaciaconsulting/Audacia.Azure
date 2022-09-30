@@ -141,14 +141,14 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// <returns>Byte array with the data for the blob.</returns>
         /// <exception cref="BlobDataCannotBeNullException"><paramref name="bytesBlobData"/> is null.</exception>
         /// <exception cref="BlobDataCannotBeEmptyException"><paramref name="bytesBlobData"/> has an length of 0.</exception>
-        private byte[] BytesBlobChecks(string blobName, byte[] bytesBlobData)
+        private IEnumerable<byte> BytesBlobChecks(string blobName, IEnumerable<byte> bytesBlobData)
         {
             if (bytesBlobData == null)
             {
                 throw new BlobDataCannotBeNullException(blobName, BlobDataType.ByteArray, FormatProvider);
             }
 
-            if (bytesBlobData.Length == 0)
+            if (!bytesBlobData.Any())
             {
                 throw new BlobDataCannotBeEmptyException(blobName, BlobDataType.ByteArray, FormatProvider);
             }
@@ -325,7 +325,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         private async Task<bool> UpdateBlobInBlobStorageAsync(
             BlobContainerClient container,
             BaseUpdateBlobStorageCommand command,
-            byte[] blobData)
+            IEnumerable<byte> blobData)
         {
             var blobClient = container.GetBlobClient(command.BlobName);
 
@@ -349,11 +349,11 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         private async Task<bool> HandleReUploadingBlobAsync(
             BlobClient blobClient,
             BaseUpdateBlobStorageCommand command,
-            byte[] blobData)
+            IEnumerable<byte> blobData)
         {
             using (await blobClient.DeleteAsync().ConfigureAwait(false))
             {
-                using var ms = new MemoryStream(blobData, false);
+                using var ms = new MemoryStream(blobData.ToArray(), false);
                 try
                 {
                     await blobClient.UploadAsync(ms).ConfigureAwait(false);

@@ -108,12 +108,19 @@ namespace Audacia.Azure.StorageQueue.Common.Services
         /// </summary>
         /// <param name="message"><see cref="QueueMessage"/> to be removed from the <see cref="QueueClient"/>.</param>
         /// <returns>Whether the message has been removed.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="message"/> is null.</exception>
         protected async Task<bool> DeleteMessageAsync(QueueMessage message)
         {
+            if (message == null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+
             var receivedMessageId = message.MessageId;
             var receivedMessagePopReceipt = message.PopReceipt;
 
-            using var response = await QueueClient.DeleteMessageAsync(receivedMessageId, receivedMessagePopReceipt).ConfigureAwait(false);
+            using var response = await QueueClient.DeleteMessageAsync(receivedMessageId, receivedMessagePopReceipt)
+                .ConfigureAwait(false);
 
             return response.Status == 200; // might be 202 as might not execute
         }

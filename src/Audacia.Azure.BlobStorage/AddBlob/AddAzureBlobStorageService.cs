@@ -58,7 +58,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
 
                 return await UploadBlobToBlobStorageAsync(container, command, blobData).ConfigureAwait(false);
             }
-            
+
             throw new ArgumentNullException(nameof(command));
         }
 
@@ -188,7 +188,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         private async Task<bool> UploadBlobToBlobStorageAsync(
             BlobContainerClient container,
             BaseAddBlobStorageCommand command,
-            byte[] blobData)
+            IEnumerable<byte> blobData)
         {
             var blobClient = container.GetBlobClient(command.BlobName);
 
@@ -210,9 +210,9 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <param name="blobData">Byte array containing the data for the blob.</param>
         /// <param name="blobClient">Blob client where the blob data is being uploaded too.</param>
         /// <returns>A boolean on whether the blob has been successfully uploaded.</returns>
-        private static async Task<bool> UploadFileBlobAsync(byte[] blobData, BlobClient blobClient)
+        private static async Task<bool> UploadFileBlobAsync(IEnumerable<byte> blobData, BlobClient blobClient)
         {
-            using var ms = new MemoryStream(blobData, false);
+            using var ms = new MemoryStream(blobData.ToArray(), false);
             await blobClient.UploadAsync(ms).ConfigureAwait(false);
 
             return true;

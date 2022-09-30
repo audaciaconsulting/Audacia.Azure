@@ -1,5 +1,8 @@
 ﻿namespace Audacia.Azure.Common.ReturnOptions.ImageOption
 {
+    /// <summary>
+    /// Return type of blob in URL format.
+    /// </summary>
     public class ReturnUrlOption : IBlobReturnOption<string>
     {
         private string _blobName;
@@ -14,6 +17,14 @@
         /// </summary>
         public string Result { get; private set; }
 
+        /// <summary>
+        /// Converts the bytes from blob storage to a URL.
+        /// </summary>
+        /// <param name="blobName">Name of the blob.</param>
+        /// <param name="bytes">Byte array representing the data of the blob.</param>
+        /// <param name="blobClientUrl">URL where the blob is stored.</param>
+        /// <returns>URl string.</returns>
+        /// <exception cref="ArgumentNullException">Exception is thrown if the <paramref name="blobClientUrl"/> is null.</exception>
         public string Parse(string blobName, byte[] bytes, Uri blobClientUrl)
         {
             if (blobClientUrl == null)

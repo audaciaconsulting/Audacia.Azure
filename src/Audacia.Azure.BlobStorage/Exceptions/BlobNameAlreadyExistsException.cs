@@ -38,9 +38,8 @@
         /// <param name="blobName">Name of blob which already exists within the <paramref name="containerName"/>.</param>
         /// <param name="containerName">Name of the Azure container where the blob tried to be added too.</param>
         /// <param name="formatProvider">Format provider to format the exception message.</param>
-        public BlobNameAlreadyExistsException(string blobName, string containerName, IFormatProvider formatProvider) :
-            base(
-                string.Format(formatProvider, TemplateExceptionMessage, blobName, containerName))
+        public BlobNameAlreadyExistsException(string blobName, string containerName, IFormatProvider formatProvider)
+            : base(string.Format(formatProvider, TemplateExceptionMessage, blobName, containerName))
         {
         }
     }

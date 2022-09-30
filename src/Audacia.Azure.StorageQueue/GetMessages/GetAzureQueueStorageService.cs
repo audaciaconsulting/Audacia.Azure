@@ -36,8 +36,14 @@ namespace Audacia.Azure.StorageQueue.GetMessages
         /// Containing information of the queue name and whether to delete the message from storage after it has been received.
         /// </param>
         /// <returns>The message from the queue if there is one.</returns>
-        public async Task<AzureQueueStorageMessage> GetAsync(GetMessageStorageQueueCommand command)
+        /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
+        public async Task<AzureQueueStorageMessage?> GetAsync(GetMessageStorageQueueCommand command)
         {
+            if (command == null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+
             await PreQueueChecksAsync(command.QueueName).ConfigureAwait(false);
 
             var queueProperties = await QueueClient.GetPropertiesAsync().ConfigureAwait(false);
@@ -72,8 +78,14 @@ namespace Audacia.Azure.StorageQueue.GetMessages
         /// A collection of size <paramref name="command.AmountToReceive"/> of <see cref="AzureQueueStorageMessage"/>'s if
         /// available if not the remaining amount that are currently in the queue.
         /// </returns>
+        /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
         public async Task<IEnumerable<AzureQueueStorageMessage>> GetSomeAsync(GetMessagesStorageQueueCommand command)
         {
+            if (command == null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+
             await PreQueueChecksAsync(command.QueueName).ConfigureAwait(false);
 
             var queueProperties = await QueueClient.GetPropertiesAsync().ConfigureAwait(false);

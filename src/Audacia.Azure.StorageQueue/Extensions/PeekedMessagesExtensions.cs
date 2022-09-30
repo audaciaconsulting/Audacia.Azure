@@ -2,6 +2,9 @@
 
 namespace Audacia.Azure.StorageQueue.Extensions
 {
+    /// <summary>
+    /// All extension methods for a collection of Peeked messages.
+    /// </summary>
     public static class PeekedMessagesExtensions
     {
         /// <summary>

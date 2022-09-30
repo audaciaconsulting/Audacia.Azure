@@ -52,8 +52,8 @@
         /// <summary>
         /// Exception for when the account name has not been configured.
         /// </summary>
-        /// <param name="formatProvider"></param>
-        /// <returns></returns>
+        /// <param name="formatProvider">The format provider.</param>
+        /// <returns>Instance of <see cref="BlobStorageConfigurationException"/>.</returns>
         public static BlobStorageConfigurationException AccountNameNotConfigured(IFormatProvider formatProvider)
         {
             return new BlobStorageConfigurationException(string.Format(formatProvider, MissingConfigExceptionMessage,
@@ -63,8 +63,8 @@
         /// <summary>
         /// Exception for when the account key has not been configured.
         /// </summary>
-        /// <param name="formatProvider"></param>
-        /// <returns></returns>
+        /// <param name="formatProvider">The format provider.</param>
+        /// <returns>Instance of <see cref="BlobStorageConfigurationException"/>.</returns>
         public static BlobStorageConfigurationException AccountKeyNotConfigured(IFormatProvider formatProvider)
         {
             return new BlobStorageConfigurationException(string.Format(formatProvider, MissingConfigExceptionMessage,
@@ -74,7 +74,7 @@
         /// <summary>
         /// Exception for when the blob client has not been configured to the IoC.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Instance of <see cref="BlobStorageConfigurationException"/>.</returns>
         public static BlobStorageConfigurationException BlobClientNotConfigured()
         {
             return new BlobStorageConfigurationException(BlobClientNotConfiguredExceptionMessage);

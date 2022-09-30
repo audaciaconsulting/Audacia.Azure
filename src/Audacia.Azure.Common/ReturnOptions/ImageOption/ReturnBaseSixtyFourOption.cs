@@ -1,5 +1,8 @@
 ﻿namespace Audacia.Azure.Common.ReturnOptions.ImageOption
 {
+    /// <summary>
+    /// Return type of blob in base 64 format.
+    /// </summary>
     public class ReturnBaseSixtyFourOption : IBlobReturnOption<string>
     {
         private string _blobName;
@@ -22,10 +25,10 @@
         /// <summary>
         /// Converts the bytes from blob storage to a base 64 string.
         /// </summary>
-        /// <param name="blobName"></param>
-        /// <param name="bytes"></param>
-        /// <param name="blobClientUrl"></param>
-        /// <returns></returns>
+        /// <param name="blobName">Name of the blob.</param>
+        /// <param name="bytes">Array of bytes representing the blob data.</param>
+        /// <param name="blobClientUrl">Url of where the blob is located.</param>
+        /// <returns>Returns a base 64 string for the data of the blob.</returns>
         public string Parse(string blobName, byte[] bytes, Uri blobClientUrl)
         {
             _blobName = blobName;

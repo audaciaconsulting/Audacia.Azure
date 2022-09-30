@@ -2,6 +2,9 @@
 
 namespace Audacia.Azure.BlobStorage.UpdateBlob.Commands
 {
+    /// <summary>
+    /// Base update command for Azure Blob Storage.
+    /// </summary>
     public abstract class BaseUpdateBlobStorageCommand : BaseBlobCommand
     {
         /// <summary>
@@ -9,6 +12,12 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob.Commands
         /// </summary>
         public bool DoesContainerExist { get; }
 
+        /// <summary>
+        /// Base update command for Azure Blob Storage.
+        /// </summary>
+        /// <param name="containerName">Name of the container where the blob is been updated.</param>
+        /// <param name="blobName">Name of the blob which is been updated.</param>
+        /// <param name="doesContainerExist">Whether the container exists.</param>
         protected BaseUpdateBlobStorageCommand(string containerName, string blobName, bool doesContainerExist = true) : base(
             containerName, blobName)
         {
