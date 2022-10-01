@@ -6,7 +6,7 @@ namespace Audacia.Azure.Common.ReturnOptions.ClassOption
     /// Returning a strongly typed blob.
     /// </summary>
     /// <typeparam name="T">Typing for return blob option.</typeparam>
-    public class BlobReturnClassOption<T> : IQueueReturnOption<T>
+    public class ReturnClassOption<T> : IQueueReturnOption<T>
     {
         /// <summary>
         /// Gets or sets the value of the result.

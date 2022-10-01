@@ -27,7 +27,7 @@
         /// </summary>
         /// <param name="blobName">Name of the blob.</param>
         /// <param name="bytes">Array of bytes representing the blob data.</param>
-        /// <param name="blobClientUrl">Url of where the blob is located.</param>
+        /// <param name="blobClientUrl">URL of the blob client.</param>
         /// <returns>Returns a base 64 string for the data of the blob.</returns>
         public string Parse(string blobName, byte[] bytes, Uri blobClientUrl)
         {

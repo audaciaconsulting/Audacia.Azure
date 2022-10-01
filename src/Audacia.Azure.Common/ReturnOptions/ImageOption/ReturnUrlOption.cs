@@ -22,9 +22,9 @@
         /// </summary>
         /// <param name="blobName">Name of the blob.</param>
         /// <param name="bytes">Byte array representing the data of the blob.</param>
-        /// <param name="blobClientUrl">URL where the blob is stored.</param>
+        /// <param name="blobClientUrl">URL of the blob client.</param>
         /// <returns>URl string.</returns>
-        /// <exception cref="ArgumentNullException">Exception is thrown if the <paramref name="blobClientUrl"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Exception thrown if the <paramref name="blobClientUrl"/> is null.</exception>
         public string Parse(string blobName, byte[] bytes, Uri blobClientUrl)
         {
             if (blobClientUrl == null)

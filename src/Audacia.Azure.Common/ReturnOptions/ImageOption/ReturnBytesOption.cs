@@ -22,7 +22,7 @@
         /// </summary>
         /// <param name="blobName">Name of the blob.</param>
         /// <param name="bytes">The bytes of the image returned from blob storage.</param>
-        /// <param name="blobClientUrl">Where the blob is stored in Azure.</param>
+        /// <param name="blobClientUrl">URL of the blob client.</param>
         /// <returns>An array bytes which contains the data for the image.</returns>
         public IEnumerable<byte> Parse(string blobName, byte[] bytes, Uri blobClientUrl)
         {
