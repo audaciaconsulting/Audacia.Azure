@@ -5,7 +5,7 @@
     /// </summary>
     public class ReturnBytesOption : IBlobReturnOption<IEnumerable<byte>>
     {
-        private string _blobName;
+        private string _blobName = default!;
 
         /// <summary>
         /// Gets Name of the blob received from the storage account.
@@ -15,7 +15,7 @@
         /// <summary>
         /// Gets the returning value from blob storage containing the base 64 string of the image.
         /// </summary>
-        public IEnumerable<byte> Result { get; private set; }
+        public IEnumerable<byte> Result { get; private set; } = default!;
 
         /// <summary>
         /// Returns an array of bytes for the data of the Image from Blob storage.

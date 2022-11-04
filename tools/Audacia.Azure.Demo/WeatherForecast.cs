@@ -10,6 +10,6 @@ namespace Audacia.Azure.Demo
 
         public string? Summary { get; set; }
 
-        public string Icon { get; set; }
+        public string Icon { get; set; } = default!;
     }
 }

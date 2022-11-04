@@ -1,4 +1,6 @@
-﻿namespace Audacia.Azure.StorageQueue.Exceptions
+﻿using Audacia.Azure.StorageQueue.Config;
+
+namespace Audacia.Azure.StorageQueue.Exceptions
 {
     /// <summary>
     /// Configuration exception for Azure Storage queue.
@@ -41,7 +43,7 @@
         }
 
         /// <summary>
-        /// Exception option for when the <see cref="IOption"/> has not been configured.
+        /// Exception option for when the <see cref="QueueStorageOption"/> has not been configured.
         /// </summary>
         /// <returns>An instance of the exception when the options have not been configured.</returns>
         public static StorageQueueConfigurationException OptionsNotConfigured()

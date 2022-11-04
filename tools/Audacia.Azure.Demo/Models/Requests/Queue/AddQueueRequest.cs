@@ -2,8 +2,8 @@
 {
     public class AddQueueRequest
     {
-        public string QueueName { get; set; }
+        public string QueueName { get; set; } = default!;
 
-        public string Message { get; set; }
+        public string Message { get; set; } = default!;
     }
 }

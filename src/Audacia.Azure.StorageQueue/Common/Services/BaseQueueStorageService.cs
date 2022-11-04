@@ -22,7 +22,7 @@ namespace Audacia.Azure.StorageQueue.Common.Services
         /// <summary>
         /// Gets or sets the instance of the QueueClient which connect to the Queue in the Azure Storage Account.
         /// </summary>
-        protected QueueClient QueueClient { get; set; }
+        protected QueueClient QueueClient { get; set; } = default!;
 
         /// <summary>
         ///  Gets the Format provider used to format all exception messages.
@@ -40,7 +40,7 @@ namespace Audacia.Azure.StorageQueue.Common.Services
         /// <summary>
         ///  Gets the connection string used to connect to the Azure Storage account.
         /// </summary>
-        public string StorageAccountConnectionString { get; }
+        public string StorageAccountConnectionString { get; } = default!;
 
         /// <summary>
         /// Client variation of the Constructor.

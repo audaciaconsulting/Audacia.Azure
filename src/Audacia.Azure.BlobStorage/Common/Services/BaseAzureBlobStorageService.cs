@@ -159,7 +159,9 @@ namespace Audacia.Azure.BlobStorage.Common.Services
         /// <exception cref="BlobContainerAlreadyExistsException">
         /// Exception thrown when configuration wants to create a new container however it already exists.
         /// </exception>
+#pragma warning disable AV1564
         protected void ContainerChecks(string containerName, bool doesContainerExist)
+#pragma warning restore AV1564
         {
             var storageAccountContainers = BlobServiceClient.GetBlobContainers();
 

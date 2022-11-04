@@ -12,7 +12,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        Task<bool> ExecuteAsync(AddAzureBlobStorageBaseSixtyFourCommand command);
+        Task<bool> ExecuteAsync(AddBlobBaseSixtyFourCommand command);
 
         /// <summary>
         /// Adds a blob to Azure Blob Storage account when you would like to upload a blob where the data is located
@@ -20,7 +20,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        Task<bool> ExecuteAsync(AddAzureBlobStorageFileCommand command);
+        Task<bool> ExecuteAsync(AddBlobFileCommand command);
 
         /// <summary>
         /// Adds a blob to Azure Blob Storage account when you have a byte array containing the data you want to add to
@@ -28,7 +28,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        Task<bool> ExecuteAsync(AddAzureBlobStorageBytesCommand command);
+        Task<bool> ExecuteAsync(AddBlobBytesCommand command);
 
         /// <summary>
         /// Adds a blob to Azure Blob Storage account when you have a stream containing the data of the blob you want
@@ -36,6 +36,6 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        Task<bool> ExecuteAsync(AddAzureBlobStorageStreamCommand command);
+        Task<bool> ExecuteAsync(AddBlobStreamCommand command);
     }
 }

@@ -21,7 +21,9 @@ namespace Audacia.Azure.BlobStorage.AddBlob.Commands
         internal BaseAddBlobStorageCommand(
             string containerName,
             string blobName,
-            bool doesContainerExist = true) : base(containerName, blobName)
+#pragma warning disable AV1564
+            bool doesContainerExist) : base(containerName, blobName)
+#pragma warning restore AV1564
         {
             DoesContainerExist = doesContainerExist;
         }

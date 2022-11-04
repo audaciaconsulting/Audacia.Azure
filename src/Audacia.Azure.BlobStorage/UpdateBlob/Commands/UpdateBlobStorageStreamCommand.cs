@@ -3,7 +3,7 @@
     /// <summary>
     /// Command used for adding a blob which has it's data in an stream.
     /// </summary>
-    public class UpdateAzureBlobStorageStreamCommand : BaseUpdateBlobStorageCommand
+    public class UpdateBlobStorageStreamCommand : BaseUpdateBlobStorageCommand
     {
         /// <summary>
         /// Gets stream of the blob which you want to upload to storage.
@@ -16,12 +16,10 @@
         /// <param name="containerName">Name of the container where the blob is been updated.</param>
         /// <param name="blobName">Name of the blob which is been updated.</param>
         /// <param name="blobData">Data of the blob.</param>
-        /// <param name="doesContainerExist">Whether the container exists.</param>
-        public UpdateAzureBlobStorageStreamCommand(
+        public UpdateBlobStorageStreamCommand(
             string containerName,
             string blobName,
-            Stream blobData,
-            bool doesContainerExist = true) : base(containerName, blobName, doesContainerExist)
+            Stream blobData) : base(containerName, blobName, true)
         {
             BlobData = blobData;
         }

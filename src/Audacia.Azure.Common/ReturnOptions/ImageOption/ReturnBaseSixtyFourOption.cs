@@ -5,7 +5,7 @@
     /// </summary>
     public class ReturnBaseSixtyFourOption : IBlobReturnOption<string>
     {
-        private string _blobName;
+        private string _blobName = default!;
 
         /// <summary>
         /// Gets Name of the blob received from the storage account.
@@ -20,7 +20,7 @@
         /// <summary>
         /// Gets the returning value from blob storage containing the base 64 string of the image.
         /// </summary>
-        public string Result { get; private set; }
+        public string Result { get; private set; } = default!;
 
         /// <summary>
         /// Converts the bytes from blob storage to a base 64 string.

@@ -72,7 +72,7 @@ namespace Audacia.Azure.Demo.Controllers
 
             await using var fileStream = addBlobRequest.File.OpenReadStream();
 
-            var command = new AddAzureBlobStorageStreamCommand(addBlobRequest.ContainerName, uniqueBlobName, fileStream);
+            var command = new AddBlobStreamCommand(addBlobRequest.ContainerName, uniqueBlobName, fileStream);
 
             var addBlobResult = await _addAzureBlobStorageService.ExecuteAsync(command);
 
@@ -99,7 +99,7 @@ namespace Audacia.Azure.Demo.Controllers
                 fileBytes = ms.ToArray();
             }
 
-            var command = new UpdateAzureBlobStorageBytesCommand(updateBlobRequest.ContainerName,
+            var command = new UpdateBlobStorageBytesCommand(updateBlobRequest.ContainerName,
                 updateBlobRequest.BlobName,
                 fileBytes);
 

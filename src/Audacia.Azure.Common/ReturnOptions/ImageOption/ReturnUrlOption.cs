@@ -5,7 +5,7 @@
     /// </summary>
     public class ReturnUrlOption : IBlobReturnOption<string>
     {
-        private string _blobName;
+        private string _blobName = default!;
 
         /// <summary>
         /// Gets the Name of the blob received from the storage account.
@@ -15,7 +15,7 @@
         /// <summary>
         /// Gets the returning value from blob storage containing the guid which it was saved within the storage account.
         /// </summary>
-        public string Result { get; private set; }
+        public string Result { get; private set; } = default!;
 
         /// <summary>
         /// Converts the bytes from blob storage to a URL.

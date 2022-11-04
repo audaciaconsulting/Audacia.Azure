@@ -59,7 +59,9 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// <returns>Returns the existing or newly created <see cref="BlobContainerClient"/>.</returns>
         protected async Task<BlobContainerClient> GetOrCreateContainerAsync(
             string containerName,
+#pragma warning disable AV1564
             bool doesContainerExist)
+#pragma warning restore AV1564
         {
             if (!doesContainerExist)
             {

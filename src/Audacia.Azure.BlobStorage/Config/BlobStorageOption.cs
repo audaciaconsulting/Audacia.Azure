@@ -13,11 +13,11 @@
         /// <summary>
         /// Gets or sets the name of the Azure Blob storage account.
         /// </summary>
-        public string AccountName { get; set; }
+        public string AccountName { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the key of the Azure Blob Storage account.
         /// </summary>
-        public string AccountKey { get; set; }
+        public string AccountKey { get; set; } = default!;
     }
 }

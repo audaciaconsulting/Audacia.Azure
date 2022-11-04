@@ -45,16 +45,16 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// </summary>
         /// <param name="containerName">The name of the container where the blob you want to return is stored in.</param>
         /// <param name="blobName">The name of the blob you are wanting to return.</param>
-        /// <typeparam name="T">The type of data which you want the blob to be converted into. This must match one of the
+        /// <typeparam name="TResult">The type of data which you want the blob to be converted into. This must match one of the
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
-        /// <returns>A <see cref="IBlobReturnOption"/> which has been configured by the generic arguments.</returns>
+        /// <returns>A <see cref="IBlobReturnOption{TResult}"/> which has been configured by the generic arguments.</returns>
         /// <exception cref="BlobContainerDoesNotExistException">
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
-        public async Task<T> GetAsync<T, TResponse>(string containerName, string blobName)
-            where TResponse : IBlobReturnOption<T>, new()
+        public async Task<TResult> GetAsync<TResult, TResponse>(string containerName, string blobName)
+            where TResponse : IBlobReturnOption<TResult>, new()
         {
             var containers = BlobServiceClient.GetBlobContainers();
             var containerExists = containers.Any(container => container.Name == containerName);
@@ -82,7 +82,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// <typeparam name="T">The type of data which you want the blob to be converted into. This must match one of the
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
-        /// <returns>A <see cref="IBlobReturnOption"/> which has been configured by the generic arguments.</returns>
+        /// <returns>A <see cref="IBlobReturnOption{TResult}"/> which has been configured by the generic arguments.</returns>
         /// <exception cref="BlobContainerDoesNotExistException">
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
@@ -135,7 +135,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         private async Task<IDictionary<string, T>> GetBlobsAsync<T, TResponse>(
             string containerName,
             IEnumerable<string> blobNames,
-            BlobContainerClient? containerClient) where TResponse : IBlobReturnOption<T>, new()
+            BlobContainerClient containerClient) where TResponse : IBlobReturnOption<T>, new()
         {
             var blobBytesDictionary = new Dictionary<string, T>();
             foreach (var blobName in blobNames)
@@ -159,7 +159,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// <typeparam name="T">The type of data which you want the blob to be converted into. This must match one of the
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
-        /// <returns>A collection of <see cref="IBlobReturnOption"/> which has been configured by the generic arguments.</returns>
+        /// <returns>A collection of <see cref="IBlobReturnOption{TResult}"/> which has been configured by the generic arguments.</returns>
         /// <exception cref="BlobContainerDoesNotExistException">
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.

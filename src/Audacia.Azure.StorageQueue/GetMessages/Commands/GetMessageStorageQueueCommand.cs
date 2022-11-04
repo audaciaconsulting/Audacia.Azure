@@ -1,7 +1,7 @@
 ﻿namespace Audacia.Azure.StorageQueue.GetMessages.Commands
 {
     /// <summary>
-    /// Command for getting a message from a storage queue.
+    /// Command for getting a message from a storage queue and does not remove it.
     /// </summary>
     public class GetMessageStorageQueueCommand
     {
@@ -16,16 +16,13 @@
         public bool ShouldDeleteMessageAfterReceiving { get; }
 
         /// <summary>
-        /// Command for getting a message from a storage queue.
+        /// Command for getting a message from a storage queue and does not remove it from the queue.
         /// </summary>
         /// <param name="queueName">Name of queue which you want to get the messages from.</param>
-        /// <param name="shouldDeleteMessageAfterReceiving">
-        /// Whether you want to remove the messages from the queue after they have been received.
-        /// </param>
-        public GetMessageStorageQueueCommand(string queueName, bool shouldDeleteMessageAfterReceiving = true)
+        public GetMessageStorageQueueCommand(string queueName)
         {
             QueueName = queueName;
-            ShouldDeleteMessageAfterReceiving = shouldDeleteMessageAfterReceiving;
+            ShouldDeleteMessageAfterReceiving = false;
         }
     }
 }

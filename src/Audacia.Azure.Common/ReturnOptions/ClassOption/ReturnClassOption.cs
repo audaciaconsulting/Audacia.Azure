@@ -11,7 +11,7 @@ namespace Audacia.Azure.Common.ReturnOptions.ClassOption
         /// <summary>
         /// Gets or sets the value of the result.
         /// </summary>
-        public T Result { get; set; }
+        public T Result { get; set; } = default!;
 
         /// <summary>
         /// Trys parses the return value from blob storage account to a strongly typed value.

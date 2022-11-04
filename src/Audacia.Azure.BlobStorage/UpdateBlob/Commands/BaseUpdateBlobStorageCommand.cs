@@ -18,7 +18,9 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob.Commands
         /// <param name="containerName">Name of the container where the blob is been updated.</param>
         /// <param name="blobName">Name of the blob which is been updated.</param>
         /// <param name="doesContainerExist">Whether the container exists.</param>
-        protected BaseUpdateBlobStorageCommand(string containerName, string blobName, bool doesContainerExist = true) : base(
+#pragma warning disable AV1564
+        protected BaseUpdateBlobStorageCommand(string containerName, string blobName, bool doesContainerExist) : base(
+#pragma warning restore AV1564
             containerName, blobName)
         {
             DoesContainerExist = doesContainerExist;

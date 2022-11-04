@@ -2,8 +2,8 @@
 {
     public class DeleteBlobRequest
     {
-        public string ContainerName { get; set; }
+        public string ContainerName { get; set; } = default!;
 
-        public string BlobName { get; set; }
+        public string BlobName { get; set; } = default!;
     }
 }

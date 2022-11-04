@@ -5,6 +5,11 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Version>1.0.0</Version>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <Authors>Audacia</Authors>
+        <Description>Core library for using Azure services.</Description>
+        <PackageIcon>package-icon.png</PackageIcon>
     </PropertyGroup>
 
     <ItemGroup>

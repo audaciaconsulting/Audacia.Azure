@@ -50,7 +50,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
-        public async Task<bool> ExecuteAsync(UpdateAzureBlobStorageFileCommand command)
+        public async Task<bool> ExecuteAsync(UpdateBlobStorageFileCommand command)
         {
             if (command != null)
             {
@@ -116,7 +116,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// not exist.
         /// </exception>
         /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-        public async Task<bool> ExecuteAsync(UpdateAzureBlobStorageBytesCommand command)
+        public async Task<bool> ExecuteAsync(UpdateBlobStorageBytesCommand command)
         {
             if (command != null)
             {
@@ -170,7 +170,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// not exist.
         /// </exception>
         /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-        public async Task<bool> ExecuteAsync(UpdateAzureBlobStorageBaseSixtyFourCommand command)
+        public async Task<bool> ExecuteAsync(UpdateBlobStorageBaseSixtyFourCommand command)
         {
             if (command != null)
             {
@@ -227,7 +227,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// not exist.
         /// </exception>
         /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-        public async Task<bool> ExecuteAsync(UpdateAzureBlobStorageStreamCommand command)
+        public async Task<bool> ExecuteAsync(UpdateBlobStorageStreamCommand command)
         {
             if (command != null)
             {
@@ -262,7 +262,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// </exception>
         private async Task<bool> ReSyncBlobAsync(
             BlobClient blobClient,
-            UpdateAzureBlobStorageStreamCommand command,
+            UpdateBlobStorageStreamCommand command,
             Stream blobData)
         {
             var blobExists = await blobClient.ExistsAsync().ConfigureAwait(false);
