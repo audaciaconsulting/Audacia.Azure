@@ -1,20 +1,17 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Audacia.Azure
+This solution contains 3 Nuget packages which are for the following Azure services.
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+1. Azure Blob Storage - Audacia.Azure.BlobStorage
+2. Azure Storage Queue - Audacia.Azure.StorageQueue
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Usage
+Use any of the Nuget packages when you want to connect/ integrate with any of the packages allowing for quick set up of adding, updating and removing objects from Blob storage, consuming and adding to Storage queue.
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+## Why would you use this any of these packages
+The reasons to use any of these packages
+1. Quick integration - minimal configuration and set up need with any of the chosen services
+2. Flexibility - If in the future additional functionality is need, each of the packages having `interfaces` which will allow for seamless transition from the packages implementation to your Projects custom implementation.
+3. Easy of use - If you are not familiar with any of the Azure services all the hard work if done and only configuration is needed ready for you to consume.
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## Examples
+Look in `tools/Audacia.Azure.Demo` for how to setup and use the each of the packages.
