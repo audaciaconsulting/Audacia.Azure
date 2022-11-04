@@ -39,9 +39,11 @@ namespace Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions
         /// <param name="blobName">Name of the blob which has empty data.</param>
         /// <param name="blobDataType">The type of blob type.</param>
         /// <param name="formatProvider">The format provider.</param>
-        public BlobDataCannotBeEmptyException(string blobName, BlobDataType blobDataType,
+        public BlobDataCannotBeEmptyException(
+            string blobName,
+            BlobDataType blobDataType,
             IFormatProvider formatProvider)
-            : base(string.Format(formatProvider, TemplateExceptionMessage, blobName, blobDataType.ToString()))
+            : base(string.Format(formatProvider, TemplateExceptionMessage, blobName, blobDataType))
         {
         }
     }

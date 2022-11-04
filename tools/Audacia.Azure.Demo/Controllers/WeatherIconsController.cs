@@ -63,14 +63,16 @@ namespace Audacia.Azure.Demo.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromForm] AddBlobRequest request)
+        public async Task<IActionResult> Post([FromForm] AddBlobRequest addBlobRequest)
         {
-            var fileExtension = request.File.FileName.Split('.');
+            _ = addBlobRequest ?? throw new ArgumentNullException(nameof(addBlobRequest));
+            
+            var fileExtension = addBlobRequest.File.FileName.Split('.');
             var uniqueBlobName = $"{Guid.NewGuid().ToString()}.{fileExtension[^1]}";
 
-            await using var fileStream = request.File.OpenReadStream();
+            await using var fileStream = addBlobRequest.File.OpenReadStream();
 
-            var command = new AddAzureBlobStorageStreamCommand(request.ContainerName, uniqueBlobName, fileStream);
+            var command = new AddAzureBlobStorageStreamCommand(addBlobRequest.ContainerName, uniqueBlobName, fileStream);
 
             var addBlobResult = await _addAzureBlobStorageService.ExecuteAsync(command);
 
@@ -87,6 +89,8 @@ namespace Audacia.Azure.Demo.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Put([FromForm] UpdateBlobRequest updateBlobRequest)
         {
+            _ = updateBlobRequest ?? throw new ArgumentNullException(nameof(updateBlobRequest));
+            
             byte[] fileBytes;
             await using (var ms = new MemoryStream())
             {
@@ -114,8 +118,8 @@ namespace Audacia.Azure.Demo.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Delete([FromForm] DeleteBlobRequest deleteBlobRequest)
         {
-            var command =
-                new DeleteAzureBlobStorageCommand(deleteBlobRequest.ContainerName, deleteBlobRequest.BlobName);
+            _ = deleteBlobRequest ?? throw new ArgumentNullException(nameof(deleteBlobRequest));
+            var command = new DeleteAzureBlobStorageCommand(deleteBlobRequest.ContainerName, deleteBlobRequest.BlobName);
 
             var deleteBlobResult = await _deleteAzureBlobStorageService.ExecuteAsync(command);
 

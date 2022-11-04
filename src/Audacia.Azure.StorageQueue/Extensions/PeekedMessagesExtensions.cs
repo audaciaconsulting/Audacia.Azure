@@ -13,7 +13,7 @@ namespace Audacia.Azure.StorageQueue.Extensions
         /// <param name="source">IEnumerable of <see cref="QueueMessage"/>.</param>
         /// <param name="messageId">Id of an <see cref="QueueMessage"/>.</param>
         /// <returns>Filtered collection of <see cref="QueueMessage"/>.</returns>
-        public static ICollection<QueueMessage> WithMessageId(this IEnumerable<QueueMessage> source, string messageId)
+        public static IEnumerable<QueueMessage> WithMessageId(this IEnumerable<QueueMessage> source, string messageId)
         {
             return source.Where(peekedMessage => peekedMessage.MessageId == messageId).ToList();
         }

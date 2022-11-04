@@ -8,26 +8,32 @@ namespace Audacia.Azure.BlobStorage.Models
     public enum BlobDataType
     {
         /// <summary>
+        /// Enum value for if blob data is unknown.
+        /// </summary>
+        [EnumMember(Value = "None")] 
+        None = 0,
+
+        /// <summary>
         /// When blob data is base 64 format.
         /// </summary>
-        [EnumMember(Value = "Base 64")]
-        BaseSixtyFour,
-        
+        [EnumMember(Value = "Base 64")] 
+        BaseSixtyFour = 100,
+
         /// <summary>
         /// When blob data is in the stream format.
         /// </summary>
-        Stream,
+        Stream = 200,
 
         /// <summary>
         /// When blob data is in byte array format.
         /// </summary>
         [EnumMember(Value = "Byte Array")]
-        ByteArray,
+        ByteArray = 300,
 
         /// <summary>
         /// When blob data is from a file on the local file system.
         /// </summary>
         [EnumMember(Value = "File Location")]
-        FileLocation
+        FileLocation = 400
     }
 }

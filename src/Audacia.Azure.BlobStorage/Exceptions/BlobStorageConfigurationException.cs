@@ -1,4 +1,6 @@
-﻿namespace Audacia.Azure.BlobStorage.Exceptions
+﻿using Audacia.Azure.BlobStorage.Config;
+
+namespace Audacia.Azure.BlobStorage.Exceptions
 {
     /// <summary>
     /// Exception for when there is config missing in creating an Blob services.
@@ -41,7 +43,7 @@
         }
 
         /// <summary>
-        /// Exception option for when the <see cref="IOption"/> has not been configured.
+        /// Exception option for when the <see cref="BlobStorageOption"/> has not been configured.
         /// </summary>
         /// <returns>An instance of the exception when the options have not been configured.</returns>
         public static BlobStorageConfigurationException OptionsNotConfigured()
@@ -56,8 +58,8 @@
         /// <returns>Instance of <see cref="BlobStorageConfigurationException"/>.</returns>
         public static BlobStorageConfigurationException AccountNameNotConfigured(IFormatProvider formatProvider)
         {
-            return new BlobStorageConfigurationException(string.Format(formatProvider, MissingConfigExceptionMessage,
-                "account name"));
+            var exceptionMessage = string.Format(formatProvider, MissingConfigExceptionMessage, "account name");
+            return new BlobStorageConfigurationException(exceptionMessage);
         }
 
         /// <summary>
@@ -67,8 +69,8 @@
         /// <returns>Instance of <see cref="BlobStorageConfigurationException"/>.</returns>
         public static BlobStorageConfigurationException AccountKeyNotConfigured(IFormatProvider formatProvider)
         {
-            return new BlobStorageConfigurationException(string.Format(formatProvider, MissingConfigExceptionMessage,
-                "account key"));
+            var exceptionMessage = string.Format(formatProvider, MissingConfigExceptionMessage, "account key");
+            return new BlobStorageConfigurationException(exceptionMessage);
         }
 
         /// <summary>

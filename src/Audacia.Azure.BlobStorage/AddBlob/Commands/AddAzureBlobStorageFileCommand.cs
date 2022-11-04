@@ -17,7 +17,10 @@
         /// <param name="blobName">Name of the blob.</param>
         /// <param name="filePath">Location of the file on the file system.</param>
         /// <param name="doesContainerExist">Whether the container exists for the blob to be added too.</param>
-        public AddAzureBlobStorageFileCommand(string containerName, string blobName, string filePath,
+        public AddAzureBlobStorageFileCommand(
+            string containerName, 
+            string blobName, 
+            string filePath,
             bool doesContainerExist = true) : base(containerName, blobName, doesContainerExist)
         {
             FilePath = filePath;

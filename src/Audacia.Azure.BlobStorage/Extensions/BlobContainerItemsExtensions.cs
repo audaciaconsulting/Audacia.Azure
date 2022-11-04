@@ -13,7 +13,7 @@ namespace Audacia.Azure.BlobStorage.Extensions
         /// <param name="source">The existing blob containers within the storage account.</param>
         /// <param name="newContainerName">New container name.</param>
         /// <returns>Whether the new container name exists within the current storage account.</returns>
-        public static bool AlreadyExists(this IEnumerable<BlobContainerItem> source, string newContainerName)
+        public static bool DoesBlobAlreadyExists(this IEnumerable<BlobContainerItem> source, string newContainerName)
         {
             return source.Any(container => container.Name == newContainerName);
         }

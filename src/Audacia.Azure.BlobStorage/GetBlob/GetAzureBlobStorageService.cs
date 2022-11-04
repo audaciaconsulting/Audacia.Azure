@@ -1,6 +1,7 @@
 ﻿using Audacia.Azure.BlobStorage.Common.Services;
 using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions;
+using Audacia.Azure.BlobStorage.Exceptions.BlobContainerExceptions;
 using Audacia.Azure.Common.ReturnOptions;
 using Azure.Storage.Blobs;
 using Microsoft.Extensions.Logging;
@@ -13,7 +14,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
     /// </summary>
     public class GetAzureBlobStorageService : BaseAzureBlobStorageService, IGetAzureBlobStorageService
     {
-        private string StorageAccountWithContainer => $"{StorageAccountUrl}/{{0}}";
+        private string StorageAccountWithContainer => $"{StorageAccountUrl}{{0}}";
 
         /// <summary>
         /// Constructor option for when adding the <see cref="BlobServiceClient"/> has being added to the DI.
@@ -23,7 +24,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         public GetAzureBlobStorageService(
             ILogger<GetAzureBlobStorageService> logger,
             BlobServiceClient blobServiceClient) : base(
-            logger,  blobServiceClient)
+            logger, blobServiceClient)
         {
         }
 
@@ -48,7 +49,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
         /// <returns>A <see cref="IBlobReturnOption"/> which has been configured by the generic arguments.</returns>
-        /// <exception cref="ContainerDoesNotExistException">
+        /// <exception cref="BlobContainerDoesNotExistException">
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
@@ -64,11 +65,12 @@ namespace Audacia.Azure.BlobStorage.GetBlob
 
                 var blobBytes = await GetBlobBytesAsync(containerClient, blobName).ConfigureAwait(false);
 
-                return new TResponse().Parse(blobName, blobBytes,
-                    new Uri(string.Format(FormatProvider, StorageAccountWithContainer, containerName)));
+                var blobClientUrlString = string.Format(FormatProvider, StorageAccountWithContainer, containerName);
+                var blobClientUrl = new Uri(blobClientUrlString);
+                return new TResponse().Parse(blobName, blobBytes, blobClientUrl);
             }
 
-            throw new ContainerDoesNotExistException(containerName, FormatProvider);
+            throw new BlobContainerDoesNotExistException(containerName, FormatProvider);
         }
 
         /// <summary>
@@ -81,11 +83,14 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
         /// <returns>A <see cref="IBlobReturnOption"/> which has been configured by the generic arguments.</returns>
-        /// <exception cref="ContainerDoesNotExistException">
+        /// <exception cref="BlobContainerDoesNotExistException">
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
         /// <exception cref="ArgumentNullException"><paramref name="blobNames"/> is null.</exception>
+        /// <exception cref="BlobContainerNameInvalidException">
+        /// Exception thrown when the container cannot be found within Azure.
+        /// </exception>
         public async Task<IDictionary<string, T>> GetSomeAsync<T, TResponse>(
             string containerName,
             IEnumerable<string> blobNames)
@@ -95,7 +100,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             {
                 throw new ArgumentNullException(nameof(blobNames));
             }
-            
+
             var containers = BlobServiceClient.GetBlobContainers();
             var containerExists = containers.Any(container => container.Name == containerName);
 
@@ -103,10 +108,18 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             {
                 var containerClient = BlobServiceClient.GetBlobContainerClient(containerName);
 
-                return await GetBlobsAsync<T, TResponse>(containerName, blobNames, containerClient).ConfigureAwait(false);
+                if (containerClient is null)
+                {
+                    throw BlobContainerNameInvalidException.UnableToFindWithContainerName(
+                        FormatProvider,
+                        containerName);
+                }
+
+                return await GetBlobsAsync<T, TResponse>(containerName, blobNames, containerClient)
+                    .ConfigureAwait(false);
             }
 
-            throw new ContainerDoesNotExistException(containerName, FormatProvider);
+            throw new BlobContainerDoesNotExistException(containerName, FormatProvider);
         }
 
         /// <summary>
@@ -128,8 +141,10 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             foreach (var blobName in blobNames)
             {
                 var blobBytes = await GetBlobBytesAsync(containerClient, blobName).ConfigureAwait(false);
-                var parsedResult = new TResponse().Parse(blobName, blobBytes,
-                    new Uri(string.Format(FormatProvider, StorageAccountWithContainer, containerName)));
+
+                var blobClientUrlString = string.Format(FormatProvider, StorageAccountWithContainer, containerName);
+                var blobClientUrl = new Uri(blobClientUrlString);
+                var parsedResult = new TResponse().Parse(blobName, blobBytes, blobClientUrl);
 
                 blobBytesDictionary.Add(blobName, parsedResult);
             }
@@ -145,7 +160,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
         /// <returns>A collection of <see cref="IBlobReturnOption"/> which has been configured by the generic arguments.</returns>
-        /// <exception cref="ContainerDoesNotExistException">
+        /// <exception cref="BlobContainerDoesNotExistException">
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
@@ -162,7 +177,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
                 return await GetAllBlobsAsync<T, TResponse>(containerClient, containerName).ConfigureAwait(false);
             }
 
-            throw new ContainerDoesNotExistException(containerName, FormatProvider);
+            throw new BlobContainerDoesNotExistException(containerName, FormatProvider);
         }
 
         private async Task<Dictionary<string, T>> GetAllBlobsAsync<T, TResponse>(
@@ -178,8 +193,10 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             foreach (var blob in blobs)
             {
                 var blobBytes = await GetBlobBytesAsync(containerClient, blob.Name).ConfigureAwait(false);
-                var parsedResult = new TResponse().Parse(blob.Name, blobBytes,
-                    new Uri(string.Format(FormatProvider, StorageAccountWithContainer, containerName)));
+
+                var blobClientUrlString = string.Format(FormatProvider, StorageAccountWithContainer, containerName);
+                var blobClientUrl = new Uri(blobClientUrlString);
+                var parsedResult = new TResponse().Parse(blob.Name, blobBytes, blobClientUrl);
 
                 blobBytesDictionary.Add(blob.Name, parsedResult);
             }

@@ -17,7 +17,10 @@
         /// <param name="blobName">Name of the blob.</param>
         /// <param name="blobData">Data of the blob.</param>
         /// <param name="doesContainerExist">Whether the container exists for the blob to be added too.</param>
-        public AddAzureBlobStorageStreamCommand(string containerName, string blobName, Stream blobData,
+        public AddAzureBlobStorageStreamCommand(
+            string containerName, 
+            string blobName,
+            Stream blobData,
             bool doesContainerExist = true) : base(containerName, blobName, doesContainerExist)
         {
             BlobData = blobData;

@@ -12,10 +12,10 @@ namespace Audacia.Azure.StorageQueue.GetMessages
         /// Returns the top message from a queue.
         /// </summary>
         /// <param name="command">
-        /// Containing information of the queue name and whether to delete the message from storage after it has been received.
+        /// Containing information of the queue name and whether to delete the message after it has been received.
         /// </param>
-        /// <returns>The message from the queue if there is one.</returns>
-        Task<AzureQueueStorageMessage> GetAsync(GetMessageStorageQueueCommand command);
+        /// <returns>The message from the queue if there is one, otherwise null.</returns>
+        Task<AzureQueueStorageMessage?> GetAsync(GetMessageStorageQueueCommand command);
 
         /// <summary>
         /// Return a custom amount of messages from a queue.

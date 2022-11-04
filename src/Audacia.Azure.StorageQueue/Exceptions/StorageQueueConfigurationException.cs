@@ -56,8 +56,11 @@
         /// <returns>Instance of <see cref="StorageQueueConfigurationException"/>.</returns>
         public static StorageQueueConfigurationException AccountNameNotConfigured(IFormatProvider formatProvider)
         {
-            return new StorageQueueConfigurationException(string.Format(formatProvider, MissingConfigExceptionMessage,
-                "account name"));
+            var exceptionMessage = string.Format(
+                formatProvider,
+                MissingConfigExceptionMessage,
+                "account name");
+            return new StorageQueueConfigurationException(exceptionMessage);
         }
 
         /// <summary>
@@ -67,8 +70,11 @@
         /// <returns>Instance of <see cref="StorageQueueConfigurationException"/>.</returns>
         public static StorageQueueConfigurationException AccountKeyNotConfigured(IFormatProvider formatProvider)
         {
-            return new StorageQueueConfigurationException(string.Format(formatProvider, MissingConfigExceptionMessage,
-                "account key"));
+            var exceptionMessage = string.Format(
+                formatProvider,
+                MissingConfigExceptionMessage,
+                "account key");
+            return new StorageQueueConfigurationException(exceptionMessage);
         }
 
         /// <summary>

@@ -41,7 +41,7 @@ namespace Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions
         /// <param name="formatProvider">The format provider.</param>
         public BlobDataCannotBeNullException(string blobName, BlobDataType blobDataType, IFormatProvider formatProvider)
             : base(
-                string.Format(formatProvider, TemplateExceptionMessage, blobName, blobDataType.ToString()))
+                string.Format(formatProvider, TemplateExceptionMessage, blobName, blobDataType))
         {
         }
     }

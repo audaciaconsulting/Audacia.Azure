@@ -8,15 +8,21 @@ namespace Audacia.Azure.Common.ReturnOptions.ImageOption
     public enum ImageType
     {
         /// <summary>
+        /// Enum value for if image is unknown.
+        /// </summary>
+        [EnumMember(Value = "None")] 
+        None = 0,
+        
+        /// <summary>
         /// Enum value for if image is PNG.
         /// </summary>
-        [EnumMember(Value = "png")]
-        Png,
-        
+        [EnumMember(Value = "png")] 
+        Png = 100,
+
         /// <summary>
         /// Enum value for if image is JPG.
         /// </summary>
-        [EnumMember(Value = "jpg")]
-        Jpg
+        [EnumMember(Value = "jpg")] 
+        Jpg = 200
     }
 }

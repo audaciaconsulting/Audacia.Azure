@@ -29,10 +29,13 @@ namespace Audacia.Azure.StorageQueue.Common.Services
         /// </summary>
         protected IFormatProvider FormatProvider { get; }
 
+        private string StorageAccountString =>
+            string.Format(FormatProvider, _storageAccountUrl, _accountName);
+
         /// <summary>
         ///  Gets the Url of the Azure Storage account.
         /// </summary>
-        protected Uri StorageAccountUrl => new(string.Format(FormatProvider, _storageAccountUrl, _accountName));
+        protected Uri StorageAccountUrl => new(StorageAccountString);
 
         /// <summary>
         ///  Gets the connection string used to connect to the Azure Storage account.
@@ -79,8 +82,11 @@ namespace Audacia.Azure.StorageQueue.Common.Services
 
             _accountName = queueStorageConfig.Value.AccountName;
 
-            StorageAccountConnectionString = string.Format(FormatProvider, _storageAccountConnectionString,
-                queueStorageConfig.Value.AccountName, queueStorageConfig.Value.AccountKey);
+            StorageAccountConnectionString = string.Format(
+                FormatProvider,
+                _storageAccountConnectionString,
+                queueStorageConfig.Value.AccountName,
+                queueStorageConfig.Value.AccountKey);
         }
 
         /// <summary>

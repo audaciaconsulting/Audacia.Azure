@@ -40,7 +40,9 @@
         /// <param name="blobName">Name of the blob which has empty data.</param>
         /// <param name="blobData">Invalid base 64 string.</param>
         /// <param name="formatProvider">The format provider.</param>
-        public BlobDataCannotBeInvalidBaseSixtyFourException(string blobName, string blobData,
+        public BlobDataCannotBeInvalidBaseSixtyFourException(
+            string blobName, 
+            string blobData,
             IFormatProvider formatProvider)
             : base(string.Format(formatProvider, TemplateExceptionMessage, blobName, blobData))
         {

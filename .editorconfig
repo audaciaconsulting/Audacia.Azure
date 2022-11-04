@@ -35,7 +35,7 @@ dotnet_diagnostic.ACL1005.severity = none
 dotnet_diagnostic.ACL1006.severity = error
 
 # ACL1007: ThenByDescending follows OrderBy or OrderByDescending.
-dotnet_diagnostic.ACL1007.severity = suggestion
+dotnet_diagnostic.ACL1007.severity = error
 
 # Controller action should have at least one ProducesResponseType attribute
 dotnet_diagnostic.ACL1008.severity = none
@@ -56,7 +56,7 @@ dotnet_diagnostic.AV1010.severity = error
 dotnet_diagnostic.AV1115.severity = error
 
 # Return type in method signature should be a collection interface instead of a concrete type
-dotnet_diagnostic.AV1130.severity = suggestion
+dotnet_diagnostic.AV1130.severity = error
 
 # Properties, arguments and return values representing strings, collections or tasks should never be `null`
 dotnet_diagnostic.AV1135.severity = error
@@ -95,7 +95,7 @@ dotnet_diagnostic.AV1522.severity = none
 dotnet_diagnostic.AV1530.severity = error
 
 # Avoid nested loops
-dotnet_diagnostic.AV1532.severity = suggestion
+dotnet_diagnostic.AV1532.severity = error
 
 # Always add a block after the keywords if, else, do, while, for, foreach and case *** Suppress as covered by RCS1007 ***
 dotnet_diagnostic.AV1535.severity = none
@@ -128,10 +128,10 @@ dotnet_diagnostic.AV1562.severity = error
 dotnet_diagnostic.AV1564.severity = warning
 
 # Don't use parameters as temporary variables
-dotnet_diagnostic.AV1568.severity = suggestion
+dotnet_diagnostic.AV1568.severity = error
 
 # Write code that is easy to debug
-dotnet_diagnostic.AV1580.severity = suggestion
+dotnet_diagnostic.AV1580.severity = error
 
 # Don't include numbers in variables, parameters and type members
 dotnet_diagnostic.AV1704.severity = error
@@ -140,7 +140,7 @@ dotnet_diagnostic.AV1704.severity = error
 dotnet_diagnostic.AV1706.severity = none
 
 # Name types using nouns, noun phrases or adjective phrases
-dotnet_diagnostic.AV1708.severity = suggestion
+dotnet_diagnostic.AV1708.severity = error
 
 # Don't repeat the name of a class or enumeration in its members
 dotnet_diagnostic.AV1710.severity = error
@@ -152,7 +152,7 @@ dotnet_diagnostic.AV1711.severity = error
 dotnet_diagnostic.AV1712.severity = error
 
 # Properly name properties
-dotnet_diagnostic.AV1715.severity = suggestion
+dotnet_diagnostic.AV1715.severity = error
 
 # Prefix an event handler with 'On'
 dotnet_diagnostic.AV1738.severity = error
@@ -212,7 +212,7 @@ dotnet_diagnostic.CA1010.severity = error
 dotnet_diagnostic.CA1012.severity = none
 
 # [DESIGN] Mark assemblies with CLSCompliant
-dotnet_diagnostic.CA1014.severity = suggestion
+dotnet_diagnostic.CA1014.severity = error
 
 # [DESIGN] Mark assemblies with assembly version
 dotnet_diagnostic.CA1016.severity = none
@@ -242,7 +242,7 @@ dotnet_diagnostic.CA1030.severity = none
 dotnet_diagnostic.CA1031.severity = error
 
 # [DESIGN] Implement standard exception constructors
-dotnet_diagnostic.CA1032.severity = suggestion
+dotnet_diagnostic.CA1032.severity = error
 
 # [DESIGN] Interface methods should be callable by child types
 dotnet_diagnostic.CA1033.severity = error
@@ -290,7 +290,7 @@ dotnet_diagnostic.CA1060.severity = none
 dotnet_diagnostic.CA1061.severity = error
 
 # [DESIGN] Validate arguments of public methods
-dotnet_diagnostic.CA1062.severity = suggestion
+dotnet_diagnostic.CA1062.severity = error
 
 # [DESIGN] Implement IDisposable Correctly
 dotnet_diagnostic.CA1063.severity = error
@@ -407,7 +407,7 @@ dotnet_diagnostic.CA1806.severity = error
 dotnet_diagnostic.CA1810.severity = error
 
 # [PERFORMANCE] Avoid uninstantiated internal classes
-dotnet_diagnostic.CA1812.severity = suggestion
+dotnet_diagnostic.CA1812.severity = error
 
 # [PERFORMANCE] Avoid unsealed attributes
 dotnet_diagnostic.CA1813.severity = error
@@ -524,7 +524,7 @@ dotnet_diagnostic.CA2225.severity = error
 dotnet_diagnostic.CA2226.severity = error
 
 # [USAGE] Collection properties should be read only
-dotnet_diagnostic.CA2227.severity = suggestion
+dotnet_diagnostic.CA2227.severity = error
 
 # [USAGE] Implement serialization constructors
 dotnet_diagnostic.CA2229.severity = error
@@ -947,7 +947,7 @@ dotnet_diagnostic.RCS1014.severity = none
 dotnet_diagnostic.RCS1015.severity = error
 
 # [USAGE] Use expression-bodied member
-dotnet_diagnostic.RCS1016.severity = suggestion
+dotnet_diagnostic.RCS1016.severity = error
 
 # [STYLE] Avoid multiline expression body
 dotnet_diagnostic.RCS1017.severity = none
@@ -962,7 +962,7 @@ dotnet_diagnostic.RCS1019.severity = none
 dotnet_diagnostic.RCS1020.severity = none
 
 # [SIMPLIFICATION] Simplify lambda expression
-dotnet_diagnostic.RCS1021.severity = suggestion
+dotnet_diagnostic.RCS1021.severity = error
 
 # [FORMATTING] Format empty block
 dotnet_diagnostic.RCS1023.severity = none
@@ -989,7 +989,7 @@ dotnet_diagnostic.RCS1029.severity = none
 dotnet_diagnostic.RCS1030.severity = error
 
 # [REDUNDANCY] Remove unnecessary braces
-dotnet_diagnostic.RCS1031.severity = suggestion
+dotnet_diagnostic.RCS1031.severity = error
 
 # [REDUNDANCY] Remove redundant parentheses
 dotnet_diagnostic.RCS1032.severity = error
@@ -1169,7 +1169,7 @@ dotnet_diagnostic.RCS1093.severity = error
 dotnet_diagnostic.RCS1094.severity = error
 
 # [PERFORMANCE] Use bitwise operation instead of calling 'HasFlag'
-dotnet_diagnostic.RCS1096.severity = suggestion
+dotnet_diagnostic.RCS1096.severity = error
 
 # [REDUNDANCY] Remove redundant 'ToString' call
 dotnet_diagnostic.RCS1097.severity = error
@@ -1247,7 +1247,7 @@ dotnet_diagnostic.RCS1138.severity = none
 dotnet_diagnostic.RCS1139.severity = none
 
 # [MAINTAINABILITY] Add exception to documentation comment
-dotnet_diagnostic.RCS1140.severity = suggestion
+dotnet_diagnostic.RCS1140.severity = error
 
 # [MAINTAINABILITY] Add 'param' element to documentation comment *** Suppress as covered by SA1611 ***
 dotnet_diagnostic.RCS1141.severity = none
@@ -1289,7 +1289,7 @@ dotnet_diagnostic.RCS1159.severity = none
 dotnet_diagnostic.RCS1160.severity = error
 
 # [READABILITY] Enum should declare explicit values
-dotnet_diagnostic.RCS1161.severity = suggestion
+dotnet_diagnostic.RCS1161.severity = error
 
 # [READABILITY] Avoid chain of assignments
 dotnet_diagnostic.RCS1162.severity = error
@@ -1313,7 +1313,7 @@ dotnet_diagnostic.RCS1168.severity = none
 dotnet_diagnostic.RCS1169.severity = error
 
 # [DESIGN] Use read-only auto-implemented property
-dotnet_diagnostic.RCS1170.severity = suggestion
+dotnet_diagnostic.RCS1170.severity = error
 
 # [SIMPLIFICATION] Simplify lazy initialization
 dotnet_diagnostic.RCS1171.severity = error
@@ -1328,34 +1328,34 @@ dotnet_diagnostic.RCS1173.severity = error
 dotnet_diagnostic.RCS1174.severity = none
 
 # [REDUNDANCY] Unused this parameter
-dotnet_diagnostic.RCS1175.severity = suggestion
+dotnet_diagnostic.RCS1175.severity = error
 
 # [SIMPLIFICATION] Use 'var' instead of explicit type (when the type is not obvious)
-dotnet_diagnostic.RCS1176.severity = suggestion
+dotnet_diagnostic.RCS1176.severity = error
 
 # [SIMPLIFICATION] Use 'var' instead of explicit type (in foreach)
-dotnet_diagnostic.RCS1177.severity = suggestion
+dotnet_diagnostic.RCS1177.severity = error
 
 # [SIMPLIFICATION] Use return instead of assignment
-dotnet_diagnostic.RCS1179.severity = suggestion
+dotnet_diagnostic.RCS1179.severity = error
 
 # [SIMPLIFICATION] Inline lazy initialization *** Suppress as arguably leads to less readable code ***
 dotnet_diagnostic.RCS1180.severity = none
 
 # [GENERAL] Convert comment to documentation comment
-dotnet_diagnostic.RCS1181.severity = suggestion
+dotnet_diagnostic.RCS1181.severity = error
 
 # [REDUNDANCY] Remove redundant base interface
-dotnet_diagnostic.RCS1182.severity = suggestion
+dotnet_diagnostic.RCS1182.severity = error
 
 # [FORMATTING] Format initializer with single expression on single line *** Suppress as disagree ***
 dotnet_diagnostic.RCS1183.severity = none
 
 # [FORMATTING] Format conditional expression (format ? and : on next line)
-dotnet_diagnostic.RCS1184.severity = suggestion
+dotnet_diagnostic.RCS1184.severity = error
 
 # [FORMATTING] Format single-line block
-dotnet_diagnostic.RCS1185.severity = suggestion
+dotnet_diagnostic.RCS1185.severity = error
 
 # [DESIGN] Use constant instead of field *** Suppress as covered by CA1802 ***
 dotnet_diagnostic.RCS1187.severity = none
@@ -1367,7 +1367,7 @@ dotnet_diagnostic.RCS1188.severity = none
 dotnet_diagnostic.RCS1190.severity = error
 
 # [READABILITY] Declare enum value as combination of names
-dotnet_diagnostic.RCS1191.severity = suggestion
+dotnet_diagnostic.RCS1191.severity = error
 
 # [READABILITY] Use regular string literal instead of verbatim string literal
 dotnet_diagnostic.RCS1192.severity = error
@@ -1379,7 +1379,7 @@ dotnet_diagnostic.RCS1193.severity = error
 dotnet_diagnostic.RCS1194.severity = none
 
 # [SIMPLIFICATION] Use ^ operator
-dotnet_diagnostic.RCS1195.severity = suggestion
+dotnet_diagnostic.RCS1195.severity = error
 
 # [STYLE] Call extension method as instance method
 dotnet_diagnostic.RCS1196.severity = error
@@ -1391,10 +1391,10 @@ dotnet_diagnostic.RCS1197.severity = error
 dotnet_diagnostic.RCS1199.severity = error
 
 # [USAGE] Call 'Enumerable.ThenBy' instead of 'Enumerable.OrderBy'
-dotnet_diagnostic.RCS1200.severity = suggestion
+dotnet_diagnostic.RCS1200.severity = error
 
 # [SIMPLIFICATION] Use method chaining
-dotnet_diagnostic.RCS1201.severity = suggestion
+dotnet_diagnostic.RCS1201.severity = error
 
 # [USAGE] Avoid NullReferenceException
 dotnet_diagnostic.RCS1202.severity = error
@@ -1439,7 +1439,7 @@ dotnet_diagnostic.RCS1217.severity = none
 dotnet_diagnostic.RCS1218.severity = error
 
 # [PERFORMANCE] Call 'Enumerable.Skip' and 'Enumerable.Any' instead of 'Enumerable.Count'
-dotnet_diagnostic.RCS1219.severity = suggestion
+dotnet_diagnostic.RCS1219.severity = error
 
 # [USAGE] Use pattern matching instead of combination of 'is' operator and cast operator
 dotnet_diagnostic.RCS1220.severity = error
@@ -1448,28 +1448,28 @@ dotnet_diagnostic.RCS1220.severity = error
 dotnet_diagnostic.RCS1221.severity = error
 
 # [READABILITY] Merge preprocessor directives
-dotnet_diagnostic.RCS1222.severity = suggestion
+dotnet_diagnostic.RCS1222.severity = error
 
 # [DESIGN] Make method an extension method *** Suppress as covered by AV1008 ***
 dotnet_diagnostic.RCS1224.severity = none
 
 # [DESIGN] Make class sealed
-dotnet_diagnostic.RCS1225.severity = suggestion
+dotnet_diagnostic.RCS1225.severity = error
 
 # [USAGE] Add paragraph to documentation comment
-dotnet_diagnostic.RCS1226.severity = suggestion
+dotnet_diagnostic.RCS1226.severity = error
 
 # [DESIGN] Validate arguments correctly
 dotnet_diagnostic.RCS1227.severity = error
 
 # [READABILITY] Unused element in documentation comment
-dotnet_diagnostic.RCS1228.severity = suggestion
+dotnet_diagnostic.RCS1228.severity = error
 
 # [USAGE] Use async/await when necessary
 dotnet_diagnostic.RCS1229.severity = error
 
 # [READABILITY] Order elements in documentation comment
-dotnet_diagnostic.RCS1232.severity = suggestion
+dotnet_diagnostic.RCS1232.severity = error
 
 # [USAGE] Use short-circuiting operator
 dotnet_diagnostic.RCS1233.severity = error
@@ -1478,19 +1478,19 @@ dotnet_diagnostic.RCS1233.severity = error
 dotnet_diagnostic.RCS1234.severity = error
 
 # [PERFORMANCE] Optimize method call
-dotnet_diagnostic.RCS1235.severity = suggestion
+dotnet_diagnostic.RCS1235.severity = error
 
 # [USAGE] Use exception filter
 dotnet_diagnostic.RCS1236.severity = error
 
 # [USAGE] Use bit shift operator
-dotnet_diagnostic.RCS1237.severity = suggestion
+dotnet_diagnostic.RCS1237.severity = error
 
 # [READABILITY] Avoid nested ?: operators
-dotnet_diagnostic.RCS1238.severity = suggestion
+dotnet_diagnostic.RCS1238.severity = error
 
 # [READABILITY] Use 'for' statement instead of 'while' statement
-dotnet_diagnostic.RCS1239.severity = suggestion
+dotnet_diagnostic.RCS1239.severity = error
 
 # [REDUNDANCY] Operator is unnecessary
 dotnet_diagnostic.RCS1240.severity = error
@@ -1649,10 +1649,10 @@ dotnet_diagnostic.SA1002.severity = error
 dotnet_diagnostic.SA1003.severity = error
 
 # A line within a documentation header above a C# element does not begin with a single space.
-dotnet_diagnostic.SA1004.severity = suggestion
+dotnet_diagnostic.SA1004.severity = error
 
 # A single-line comment within a C# code file does not begin with a single space.
-dotnet_diagnostic.SA1005.severity = suggestion
+dotnet_diagnostic.SA1005.severity = error
 
 # A C# preprocessor-type keyword is preceded by space.
 dotnet_diagnostic.SA1006.severity = error
@@ -1775,7 +1775,7 @@ dotnet_diagnostic.SA1115.severity = error
 dotnet_diagnostic.SA1116.severity = error
 
 # The parameters to a C# method or indexer call or declaration are not all on the same line or each on a separate line.
-dotnet_diagnostic.SA1117.severity = suggestion
+dotnet_diagnostic.SA1117.severity = error
 
 # A parameter to a C# method or indexer, other than the first parameter, spans across multiple lines.
 dotnet_diagnostic.SA1118.severity = error
@@ -1835,7 +1835,7 @@ dotnet_diagnostic.SA1135.severity = none
 dotnet_diagnostic.SA1136.severity = none
 
 # Two sibling elements which each start on their own line have different levels of indentation.
-dotnet_diagnostic.SA1137.severity = suggestion
+dotnet_diagnostic.SA1137.severity = error
 
 # Use literal suffix notation instead of casting.
 dotnet_diagnostic.SA1139.severity = error
@@ -1877,7 +1877,7 @@ dotnet_diagnostic.SA1208.severity = error
 dotnet_diagnostic.SA1209.severity = error
 
 # The using directives within a C# code file are not sorted alphabetically by namespace.
-dotnet_diagnostic.SA1210.severity = suggestion
+dotnet_diagnostic.SA1210.severity = error
 
 # The using-alias directives within a C# code file are not sorted alphabetically by alias name.
 dotnet_diagnostic.SA1211.severity = error
@@ -1955,7 +1955,7 @@ dotnet_diagnostic.SA1400.severity = error
 dotnet_diagnostic.SA1401.severity = error
 
 # A C# code file contains more than one unique type.
-dotnet_diagnostic.SA1402.severity = suggestion
+dotnet_diagnostic.SA1402.severity = error
 
 # A C# code file contains more than one namespace.
 dotnet_diagnostic.SA1403.severity = error
@@ -2072,22 +2072,22 @@ dotnet_diagnostic.SA1603.severity = error
 dotnet_diagnostic.SA1604.severity = error
 
 # The `<summary>` or `<content>` tag within the documentation header for a C# code element is missing or empty.
-dotnet_diagnostic.SA1605.severity = suggestion
+dotnet_diagnostic.SA1605.severity = error
 
 # The `<summary>` tag within the documentation header for a C# code element is empty.
-dotnet_diagnostic.SA1606.severity = suggestion
+dotnet_diagnostic.SA1606.severity = error
 
 # The `<summary>` or `<content>` tag within the documentation header for a C# code element is empty.
-dotnet_diagnostic.SA1607.severity = suggestion
+dotnet_diagnostic.SA1607.severity = error
 
 # The `<summary>` tag within an element's Xml header documentation contains the default text generated by Visual Studio during the creation of the element.
-dotnet_diagnostic.SA1608.severity = suggestion
+dotnet_diagnostic.SA1608.severity = error
 
 # The Xml header documentation for a C# property does not contain a `<value>` tag.
 dotnet_diagnostic.SA1609.severity = none
 
 # The Xml header documentation for a C# property contains an empty `<value>` tag.
-dotnet_diagnostic.SA1610.severity = suggestion
+dotnet_diagnostic.SA1610.severity = error
 
 # A C# method, constructor, delegate or indexer element is missing documentation for one or more of its parameters.
 dotnet_diagnostic.SA1611.severity = none
@@ -2099,7 +2099,7 @@ dotnet_diagnostic.SA1612.severity = error
 dotnet_diagnostic.SA1613.severity = error
 
 # A `<param>` tag within a C# element's documentation header is empty.
-dotnet_diagnostic.SA1614.severity = suggestion
+dotnet_diagnostic.SA1614.severity = error
 
 # A C# element is missing documentation for its return value.
 dotnet_diagnostic.SA1615.severity = none
@@ -2111,19 +2111,19 @@ dotnet_diagnostic.SA1616.severity = none
 dotnet_diagnostic.SA1617.severity = error
 
 # A generic C# element is missing documentation for one or more of its generic type parameters.
-dotnet_diagnostic.SA1618.severity = suggestion
+dotnet_diagnostic.SA1618.severity = error
 
 # A generic, partial C# element is missing documentation for one or more of its generic type parameters, and the documentation for the element contains a `<summary>` tag.
-dotnet_diagnostic.SA1619.severity = suggestion
+dotnet_diagnostic.SA1619.severity = error
 
 # The `<typeparam>` tags within the Xml header documentation for a generic C# element do not match the generic type parameters on the element.
 dotnet_diagnostic.SA1620.severity = error
 
 # A `<typeparam>` tag within the Xml header documentation for a generic C# element is missing a name attribute, or contains an empty name attribute.
-dotnet_diagnostic.SA1621.severity = suggestion
+dotnet_diagnostic.SA1621.severity = error
 
 # A `<typeparam>` tag within the Xml header documentation for a generic C# element is empty.
-dotnet_diagnostic.SA1622.severity = suggestion
+dotnet_diagnostic.SA1622.severity = error
 
 # The documentation text within a C# property's `<summary>` tag does not match the accessors within the property.
 dotnet_diagnostic.SA1623.severity = error
@@ -2138,19 +2138,19 @@ dotnet_diagnostic.SA1625.severity = error
 dotnet_diagnostic.SA1626.severity = error
 
 # The Xml header documentation for a C# code element contains an empty tag.
-dotnet_diagnostic.SA1627.severity = suggestion
+dotnet_diagnostic.SA1627.severity = error
 
 # A section of the Xml header documentation for a C# element does not begin with a capital letter.
 dotnet_diagnostic.SA1628.severity = error
 
 # A section of the Xml header documentation for a C# element does not end with a period (also known as a full stop).
-dotnet_diagnostic.SA1629.severity = suggestion
+dotnet_diagnostic.SA1629.severity = error
 
 # A section of the Xml header documentation for a C# element does not contain any whitespace between words.
 dotnet_diagnostic.SA1630.severity = error
 
 # A section of the Xml header documentation for a C# element does not contain enough alphabetic characters.
-dotnet_diagnostic.SA1631.severity = suggestion
+dotnet_diagnostic.SA1631.severity = error
 
 # From StyleCop 4.5 this rule is disabled by default.
 dotnet_diagnostic.SA1632.severity = none
@@ -2189,7 +2189,7 @@ dotnet_diagnostic.SA1642.severity = none
 dotnet_diagnostic.SA1643.severity = none
 
 # A section within the Xml documentation header for a C# element contains blank lines.
-dotnet_diagnostic.SA1644.severity = suggestion
+dotnet_diagnostic.SA1644.severity = error
 
 # An included Xml documentation file does not exist.
 dotnet_diagnostic.SA1645.severity = error
@@ -2207,10 +2207,10 @@ dotnet_diagnostic.SA1648.severity = error
 dotnet_diagnostic.SA1649.severity = error
 
 # The element documentation for the element contains one or more spelling mistakes or unrecognized words.
-dotnet_diagnostic.SA1650.severity = suggestion
+dotnet_diagnostic.SA1650.severity = error
 
 # The documentation for the element contains one or more `<placeholder>` elements.
-dotnet_diagnostic.SA1651.severity = suggestion
+dotnet_diagnostic.SA1651.severity = error
 
 # This rule was moved to [SA0001](SA0001.md)
 dotnet_diagnostic.SA1652.severity = none

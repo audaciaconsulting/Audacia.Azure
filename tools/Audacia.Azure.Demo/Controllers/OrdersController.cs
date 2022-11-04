@@ -56,6 +56,8 @@ namespace Audacia.Azure.Demo.Controllers
         [ProducesResponseType(typeof(SendReceipt), StatusCodes.Status200OK)]
         public async Task<IActionResult> Post([FromForm] AddQueueRequest request)
         {
+            _ = request ?? throw new ArgumentNullException(nameof(request));
+            
             var messages = await _addAzureQueueStorageService.ExecuteAsync(request.QueueName, request.Message);
 
             return Ok(messages);

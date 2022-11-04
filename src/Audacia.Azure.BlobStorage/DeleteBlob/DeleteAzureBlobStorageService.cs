@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
-using Audacia.Azure.BlobStorage.Common.Services;
+﻿using Audacia.Azure.BlobStorage.Common.Services;
 using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.DeleteBlob.Commands;
 using Audacia.Azure.BlobStorage.Exceptions;
 using Azure;
 using Azure.Storage.Blobs;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Audacia.Azure.BlobStorage.DeleteBlob

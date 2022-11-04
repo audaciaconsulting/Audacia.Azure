@@ -1,3 +1,4 @@
+#pragma warning disable CA1812
 using Audacia.Azure.Demo.Extensions.ServiceCollectionExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,3 +30,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+#pragma warning restore CA1812

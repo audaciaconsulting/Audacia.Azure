@@ -51,7 +51,7 @@ namespace Audacia.Azure.StorageQueue.GetMessages
             {
                 var nextMessage = await QueueClient.ReceiveMessageAsync().ConfigureAwait(false);
 
-                if (command.DeleteMessageAfterReceiving)
+                if (command.ShouldDeleteMessageAfterReceiving)
                 {
                     await DeleteMessageAsync(nextMessage.Value).ConfigureAwait(false);
                 }
@@ -112,7 +112,7 @@ namespace Audacia.Azure.StorageQueue.GetMessages
             GetMessagesStorageQueueCommand command,
             IEnumerable<QueueMessage> nextMessages)
         {
-            if (command.DeleteMessageAfterReceiving)
+            if (command.ShouldDeleteMessageAfterReceiving)
             {
                 foreach (var nextMessage in nextMessages)
                 {

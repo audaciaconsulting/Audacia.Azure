@@ -212,7 +212,8 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <returns>A boolean on whether the blob has been successfully uploaded.</returns>
         private static async Task<bool> UploadFileBlobAsync(IEnumerable<byte> blobData, BlobClient blobClient)
         {
-            using var ms = new MemoryStream(blobData.ToArray(), false);
+            var blobDataArray = blobData.ToArray();
+            using var ms = new MemoryStream(blobDataArray, false);
             await blobClient.UploadAsync(ms).ConfigureAwait(false);
 
             return true;

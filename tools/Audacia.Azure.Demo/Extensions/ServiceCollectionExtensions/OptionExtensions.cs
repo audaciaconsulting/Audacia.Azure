@@ -15,6 +15,8 @@ namespace Audacia.Azure.Demo.Extensions.ServiceCollectionExtensions
         public static IServiceCollection AddConfigOptions(this IServiceCollection serviceCollection,
             IConfiguration configuration)
         {
+            _ = configuration ?? throw new ArgumentNullException(nameof(configuration));
+
             return serviceCollection
                 .Configure<BlobStorageOption>(configuration.GetSection(BlobStorageOption.OptionConfigLocation))
                 .Configure<QueueStorageOption>(configuration.GetSection(QueueStorageOption.OptionConfigLocation));

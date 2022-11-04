@@ -1,5 +1,6 @@
 ﻿using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions;
+using Audacia.Azure.BlobStorage.Exceptions.BlobContainerExceptions;
 using Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions;
 using Audacia.Azure.BlobStorage.Models;
 using Audacia.Azure.BlobStorage.UpdateBlob.Commands;
@@ -45,7 +46,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-        /// <exception cref="ContainerDoesNotExistException">
+        /// <exception cref="BlobContainerDoesNotExistException">
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
@@ -64,7 +65,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
                     return await UpdateBlobInBlobStorageAsync(container, command, blobData).ConfigureAwait(false);
                 }
 
-                throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
+                throw new BlobContainerDoesNotExistException(command.ContainerName, FormatProvider);
             }
 
             throw new ArgumentNullException(nameof(command));
@@ -79,7 +80,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// <exception cref="BlobDataCannotBeNullException"><paramref name="fileLocation"/> is null.</exception>
         /// <exception cref="BlobDataCannotBeEmptyException"><paramref name="fileLocation"/> is an empty string.</exception>
         /// <exception cref="BlobFileLocationNeedsToExistException">No file exists at <paramref name="fileLocation"/>.</exception>
-        private byte[] FileLocationBlobChecks(string blobName, string fileLocation)
+        private IEnumerable<byte> FileLocationBlobChecks(string blobName, string fileLocation)
         {
             if (fileLocation == null)
             {
@@ -93,7 +94,10 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
 
             if (!File.Exists(fileLocation))
             {
-                throw new BlobFileLocationNeedsToExistException(blobName, BlobDataType.FileLocation, fileLocation,
+                throw new BlobFileLocationNeedsToExistException(
+                    blobName, 
+                    BlobDataType.FileLocation, 
+                    fileLocation,
                     FormatProvider);
             }
 
@@ -107,7 +111,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        /// <exception cref="ContainerDoesNotExistException">
+        /// <exception cref="BlobContainerDoesNotExistException">
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
@@ -127,7 +131,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
                     return await UpdateBlobInBlobStorageAsync(container, command, blobData).ConfigureAwait(false);
                 }
 
-                throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
+                throw new BlobContainerDoesNotExistException(command.ContainerName, FormatProvider);
             }
 
             throw new ArgumentNullException(nameof(command));
@@ -161,7 +165,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        /// <exception cref="ContainerDoesNotExistException">
+        /// <exception cref="BlobContainerDoesNotExistException">
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
@@ -181,7 +185,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
                     return await UpdateBlobInBlobStorageAsync(container, command, blobData).ConfigureAwait(false);
                 }
 
-                throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
+                throw new BlobContainerDoesNotExistException(command.ContainerName, FormatProvider);
             }
 
             throw new ArgumentNullException(nameof(command));
@@ -204,7 +208,9 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
 
             if (isValidBaseSixtyFour)
             {
-                throw new BlobDataCannotBeInvalidBaseSixtyFourException(blobName, baseSixtyFourBlobData,
+                throw new BlobDataCannotBeInvalidBaseSixtyFourException(
+                    blobName,
+                    baseSixtyFourBlobData,
                     FormatProvider);
             }
 
@@ -216,7 +222,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        /// <exception cref="ContainerDoesNotExistException">
+        /// <exception cref="BlobContainerDoesNotExistException">
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
@@ -238,7 +244,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
                     return await ReSyncBlobAsync(blobClient, command, blobData).ConfigureAwait(false);
                 }
 
-                throw new ContainerDoesNotExistException(command.ContainerName, FormatProvider);
+                throw new BlobContainerDoesNotExistException(command.ContainerName, FormatProvider);
             }
 
             throw new ArgumentNullException(nameof(command));
@@ -353,7 +359,8 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         {
             using (await blobClient.DeleteAsync().ConfigureAwait(false))
             {
-                using var ms = new MemoryStream(blobData.ToArray(), false);
+                var blobDataArray = blobData.ToArray();
+                using var ms = new MemoryStream(blobDataArray, false);
                 try
                 {
                     await blobClient.UploadAsync(ms).ConfigureAwait(false);

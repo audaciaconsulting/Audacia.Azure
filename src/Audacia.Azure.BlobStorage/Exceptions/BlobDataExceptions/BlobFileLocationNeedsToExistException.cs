@@ -43,9 +43,16 @@ namespace Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions
         /// <param name="blobDataType">The type of blob type.</param>
         /// <param name="fileLocation">The location of the file.</param>
         /// <param name="formatProvider">The format provider.</param>
-        public BlobFileLocationNeedsToExistException(string blobName, BlobDataType blobDataType, string fileLocation,
+        public BlobFileLocationNeedsToExistException(
+            string blobName, 
+            BlobDataType blobDataType,
+            string fileLocation,
             IFormatProvider formatProvider)
-            : base(string.Format(formatProvider, TemplateExceptionMessage, blobName, blobDataType.ToString(),
+            : base(string.Format(
+                formatProvider, 
+                TemplateExceptionMessage,
+                blobName,
+                blobDataType,
                 fileLocation))
         {
         }

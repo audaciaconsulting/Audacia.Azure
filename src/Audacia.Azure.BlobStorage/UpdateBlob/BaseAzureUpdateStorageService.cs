@@ -37,7 +37,7 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// <param name="filePath">Full file path for where a file is located.</param>
         /// <returns>Byte array containing the data from the file stored at <paramref name="filePath"/>.</returns>
         /// <exception cref="FileNotFoundException">Thrown when unable to find the file located at <paramref name="filePath"/>.</exception>
-        protected static byte[] GetFileData(string filePath)
+        protected static IEnumerable<byte> GetFileData(string filePath)
         {
             var fileExist = File.Exists(filePath);
 
@@ -61,17 +61,12 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
             string containerName,
             bool doesContainerExist)
         {
-            BlobContainerClient container;
             if (!doesContainerExist)
             {
-                container = await CreateContainerAsync(containerName).ConfigureAwait(false);
-            }
-            else
-            {
-                container = GetContainer(containerName);
+                return await CreateContainerAsync(containerName).ConfigureAwait(false);
             }
 
-            return container;
+            return GetContainer(containerName);
         }
     }
 }
