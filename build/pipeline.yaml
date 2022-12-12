@@ -1,7 +1,6 @@
 ﻿name: $(Year:yy)$(DayOfYear).$(Rev:r)
 trigger: [main]
 pr: { branches: { include: [main] } }
-schedules: [ { cron: "0 0 * * *", displayName: Nightly Build, branches: { include: [ main ] } } ]
 resources: { repositories: [ { repository: templates, type: git, name: Audacia/Audacia.Build } ] }
 pool: { vmImage: windows-latest }
 

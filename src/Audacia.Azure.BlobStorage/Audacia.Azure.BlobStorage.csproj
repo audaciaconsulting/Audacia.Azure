@@ -23,11 +23,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Audacia.Azure.Common\Audacia.Azure.Common.csproj" />
+      <Folder Include="Common" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Common" />
+      <ProjectReference Include="..\Audacia.Azure.Common\Audacia.Azure.Common.csproj" />
     </ItemGroup>
 
 </Project>
