@@ -65,30 +65,6 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
         throw new ArgumentNullException(nameof(command));
     }
 
-    private byte[] BaseSixtyFourBlobChecks(string blobName, string baseSixtyFourBlobData)
-    {
-        if (baseSixtyFourBlobData == null)
-        {
-            throw new BlobDataCannotBeNullException(blobName, BlobDataType.BaseSixtyFour, FormatProvider);
-        }
-
-        if (baseSixtyFourBlobData.Length == 0)
-        {
-            throw new BlobDataCannotBeEmptyException(blobName, BlobDataType.BaseSixtyFour, FormatProvider);
-        }
-
-        var isValidBaseSixtyFour = (baseSixtyFourBlobData.Length % 4 == 0) && Regex.IsMatch(baseSixtyFourBlobData, @"^[a-zA-Z0-9\+/]*={0,3}$", RegexOptions.None);
-        if (!isValidBaseSixtyFour)
-        {
-            throw new BlobDataCannotBeInvalidBaseSixtyFourException(
-                blobName,
-                baseSixtyFourBlobData,
-                FormatProvider);
-        }
-
-        return Convert.FromBase64String(baseSixtyFourBlobData);
-    }
-
     /// <summary>
     /// Adds a blob to Azure Blob Storage account when you would like to upload a blob where the data is located
     /// on the local file server.

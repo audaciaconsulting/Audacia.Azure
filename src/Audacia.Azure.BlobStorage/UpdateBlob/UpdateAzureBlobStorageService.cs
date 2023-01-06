@@ -193,39 +193,6 @@ public class UpdateAzureBlobStorageService : BaseAzureUpdateStorageService, IUpd
     }
 
     /// <summary>
-    /// Checks asdfsdaf.
-    /// </summary>
-    /// <param name="blobName">asdfasdf.</param>
-    /// <param name="baseSixtyFourBlobData">asd.</param>
-    /// <returns>bytes of base 64.</returns>
-    /// <exception cref="BlobDataCannotBeNullException">exception 1.</exception>
-    /// <exception cref="BlobDataCannotBeEmptyException">exception 2.</exception>
-    /// <exception cref="BlobDataCannotBeInvalidBaseSixtyFourException">exception 3.</exception>
-    public IEnumerable<byte> BaseSixtyFourBlobChecks(string blobName, string baseSixtyFourBlobData)
-    {
-        if (baseSixtyFourBlobData == null)
-        {
-            throw new BlobDataCannotBeNullException(blobName, BlobDataType.BaseSixtyFour, FormatProvider);
-        }
-
-        if (baseSixtyFourBlobData.Length == 0)
-        {
-            throw new BlobDataCannotBeEmptyException(blobName, BlobDataType.BaseSixtyFour, FormatProvider);
-        }
-
-        var isValidBaseSixtyFour = (baseSixtyFourBlobData.Length % 4 == 0) && Regex.IsMatch(baseSixtyFourBlobData, @"^[a-zA-Z0-9\+/]*={0,3}$", RegexOptions.None);
-        if (!isValidBaseSixtyFour)
-        {
-            throw new BlobDataCannotBeInvalidBaseSixtyFourException(
-                blobName,
-                baseSixtyFourBlobData,
-                FormatProvider);
-        }
-
-        return Convert.FromBase64String(baseSixtyFourBlobData);
-    }
-
-    /// <summary>
     /// Update an existing blob with the file data contained within the <paramref name="command.FileData"/>.
     /// </summary>
     /// <param name="command">Command request containing all the information to upload a blob.</param>

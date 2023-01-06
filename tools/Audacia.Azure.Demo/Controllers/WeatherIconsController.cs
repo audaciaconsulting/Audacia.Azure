@@ -144,6 +144,7 @@ public class WeatherForecastController : ControllerBase
 
         return BadRequest("Failed to update blob");
     }
+
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
