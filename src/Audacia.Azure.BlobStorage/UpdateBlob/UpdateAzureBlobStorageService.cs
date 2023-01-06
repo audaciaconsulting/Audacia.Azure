@@ -192,7 +192,16 @@ public class UpdateAzureBlobStorageService : BaseAzureUpdateStorageService, IUpd
         throw new ArgumentNullException(nameof(command));
     }
 
-    private byte[] BaseSixtyFourBlobChecks(string blobName, string baseSixtyFourBlobData)
+    /// <summary>
+    /// Checks asdfsdaf.
+    /// </summary>
+    /// <param name="blobName">asdfasdf.</param>
+    /// <param name="baseSixtyFourBlobData">asd.</param>
+    /// <returns>bytes of base 64.</returns>
+    /// <exception cref="BlobDataCannotBeNullException">exception 1.</exception>
+    /// <exception cref="BlobDataCannotBeEmptyException">exception 2.</exception>
+    /// <exception cref="BlobDataCannotBeInvalidBaseSixtyFourException">exception 3.</exception>
+    public IEnumerable<byte> BaseSixtyFourBlobChecks(string blobName, string baseSixtyFourBlobData)
     {
         if (baseSixtyFourBlobData == null)
         {
