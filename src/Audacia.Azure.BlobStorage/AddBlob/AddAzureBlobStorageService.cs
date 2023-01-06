@@ -3,6 +3,7 @@ using Audacia.Azure.BlobStorage.AddBlob.Commands;
 using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions;
 using Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions;
+using Audacia.Azure.BlobStorage.Extensions;
 using Audacia.Azure.BlobStorage.Models;
 using Audacia.Azure.BlobStorage.UpdateBlob;
 using Azure;
@@ -57,9 +58,9 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
 
             var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist)
                 .ConfigureAwait(false);
-            var blobData = BaseSixtyFourBlobChecks(command.BlobName, command.BlobData);
+            var blobData = command.BlobData.BaseSixtyFourBlobChecks(command.BlobName, FormatProvider);
 
-            return await UploadBlobToBlobStorageAsync(container, command, blobData).ConfigureAwait(false);
+            return await UploadBlobToBlobStorageAsync(container, command, (IEnumerable<byte>)blobData).ConfigureAwait(false);
         }
 
         throw new ArgumentNullException(nameof(command));

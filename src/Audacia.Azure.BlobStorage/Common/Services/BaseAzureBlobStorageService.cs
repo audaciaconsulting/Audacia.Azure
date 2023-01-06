@@ -180,39 +180,4 @@ public abstract class BaseAzureBlobStorageService
             throw new BlobContainerAlreadyExistsException(containerName, FormatProvider);
         }
     }
-
-    /// <summary>
-    /// Checks if the file is in valid Base64.
-    /// </summary>
-    /// <param name="blobName">BlobName is the name of the blob in Azure Blob Storage.</param>
-    /// <param name="baseSixtyFourBlobData">The data of the blob in Base64.</param>
-    /// <returns>Returuns the base64 blobdata in bytes.</returns>
-    /// <exception cref="BlobDataCannotBeNullException">NullException message.</exception>
-    /// <exception cref="BlobDataCannotBeEmptyException">Can't be empty message.</exception>
-    /// <exception cref="BlobDataCannotBeInvalidBaseSixtyFourException">Invalid base64 message.</exception>
-#pragma warning disable AV1130 // Return type in method signature should be an interface to an unchangeable collection
-    protected byte[] BaseSixtyFourBlobChecks(string blobName, string baseSixtyFourBlobData)
-#pragma warning restore AV1130 // Return type in method signature should be an interface to an unchangeable collection
-    {
-        if (baseSixtyFourBlobData == null)
-        {
-            throw new BlobDataCannotBeNullException(blobName, BlobDataType.BaseSixtyFour, FormatProvider);
-        }
-
-        if (baseSixtyFourBlobData.Length == 0)
-        {
-            throw new BlobDataCannotBeEmptyException(blobName, BlobDataType.BaseSixtyFour, FormatProvider);
-        }
-
-        var isValidBaseSixtyFour = (baseSixtyFourBlobData.Length % 4 == 0) && Regex.IsMatch(baseSixtyFourBlobData, @"^[a-zA-Z0-9\+/]*={0,3}$", RegexOptions.None);
-        if (!isValidBaseSixtyFour)
-        {
-            throw new BlobDataCannotBeInvalidBaseSixtyFourException(
-                blobName,
-                baseSixtyFourBlobData,
-                FormatProvider);
-        }
-
-        return Convert.FromBase64String(baseSixtyFourBlobData);
-    }
 }

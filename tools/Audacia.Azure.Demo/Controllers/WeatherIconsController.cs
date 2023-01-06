@@ -129,7 +129,7 @@ public class WeatherForecastController : ControllerBase
 
             fileBytes = ms.ToArray();
         }
-        String fileBase64 = Convert.ToBase64String(fileBytes);
+        var fileBase64 = Convert.ToBase64String(fileBytes);
 
         var command = new UpdateBlobStorageBaseSixtyFourCommand(updateBlobRequest.ContainerName,
             updateBlobRequest.BlobName,
