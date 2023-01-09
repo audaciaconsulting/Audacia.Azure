@@ -1,5 +1,6 @@
 #pragma warning disable CA1812
 using Audacia.Azure.Demo.Extensions.ServiceCollectionExtensions;
+using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
