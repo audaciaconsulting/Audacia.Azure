@@ -7,6 +7,7 @@ using Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions;
 using Audacia.Azure.BlobStorage.Extensions;
 using Audacia.Azure.BlobStorage.Models;
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -162,22 +163,43 @@ public abstract class BaseAzureBlobStorageService
     /// <exception cref="BlobContainerAlreadyExistsException">
     /// Exception thrown when configuration wants to create a new container however it already exists.
     /// </exception>
+    /// <returns>Returns a boolean representing if the container exists within the storage account.</returns>
 #pragma warning disable AV1564
-    protected void ContainerChecks(string containerName, bool doesContainerExist)
+    protected async Task<bool> ContainerChecksAsync(string containerName, bool doesContainerExist)
 #pragma warning restore AV1564
     {
-        var storageAccountContainers = BlobServiceClient.GetBlobContainers();
+        var containerExists = await CheckContainerExistsAsync(containerName).ConfigureAwait(false);
 
-        var checkContainerExists = storageAccountContainers.DoesBlobAlreadyExists(containerName);
-        if (doesContainerExist && !checkContainerExists)
+        if (doesContainerExist && !containerExists)
         {
             throw new BlobContainerDoesNotExistException(containerName, FormatProvider);
         }
 
         // We should check that there is no containers already existing with the name passed in.
-        if (!doesContainerExist && checkContainerExists)
+        if (!doesContainerExist && containerExists)
         {
             throw new BlobContainerAlreadyExistsException(containerName, FormatProvider);
         }
+
+        return containerExists;
+    }
+
+    private async Task<bool> CheckContainerExistsAsync(string containerName)
+    {
+        var containerExists = false;
+        var containers = BlobServiceClient.GetBlobContainersAsync().AsPages();
+
+        // Use the async method instead of all containers.
+        await foreach (var pagedContainers in containers)
+        {
+            containerExists = pagedContainers.Values.Any(containerItem => containerItem.Name == containerName);
+
+            if (containerExists)
+            {
+                break;
+            }
+        }
+
+        return containerExists;
     }
 }

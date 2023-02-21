@@ -54,7 +54,7 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     {
         if (command is not null)
         {
-            ContainerChecks(command.ContainerName, command.DoesContainerExist);
+            await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist).ConfigureAwait(false);
 
             var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist)
                 .ConfigureAwait(false);
@@ -80,7 +80,7 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     {
         if (command != null)
         {
-            ContainerChecks(command.ContainerName, command.DoesContainerExist);
+            await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist).ConfigureAwait(false);
 
             var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist)
                 .ConfigureAwait(false);
@@ -106,7 +106,7 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     {
         if (command != null)
         {
-            ContainerChecks(command.ContainerName, command.DoesContainerExist);
+            await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist).ConfigureAwait(false);
 
             var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist)
                 .ConfigureAwait(false);
@@ -133,7 +133,7 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     {
         if (command != null)
         {
-            ContainerChecks(command.ContainerName, command.DoesContainerExist);
+            await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist).ConfigureAwait(false);
 
             var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist)
                 .ConfigureAwait(false);

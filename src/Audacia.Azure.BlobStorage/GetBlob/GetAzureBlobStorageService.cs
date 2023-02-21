@@ -1,6 +1,5 @@
 ﻿using Audacia.Azure.BlobStorage.Common.Services;
 using Audacia.Azure.BlobStorage.Config;
-using Audacia.Azure.BlobStorage.Exceptions;
 using Audacia.Azure.BlobStorage.Exceptions.BlobContainerExceptions;
 using Audacia.Azure.Common.ReturnOptions;
 using Azure.Storage.Blobs;
@@ -115,7 +114,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
                         containerName);
                 }
 
-                return await GetBlobsAsync<T, TResponse>(containerName, blobNames, containerClient)
+                return await GetSomeBlobsAsync<T, TResponse>(containerName, blobNames, containerClient)
                     .ConfigureAwait(false);
             }
 
@@ -132,7 +131,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
         /// <returns>Dictionary of Blobs, where the key is the name of the blob and the value is the blob itself.</returns>
-        private async Task<IDictionary<string, T>> GetBlobsAsync<T, TResponse>(
+        private async Task<IDictionary<string, T>> GetSomeBlobsAsync<T, TResponse>(
             string containerName,
             IEnumerable<string> blobNames,
             BlobContainerClient containerClient) where TResponse : IBlobReturnOption<T>, new()
@@ -185,9 +184,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             where TResponse : IBlobReturnOption<T>, new()
         {
             var pagedBlobs = containerClient.GetBlobs();
-
             var blobs = pagedBlobs.ToList();
-
             var blobBytesDictionary = new Dictionary<string, T>();
 
             foreach (var blob in blobs)

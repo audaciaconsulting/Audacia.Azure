@@ -17,6 +17,8 @@ public class WeatherForecastController : ControllerBase
 {
     private readonly IGetAzureBlobStorageService _getAzureBlobStorageService;
 
+    private readonly IGetAzureProtectedBlobStorageService _getAzureProtectedBlobStorageService;
+
     private readonly IAddAzureBlobStorageService _addAzureBlobStorageService;
 
     private readonly IUpdateAzureBlobStorageService _updateAzureBlobStorageService;
@@ -29,7 +31,9 @@ public class WeatherForecastController : ControllerBase
         IAddAzureBlobStorageService addAzureBlobStorageService,
         IUpdateAzureBlobStorageService updateAzureBlobStorageService,
         IDeleteAzureBlobStorageService deleteAzureBlobStorageService,
-        ILogger<WeatherForecastController> logger)
+        IGetAzureProtectedBlobStorageService getAzureProtectedBlobStorageService,
+        ILogger<WeatherForecastController> logger
+    )
     {
         _getAzureBlobStorageService = getAzureBlobStorageService;
         _addAzureBlobStorageService = addAzureBlobStorageService;
@@ -37,6 +41,7 @@ public class WeatherForecastController : ControllerBase
         _deleteAzureBlobStorageService = deleteAzureBlobStorageService;
 
         _logger = logger;
+        _getAzureProtectedBlobStorageService = getAzureProtectedBlobStorageService;
     }
 
     [HttpGet]
@@ -46,9 +51,21 @@ public class WeatherForecastController : ControllerBase
     {
         try
         {
-            var blobs = await _getAzureBlobStorageService.GetAllAsync<string, ReturnUrlOption>(containerName);
+            var blobNames = new List<string>()
+            {
+                "4f1ac8c0-051e-4a83-acd2-352c8a415557.jpeg",
+                "8e3c1efa-f386-4bb8-b08b-0d670f8c0a21.png"
+            };
+            
+            var blob =
+                await _getAzureProtectedBlobStorageService.GetAsync<ReturnProtectedUrlOption>(containerName,
+                    "4f1ac8c0-051e-4a83-acd2-352c8a41asdas555sdsa7.jpeg", null);
 
-            return Ok(blobs);
+            var blobs =
+                await _getAzureProtectedBlobStorageService.GetSomeAsync<ReturnProtectedUrlOption>(containerName,
+                    blobNames, null);
+
+            return Ok(blob);
         }
 #pragma warning disable CA1031
         catch (Exception e)
@@ -66,7 +83,7 @@ public class WeatherForecastController : ControllerBase
     public async Task<IActionResult> Post([FromForm] AddBlobRequest addBlobRequest)
     {
         _ = addBlobRequest ?? throw new ArgumentNullException(nameof(addBlobRequest));
-        
+
         var fileExtension = addBlobRequest.File.FileName.Split('.');
         var uniqueBlobName = $"{Guid.NewGuid().ToString()}.{fileExtension[^1]}";
 
@@ -91,7 +108,7 @@ public class WeatherForecastController : ControllerBase
     public async Task<IActionResult> Put([FromForm] UpdateBlobRequest updateBlobRequest)
     {
         _ = updateBlobRequest ?? throw new ArgumentNullException(nameof(updateBlobRequest));
-        
+
         byte[] fileBytes;
         await using (var ms = new MemoryStream())
         {
@@ -129,8 +146,8 @@ public class WeatherForecastController : ControllerBase
 
             fileBytes = ms.ToArray();
         }
-        var fileBase64 = Convert.ToBase64String(fileBytes);
 
+        var fileBase64 = Convert.ToBase64String(fileBytes);
         var command = new UpdateBlobStorageBaseSixtyFourCommand(updateBlobRequest.ContainerName,
             updateBlobRequest.BlobName,
             fileBase64);

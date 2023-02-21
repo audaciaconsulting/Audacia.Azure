@@ -13,6 +13,7 @@ public static class ServiceExtensions
     public static IServiceCollection AddAzureBlobServices(this IServiceCollection serviceCollection)
     {
         return serviceCollection.AddScoped<IGetAzureBlobStorageService, GetAzureBlobStorageService>()
+            .AddScoped<IGetAzureProtectedBlobStorageService, GetAzureProtectedBlobStorageService>()
             .AddScoped<IAddAzureBlobStorageService, AddAzureBlobStorageService>()
             .AddScoped<IUpdateAzureBlobStorageService, UpdateAzureBlobStorageService>()
             .AddScoped<IDeleteAzureBlobStorageService, DeleteAzureBlobStorageService>();
