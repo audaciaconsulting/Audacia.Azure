@@ -1,17 +1,7 @@
 ﻿using System.Globalization;
-using System.Text.RegularExpressions;
-using Audacia.Azure.BlobStorage.AddBlob;
-using Audacia.Azure.BlobStorage.AddBlob.Commands;
-using Audacia.Azure.BlobStorage.Common.Services;
-using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions;
 using Audacia.Azure.BlobStorage.Extensions;
 using Audacia.Azure.BlobStorage.Models;
-using Audacia.Azure.BlobStorage.UpdateBlob;
-using Azure.Storage.Blobs;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Moq;
 
 namespace Audacia.Azure.BlobStorage.Tests;
 

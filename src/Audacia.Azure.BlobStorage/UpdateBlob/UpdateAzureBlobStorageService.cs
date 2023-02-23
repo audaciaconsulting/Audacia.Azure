@@ -56,7 +56,7 @@ public class UpdateAzureBlobStorageService : BaseAzureUpdateStorageService, IUpd
     {
         if (command != null)
         {
-            ContainerChecks(command.ContainerName, command.DoesContainerExist);
+            await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist).ConfigureAwait(false);
 
             var blobData = FileLocationBlobChecks(command.BlobName, command.FilePath);
 
@@ -122,7 +122,7 @@ public class UpdateAzureBlobStorageService : BaseAzureUpdateStorageService, IUpd
     {
         if (command != null)
         {
-            ContainerChecks(command.ContainerName, command.DoesContainerExist);
+            await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist).ConfigureAwait(false);
 
             var blobData = BytesBlobChecks(command.BlobName, command.BlobData);
 
@@ -176,7 +176,7 @@ public class UpdateAzureBlobStorageService : BaseAzureUpdateStorageService, IUpd
     {
         if (command != null)
         {
-            ContainerChecks(command.ContainerName, command.DoesContainerExist);
+            var containerExists = await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist).ConfigureAwait(false);
 
             var blobData = command.BlobData.BaseSixtyFourBlobChecks(command.BlobName, FormatProvider);
 
@@ -207,7 +207,7 @@ public class UpdateAzureBlobStorageService : BaseAzureUpdateStorageService, IUpd
     {
         if (command != null)
         {
-            ContainerChecks(command.ContainerName, command.DoesContainerExist);
+            await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist).ConfigureAwait(false);
 
             var blobData = StreamBlobDataCheck(command.BlobName, command.BlobData);
 
