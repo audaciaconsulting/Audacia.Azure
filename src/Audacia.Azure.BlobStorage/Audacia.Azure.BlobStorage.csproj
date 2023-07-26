@@ -1,25 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Version>1.1.0</Version>
+        <Version>1.2.0</Version>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Authors>Audacia</Authors>
-        <Description>Core library for using Azure services.</Description>
+        <Description>Library for easy setup and integration of getting, adding, updating and removing blobs from within Azure Blob storage.</Description>
         <PackageIcon>package-icon.png</PackageIcon>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Audacia.CodeAnalysis" Version="1.3.0">
+      <PackageReference Include="Audacia.CodeAnalysis" Version="1.5.1">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Azure.Storage.Blobs" Version="12.14.1" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
-      <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+      <PackageReference Include="Azure.Storage.Blobs" Version="12.17.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -29,6 +30,10 @@
         </None>
     </ItemGroup>
 
+    <PropertyGroup>
+        <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    </PropertyGroup>
+    
     <ItemGroup>
       <ProjectReference Include="..\Audacia.Azure.Common\Audacia.Azure.Common.csproj" />
     </ItemGroup>
