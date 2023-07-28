@@ -9,8 +9,8 @@
         <Authors>Audacia</Authors> 
         <Description>Core library for using Azure services.</Description>
         <PackageIcon>package-icon.png</PackageIcon>
-        <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
