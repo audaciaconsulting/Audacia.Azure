@@ -44,6 +44,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// </summary>
         /// <param name="containerName">The name of the container where the blob you want to return is stored in.</param>
         /// <param name="blobName">The name of the blob you are wanting to return.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <typeparam name="TResult">The type of data which you want the blob to be converted into. This must match one of the
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
@@ -52,7 +53,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
-        public async Task<TResult> GetAsync<TResult, TResponse>(string containerName, string blobName)
+        public async Task<TResult> GetAsync<TResult, TResponse>(string containerName, string blobName, CancellationToken cancellationToken)
             where TResponse : IBlobReturnOption<TResult>, new()
         {
             var containers = BlobServiceClient.GetBlobContainers();
@@ -62,7 +63,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             {
                 var containerClient = BlobServiceClient.GetBlobContainerClient(containerName);
 
-                var blobBytes = await GetBlobBytesAsync(containerClient, blobName).ConfigureAwait(false);
+                var blobBytes = await GetBlobBytesAsync(containerClient, blobName, cancellationToken).ConfigureAwait(false);
 
                 var blobClientUrlString = string.Format(FormatProvider, StorageAccountWithContainer, containerName);
                 var blobClientUrl = new Uri(blobClientUrlString);
@@ -78,6 +79,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// </summary>
         /// <param name="containerName">The name of the container where the blob you want to return is stored in.</param>
         /// <param name="blobNames">A collection of blob names you are wanting to return.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <typeparam name="T">The type of data which you want the blob to be converted into. This must match one of the
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
@@ -92,7 +94,8 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// </exception>
         public async Task<IDictionary<string, T>> GetSomeAsync<T, TResponse>(
             string containerName,
-            IEnumerable<string> blobNames)
+            IEnumerable<string> blobNames,
+            CancellationToken cancellationToken)
             where TResponse : IBlobReturnOption<T>, new()
         {
             if (blobNames == null)
@@ -114,7 +117,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
                         containerName);
                 }
 
-                return await GetSomeBlobsAsync<T, TResponse>(containerName, blobNames, containerClient)
+                return await GetSomeBlobsAsync<T, TResponse>(containerName, blobNames, containerClient, cancellationToken)
                     .ConfigureAwait(false);
             }
 
@@ -127,6 +130,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// <param name="containerName">The name of the container where the blob you want to return is stored in.</param>
         /// <param name="blobNames">A collection of blob names you are wanting to return.</param>
         /// <param name="containerClient">Client of the container which blobs are located.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <typeparam name="T">The type of data which you want the blob to be converted into. This must match one of the
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
@@ -134,12 +138,13 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         private async Task<IDictionary<string, T>> GetSomeBlobsAsync<T, TResponse>(
             string containerName,
             IEnumerable<string> blobNames,
-            BlobContainerClient containerClient) where TResponse : IBlobReturnOption<T>, new()
+            BlobContainerClient containerClient,
+            CancellationToken cancellationToken) where TResponse : IBlobReturnOption<T>, new()
         {
             var blobBytesDictionary = new Dictionary<string, T>();
             foreach (var blobName in blobNames)
             {
-                var blobBytes = await GetBlobBytesAsync(containerClient, blobName).ConfigureAwait(false);
+                var blobBytes = await GetBlobBytesAsync(containerClient, blobName, cancellationToken).ConfigureAwait(false);
 
                 var blobClientUrlString = string.Format(FormatProvider, StorageAccountWithContainer, containerName);
                 var blobClientUrl = new Uri(blobClientUrlString);
@@ -155,6 +160,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// Returns all the blob within a container within the storage account.
         /// </summary>
         /// <param name="containerName">The name of the container where the blobs you want to return are stored in.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <typeparam name="T">The type of data which you want the blob to be converted into. This must match one of the
         /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
@@ -163,7 +169,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
-        public async Task<IDictionary<string, T>> GetAllAsync<T, TResponse>(string containerName)
+        public async Task<IDictionary<string, T>> GetAllAsync<T, TResponse>(string containerName, CancellationToken cancellationToken)
             where TResponse : IBlobReturnOption<T>, new()
         {
             var containers = BlobServiceClient.GetBlobContainers();
@@ -173,14 +179,16 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             {
                 var containerClient = BlobServiceClient.GetBlobContainerClient(containerName);
 
-                return await GetAllBlobsAsync<T, TResponse>(containerClient, containerName).ConfigureAwait(false);
+                return await GetAllBlobsAsync<T, TResponse>(containerClient, containerName, cancellationToken).ConfigureAwait(false);
             }
 
             throw new BlobContainerDoesNotExistException(containerName, FormatProvider);
         }
 
         private async Task<Dictionary<string, T>> GetAllBlobsAsync<T, TResponse>(
-            BlobContainerClient containerClient, string containerName)
+            BlobContainerClient containerClient, 
+            string containerName,
+            CancellationToken cancellationToken)
             where TResponse : IBlobReturnOption<T>, new()
         {
             var pagedBlobs = containerClient.GetBlobs();
@@ -189,7 +197,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
 
             foreach (var blob in blobs)
             {
-                var blobBytes = await GetBlobBytesAsync(containerClient, blob.Name).ConfigureAwait(false);
+                var blobBytes = await GetBlobBytesAsync(containerClient, blob.Name, cancellationToken).ConfigureAwait(false);
 
                 var blobClientUrlString = string.Format(FormatProvider, StorageAccountWithContainer, containerName);
                 var blobClientUrl = new Uri(blobClientUrlString);
@@ -206,14 +214,15 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// </summary>
         /// <param name="containerClient">Name of the container where the blob is stored within.</param>
         /// <param name="blobName">Name of the blob which is going to be downloaded from the storage account.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Byte array of the data of the blob.</returns>
-        private static async Task<byte[]> GetBlobBytesAsync(BlobContainerClient containerClient, string blobName)
+        private static async Task<byte[]> GetBlobBytesAsync(BlobContainerClient containerClient, string blobName, CancellationToken cancellationToken)
         {
             var blobClient = containerClient.GetBlobClient(blobName);
-            var blobDownloadInfo = await blobClient.DownloadAsync().ConfigureAwait(false);
+            var blobDownloadInfo = await blobClient.DownloadAsync(cancellationToken).ConfigureAwait(false);
 
             using var memoryStream = new MemoryStream();
-            await blobDownloadInfo.Value.Content.CopyToAsync(memoryStream).ConfigureAwait(false);
+            await blobDownloadInfo.Value.Content.CopyToAsync(memoryStream, cancellationToken).ConfigureAwait(false);
 
             var blobBytes = memoryStream.ToArray();
 

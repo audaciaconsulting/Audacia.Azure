@@ -41,22 +41,23 @@ namespace Audacia.Azure.BlobStorage.DeleteBlob
         /// Removes a blob with the <paramref name="command.BlobName"/> within <paramref name="command.ContainerName"/>.
         /// </summary>
         /// <param name="command">Command request containing all the information to remove a blob.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Whether the removing of the blob was successful.</returns>
         /// <exception cref="BlobDoesNotExistException">
         /// Exception thrown when the blob trying to be deleted is not within the specified container.
         /// </exception>
         /// <exception cref="ArgumentNullException">Command for service is null therefore cannot continue.</exception>
-        public async Task<bool> ExecuteAsync(DeleteAzureBlobStorageCommand command)
+        public async Task<bool> ExecuteAsync(DeleteAzureBlobStorageCommand command, CancellationToken cancellationToken)
         {
             if (command != null)
             {
                 var blobClient = GetBlobClient(command.ContainerName, command.BlobName);
 
-                var blobExists = await blobClient.ExistsAsync().ConfigureAwait(false);
+                var blobExists = await blobClient.ExistsAsync(cancellationToken).ConfigureAwait(false);
 
                 if (blobExists.Value)
                 {
-                    return await DeleteBlobAsync(blobClient, command).ConfigureAwait(false);
+                    return await DeleteBlobAsync(blobClient, command, cancellationToken).ConfigureAwait(false);
                 }
 
                 throw new BlobDoesNotExistException(command.BlobName, command.ContainerName, FormatProvider);
@@ -78,11 +79,11 @@ namespace Audacia.Azure.BlobStorage.DeleteBlob
             return containerClient.GetBlobClient(blobName);
         }
 
-        private async Task<bool> DeleteBlobAsync(BlobClient blobClient, DeleteAzureBlobStorageCommand command)
+        private async Task<bool> DeleteBlobAsync(BlobClient blobClient, DeleteAzureBlobStorageCommand command, CancellationToken cancellationToken)
         {
             try
             {
-                using (await blobClient.DeleteAsync().ConfigureAwait(false))
+                using (await blobClient.DeleteAsync(cancellationToken: cancellationToken).ConfigureAwait(false))
                 {
                     Logger.LogInformation(
                         $"Deleted blob: {command.BlobName} from Container: {command.ContainerName}");

@@ -11,31 +11,35 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// Adds a blob to Azure Blob Storage account when you would like to upload a blob where the data is in base 64 format.
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        Task<bool> ExecuteAsync(AddBlobBaseSixtyFourCommand command);
+        Task<bool> ExecuteAsync(AddBlobBaseSixtyFourCommand command, CancellationToken cancellationToken);
 
         /// <summary>
         /// Adds a blob to Azure Blob Storage account when you would like to upload a blob where the data is located
         /// on the local file server.
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        Task<bool> ExecuteAsync(AddBlobFileCommand command);
+        Task<bool> ExecuteAsync(AddBlobFileCommand command, CancellationToken cancellationToken);
 
         /// <summary>
         /// Adds a blob to Azure Blob Storage account when you have a byte array containing the data you want to add to
         /// the storage account.
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        Task<bool> ExecuteAsync(AddBlobBytesCommand command);
+        Task<bool> ExecuteAsync(AddBlobBytesCommand command, CancellationToken cancellationToken);
 
         /// <summary>
         /// Adds a blob to Azure Blob Storage account when you have a stream containing the data of the blob you want
         /// to upload to the storage account.
         /// </summary>
         /// <param name="command">Command request containing all the information to upload a blob.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        Task<bool> ExecuteAsync(AddBlobStreamCommand command);
+        Task<bool> ExecuteAsync(AddBlobStreamCommand command, CancellationToken cancellationToken);
     }
 }

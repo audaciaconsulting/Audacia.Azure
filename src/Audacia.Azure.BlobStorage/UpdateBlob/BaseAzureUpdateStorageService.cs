@@ -56,16 +56,18 @@ namespace Audacia.Azure.BlobStorage.UpdateBlob
         /// </summary>
         /// <param name="containerName">The name of the container.</param>
         /// <param name="doesContainerExist">Whether or not you expect the container to exist.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Returns the existing or newly created <see cref="BlobContainerClient"/>.</returns>
         protected async Task<BlobContainerClient> GetOrCreateContainerAsync(
             string containerName,
 #pragma warning disable AV1564
-            bool doesContainerExist)
+            bool doesContainerExist,
+            CancellationToken cancellationToken)
 #pragma warning restore AV1564
         {
             if (!doesContainerExist)
             {
-                return await CreateContainerAsync(containerName).ConfigureAwait(false);
+                return await CreateContainerAsync(containerName, cancellationToken).ConfigureAwait(false);
             }
 
             return GetContainer(containerName);

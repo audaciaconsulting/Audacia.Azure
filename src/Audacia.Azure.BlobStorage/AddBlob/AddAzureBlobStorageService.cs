@@ -1,10 +1,7 @@
-﻿using System.Text.RegularExpressions;
-using Audacia.Azure.BlobStorage.AddBlob.Commands;
+﻿using Audacia.Azure.BlobStorage.AddBlob.Commands;
 using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions;
-using Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions;
 using Audacia.Azure.BlobStorage.Extensions;
-using Audacia.Azure.BlobStorage.Models;
 using Audacia.Azure.BlobStorage.UpdateBlob;
 using Azure;
 using Azure.Storage.Blobs;
@@ -48,19 +45,20 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     /// Adds a new blob to an Azure blob storage container.
     /// </summary>
     /// <param name="command">Command with information about the blob and the container where the blob is being added.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A boolean on whether the blob has been successfully added.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-    public async Task<bool> ExecuteAsync(AddBlobBaseSixtyFourCommand command)
+    public async Task<bool> ExecuteAsync(AddBlobBaseSixtyFourCommand command, CancellationToken cancellationToken)
     {
         if (command is not null)
         {
-            await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist).ConfigureAwait(false);
+            await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist, cancellationToken).ConfigureAwait(false);
 
-            var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist)
+            var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist, cancellationToken)
                 .ConfigureAwait(false);
             var blobData = command.BlobData.BaseSixtyFourBlobChecks(command.BlobName, FormatProvider);
 
-            return await UploadBlobToBlobStorageAsync(container, command, (IEnumerable<byte>)blobData).ConfigureAwait(false);
+            return await UploadBlobToBlobStorageAsync(container, command, (IEnumerable<byte>)blobData, cancellationToken).ConfigureAwait(false);
         }
 
         throw new ArgumentNullException(nameof(command));
@@ -71,22 +69,23 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     /// on the local file server.
     /// </summary>
     /// <param name="command">Command request containing all the information to upload a blob.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A bool depending on the success of the upload.</returns>
     /// <exception cref="BlobNameAlreadyExistsException">
     /// A blob with the same name as the one on the command exists within the specified container.
     /// </exception>
     /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-    public async Task<bool> ExecuteAsync(AddBlobFileCommand command)
+    public async Task<bool> ExecuteAsync(AddBlobFileCommand command, CancellationToken cancellationToken)
     {
         if (command != null)
         {
-            await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist).ConfigureAwait(false);
+            await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist, cancellationToken).ConfigureAwait(false);
 
-            var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist)
+            var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist, cancellationToken)
                 .ConfigureAwait(false);
             var blobData = GetFileData(command.FilePath);
 
-            return await UploadBlobToBlobStorageAsync(container, command, blobData).ConfigureAwait(false);
+            return await UploadBlobToBlobStorageAsync(container, command, blobData, cancellationToken).ConfigureAwait(false);
         }
 
         throw new ArgumentNullException(nameof(command));
@@ -97,21 +96,22 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     /// the storage account.
     /// </summary>
     /// <param name="command">Command request containing all the information to upload a blob.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A bool depending on the success of the upload.</returns>
     /// <exception cref="BlobNameAlreadyExistsException">
     /// A blob with the same name as the one on the command exists within the specified container.
     /// </exception>
     /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-    public async Task<bool> ExecuteAsync(AddBlobBytesCommand command)
+    public async Task<bool> ExecuteAsync(AddBlobBytesCommand command, CancellationToken cancellationToken)
     {
         if (command != null)
         {
-            await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist).ConfigureAwait(false);
+            await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist, cancellationToken).ConfigureAwait(false);
 
-            var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist)
+            var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist, cancellationToken)
                 .ConfigureAwait(false);
 
-            return await UploadBlobToBlobStorageAsync(container, command, command.BlobData).ConfigureAwait(false);
+            return await UploadBlobToBlobStorageAsync(container, command, command.BlobData, cancellationToken).ConfigureAwait(false);
         }
 
         throw new ArgumentNullException(nameof(command));
@@ -122,6 +122,7 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     /// to upload to the storage account.
     /// </summary>
     /// <param name="command">Command request containing all the information to upload a blob.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A bool depending on the success of the upload.</returns>
     /// <exception cref="BlobNameAlreadyExistsException">
     /// A blob with the same name as the one on the command exists within the specified container.
@@ -129,17 +130,17 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     /// <exception cref="ArgumentNullException">
     /// Command for service is null therefore cannot continue.
     /// </exception>
-    public async Task<bool> ExecuteAsync(AddBlobStreamCommand command)
+    public async Task<bool> ExecuteAsync(AddBlobStreamCommand command, CancellationToken cancellationToken)
     {
         if (command != null)
         {
-            await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist).ConfigureAwait(false);
+            await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist, cancellationToken).ConfigureAwait(false);
 
-            var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist)
+            var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist, cancellationToken)
                 .ConfigureAwait(false);
             var blobClient = container.GetBlobClient(command.BlobName);
 
-            return await UploadStreamBlobAsync(blobClient, command).ConfigureAwait(false);
+            return await UploadStreamBlobAsync(blobClient, command, cancellationToken).ConfigureAwait(false);
         }
 
         throw new ArgumentNullException(nameof(command));
@@ -150,21 +151,23 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     /// </summary>
     /// <param name="blobClient">Blob client which the blob data will be uploaded too.</param>
     /// <param name="command">Command containing information such as the blob and container name.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A boolean based on if the blob has been successfully uploaded.</returns>
     /// <exception cref="BlobNameAlreadyExistsException">
     /// A blob with the same name as the one on the command exists within the specified container.
     /// </exception>
     private async Task<bool> UploadStreamBlobAsync(
         BlobClient blobClient,
-        AddBlobStreamCommand command)
+        AddBlobStreamCommand command,
+        CancellationToken cancellationToken)
     {
-        var blobExists = await blobClient.ExistsAsync().ConfigureAwait(false);
+        var blobExists = await blobClient.ExistsAsync(cancellationToken).ConfigureAwait(false);
 
         if (!blobExists.Value)
         {
             try
             {
-                await blobClient.UploadAsync(command.BlobData).ConfigureAwait(false);
+                await blobClient.UploadAsync(command.BlobData, cancellationToken).ConfigureAwait(false);
                 Logger.LogInformation(
                     $"Upload blob data for blob: {command.BlobName} to container: {command.ContainerName}");
                 return true;
@@ -185,6 +188,7 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     /// <param name="container">Container which the blob is going to be uploaded too.</param>
     /// <param name="command">Command request containing all the information to upload a blob.</param>
     /// <param name="blobData">Byte array of the blob being uploaded.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A bool depending on the success of the upload.</returns>
     /// <exception cref="BlobNameAlreadyExistsException">
     /// A blob with the same name as the one on the command exists within the specified container.
@@ -192,17 +196,18 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     private async Task<bool> UploadBlobToBlobStorageAsync(
         BlobContainerClient container,
         BaseAddBlobStorageCommand command,
-        IEnumerable<byte> blobData)
+        IEnumerable<byte> blobData,
+        CancellationToken cancellationToken)
     {
         var blobClient = container.GetBlobClient(command.BlobName);
 
-        var blobExists = await blobClient.ExistsAsync().ConfigureAwait(false);
+        var blobExists = await blobClient.ExistsAsync(cancellationToken).ConfigureAwait(false);
 
         if (!blobExists.Value)
         {
             Logger.LogInformation(
                 $"Uploading blob: {command.BlobName} data to container: {command.ContainerName}");
-            return await UploadFileBlobAsync(blobData, blobClient).ConfigureAwait(false);
+            return await UploadFileBlobAsync(blobData, blobClient, cancellationToken).ConfigureAwait(false);
         }
 
         throw new BlobNameAlreadyExistsException(command.BlobName, command.ContainerName, FormatProvider);
@@ -213,12 +218,13 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     /// </summary>
     /// <param name="blobData">Byte array containing the data for the blob.</param>
     /// <param name="blobClient">Blob client where the blob data is being uploaded too.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>A boolean on whether the blob has been successfully uploaded.</returns>
-    private static async Task<bool> UploadFileBlobAsync(IEnumerable<byte> blobData, BlobClient blobClient)
+    private static async Task<bool> UploadFileBlobAsync(IEnumerable<byte> blobData, BlobClient blobClient, CancellationToken cancellationToken)
     {
         var blobDataArray = blobData.ToArray();
         using var ms = new MemoryStream(blobDataArray, false);
-        await blobClient.UploadAsync(ms).ConfigureAwait(false);
+        await blobClient.UploadAsync(ms, cancellationToken).ConfigureAwait(false);
 
         return true;
     }
