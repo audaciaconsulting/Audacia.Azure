@@ -47,7 +47,7 @@ namespace Audacia.Azure.BlobStorage.DeleteBlob
         /// Exception thrown when the blob trying to be deleted is not within the specified container.
         /// </exception>
         /// <exception cref="ArgumentNullException">Command for service is null therefore cannot continue.</exception>
-        public async Task<bool> ExecuteAsync(DeleteAzureBlobStorageCommand command, CancellationToken cancellationToken)
+        public async Task<bool> ExecuteAsync(DeleteAzureBlobStorageCommand command, CancellationToken cancellationToken = default)
         {
             if (command != null)
             {

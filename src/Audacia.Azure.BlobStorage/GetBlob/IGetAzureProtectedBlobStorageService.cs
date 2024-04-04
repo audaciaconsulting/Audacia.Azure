@@ -17,7 +17,7 @@ public interface IGetAzureProtectedBlobStorageService
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
     /// <returns>A <see cref="IBlobReturnOption{T}"/> which has been configured by the generic arguments.</returns>
-    Task<string> GetAsync<TResponse>(string containerName, string blobName, string? policyName, CancellationToken cancellationToken)
+    Task<string> GetAsync<TResponse>(string containerName, string blobName, string? policyName, CancellationToken cancellationToken = default)
         where TResponse : ReturnProtectedUrlOption, new();
 
     /// <summary>
@@ -34,7 +34,7 @@ public interface IGetAzureProtectedBlobStorageService
         string containerName,
         IEnumerable<string> blobNames,
         string? policyName,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
         where TResponse : ReturnProtectedUrlOption, new();
 
     /// <summary>
@@ -48,6 +48,6 @@ public interface IGetAzureProtectedBlobStorageService
     Task<IDictionary<string, string>> GetAllAsync<TResponse>(
         string containerName,
         string? policyName,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
         where TResponse : ReturnProtectedUrlOption, new();
 }

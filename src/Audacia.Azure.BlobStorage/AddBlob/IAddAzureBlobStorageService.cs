@@ -13,7 +13,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        Task<bool> ExecuteAsync(AddBlobBaseSixtyFourCommand command, CancellationToken cancellationToken);
+        Task<bool> ExecuteAsync(AddBlobBaseSixtyFourCommand command, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds a blob to Azure Blob Storage account when you would like to upload a blob where the data is located
@@ -22,7 +22,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        Task<bool> ExecuteAsync(AddBlobFileCommand command, CancellationToken cancellationToken);
+        Task<bool> ExecuteAsync(AddBlobFileCommand command, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds a blob to Azure Blob Storage account when you have a byte array containing the data you want to add to
@@ -31,7 +31,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        Task<bool> ExecuteAsync(AddBlobBytesCommand command, CancellationToken cancellationToken);
+        Task<bool> ExecuteAsync(AddBlobBytesCommand command, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds a blob to Azure Blob Storage account when you have a stream containing the data of the blob you want
@@ -40,6 +40,6 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <param name="command">Command request containing all the information to upload a blob.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A bool depending on the success of the upload.</returns>
-        Task<bool> ExecuteAsync(AddBlobStreamCommand command, CancellationToken cancellationToken);
+        Task<bool> ExecuteAsync(AddBlobStreamCommand command, CancellationToken cancellationToken = default);
     }
 }

@@ -13,6 +13,6 @@ namespace Audacia.Azure.BlobStorage.DeleteBlob
         /// <param name="command">Command request containing all the information to remove a blob.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Whether the removing of the blob was successful.</returns>
-        Task<bool> ExecuteAsync(DeleteAzureBlobStorageCommand command, CancellationToken cancellationToken);
+        Task<bool> ExecuteAsync(DeleteAzureBlobStorageCommand command, CancellationToken cancellationToken = default);
     }
 }

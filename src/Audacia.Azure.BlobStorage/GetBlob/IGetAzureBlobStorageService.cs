@@ -18,7 +18,7 @@ public interface IGetAzureBlobStorageService
     /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
     /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
     /// <returns>A <see cref="IBlobReturnOption{TResult}"/> which has been configured by the generic arguments.</returns>
-    Task<TResult> GetAsync<TResult, TResponse>(string containerName, string blobName, CancellationToken cancellationToken)
+    Task<TResult> GetAsync<TResult, TResponse>(string containerName, string blobName, CancellationToken cancellationToken = default)
         where TResponse : IBlobReturnOption<TResult>, new();
 
     /// <summary>
@@ -35,7 +35,7 @@ public interface IGetAzureBlobStorageService
     Task<IDictionary<string, TResult>> GetSomeAsync<TResult, TResponse>(
         string containerName,
         IEnumerable<string> blobNames, 
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
         where TResponse : IBlobReturnOption<TResult>, new();
 
     /// <summary>
@@ -47,6 +47,6 @@ public interface IGetAzureBlobStorageService
     /// return options. Please look into the different return options to decide which is best suited for you.</typeparam>
     /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
     /// <returns>A collection of <see cref="IBlobReturnOption{TResult}"/> which has been configured by the generic arguments.</returns>
-    Task<IDictionary<string, TResult>> GetAllAsync<TResult, TResponse>(string containerName, CancellationToken cancellationToken)
+    Task<IDictionary<string, TResult>> GetAllAsync<TResult, TResponse>(string containerName, CancellationToken cancellationToken = default)
         where TResponse : IBlobReturnOption<TResult>, new();
 }

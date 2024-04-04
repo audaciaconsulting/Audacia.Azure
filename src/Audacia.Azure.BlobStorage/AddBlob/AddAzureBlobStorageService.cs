@@ -48,7 +48,7 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A boolean on whether the blob has been successfully added.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-    public async Task<bool> ExecuteAsync(AddBlobBaseSixtyFourCommand command, CancellationToken cancellationToken)
+    public async Task<bool> ExecuteAsync(AddBlobBaseSixtyFourCommand command, CancellationToken cancellationToken = default)
     {
         if (command is not null)
         {
@@ -75,7 +75,7 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     /// A blob with the same name as the one on the command exists within the specified container.
     /// </exception>
     /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-    public async Task<bool> ExecuteAsync(AddBlobFileCommand command, CancellationToken cancellationToken)
+    public async Task<bool> ExecuteAsync(AddBlobFileCommand command, CancellationToken cancellationToken = default)
     {
         if (command != null)
         {
@@ -102,7 +102,7 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     /// A blob with the same name as the one on the command exists within the specified container.
     /// </exception>
     /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-    public async Task<bool> ExecuteAsync(AddBlobBytesCommand command, CancellationToken cancellationToken)
+    public async Task<bool> ExecuteAsync(AddBlobBytesCommand command, CancellationToken cancellationToken = default)
     {
         if (command != null)
         {
@@ -130,7 +130,7 @@ public class AddAzureBlobStorageService : BaseAzureUpdateStorageService, IAddAzu
     /// <exception cref="ArgumentNullException">
     /// Command for service is null therefore cannot continue.
     /// </exception>
-    public async Task<bool> ExecuteAsync(AddBlobStreamCommand command, CancellationToken cancellationToken)
+    public async Task<bool> ExecuteAsync(AddBlobStreamCommand command, CancellationToken cancellationToken = default)
     {
         if (command != null)
         {

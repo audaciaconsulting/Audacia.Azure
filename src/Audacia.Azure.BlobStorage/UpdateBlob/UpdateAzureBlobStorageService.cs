@@ -52,7 +52,7 @@ public class UpdateAzureBlobStorageService : BaseAzureUpdateStorageService, IUpd
     /// Exception thrown when configuration is not set to create a new container and the container specified does
     /// not exist.
     /// </exception>
-    public async Task<bool> ExecuteAsync(UpdateBlobStorageFileCommand command, CancellationToken cancellationToken)
+    public async Task<bool> ExecuteAsync(UpdateBlobStorageFileCommand command, CancellationToken cancellationToken = default)
     {
         if (command != null)
         {
@@ -119,7 +119,7 @@ public class UpdateAzureBlobStorageService : BaseAzureUpdateStorageService, IUpd
     /// not exist.
     /// </exception>
     /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-    public async Task<bool> ExecuteAsync(UpdateBlobStorageBytesCommand command, CancellationToken cancellationToken)
+    public async Task<bool> ExecuteAsync(UpdateBlobStorageBytesCommand command, CancellationToken cancellationToken = default)
     {
         if (command != null)
         {
@@ -174,7 +174,7 @@ public class UpdateAzureBlobStorageService : BaseAzureUpdateStorageService, IUpd
     /// not exist.
     /// </exception>
     /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-    public async Task<bool> ExecuteAsync(UpdateBlobStorageBaseSixtyFourCommand command, CancellationToken cancellationToken)
+    public async Task<bool> ExecuteAsync(UpdateBlobStorageBaseSixtyFourCommand command, CancellationToken cancellationToken = default)
     {
         if (command != null)
         {
@@ -206,7 +206,7 @@ public class UpdateAzureBlobStorageService : BaseAzureUpdateStorageService, IUpd
     /// not exist.
     /// </exception>
     /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-    public async Task<bool> ExecuteAsync(UpdateBlobStorageStreamCommand command, CancellationToken cancellationToken)
+    public async Task<bool> ExecuteAsync(UpdateBlobStorageStreamCommand command, CancellationToken cancellationToken = default)
     {
         if (command != null)
         {

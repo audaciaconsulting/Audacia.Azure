@@ -53,7 +53,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
-        public async Task<TResult> GetAsync<TResult, TResponse>(string containerName, string blobName, CancellationToken cancellationToken)
+        public async Task<TResult> GetAsync<TResult, TResponse>(string containerName, string blobName, CancellationToken cancellationToken = default)
             where TResponse : IBlobReturnOption<TResult>, new()
         {
             var containers = BlobServiceClient.GetBlobContainers();
@@ -95,7 +95,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         public async Task<IDictionary<string, T>> GetSomeAsync<T, TResponse>(
             string containerName,
             IEnumerable<string> blobNames,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
             where TResponse : IBlobReturnOption<T>, new()
         {
             if (blobNames == null)
@@ -169,7 +169,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// Exception thrown when configuration is not set to create a new container and the container specified does
         /// not exist.
         /// </exception>
-        public async Task<IDictionary<string, T>> GetAllAsync<T, TResponse>(string containerName, CancellationToken cancellationToken)
+        public async Task<IDictionary<string, T>> GetAllAsync<T, TResponse>(string containerName, CancellationToken cancellationToken = default)
             where TResponse : IBlobReturnOption<T>, new()
         {
             var containers = BlobServiceClient.GetBlobContainers();

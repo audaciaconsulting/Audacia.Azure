@@ -59,7 +59,7 @@ public class GetAzureProtectedBlobStorageService : BaseAzureBlobStorageService, 
         string containerName,
         string blobName,
         string? policyName,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
         where TResponse : ReturnProtectedUrlOption, new()
     {
         var containerExists = await ContainerChecksAsync(containerName, true, cancellationToken).ConfigureAwait(false);
@@ -97,7 +97,7 @@ public class GetAzureProtectedBlobStorageService : BaseAzureBlobStorageService, 
         string containerName,
         IEnumerable<string> blobNames,
         string? policyName,
-        CancellationToken cancellationToken) where TResponse : ReturnProtectedUrlOption, new()
+        CancellationToken cancellationToken = default) where TResponse : ReturnProtectedUrlOption, new()
     {
         if (blobNames == null)
         {
@@ -163,7 +163,7 @@ public class GetAzureProtectedBlobStorageService : BaseAzureBlobStorageService, 
     public async Task<IDictionary<string, string>> GetAllAsync<TResponse>(
         string containerName,
         string? policyName,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
         where TResponse : ReturnProtectedUrlOption, new()
     {
         var containers = BlobServiceClient.GetBlobContainers();
