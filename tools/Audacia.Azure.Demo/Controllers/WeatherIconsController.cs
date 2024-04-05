@@ -47,7 +47,7 @@ public class WeatherForecastController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(IDictionary<string, string>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Get(string containerName)
+    public async Task<IActionResult> Get(string containerName, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -56,14 +56,18 @@ public class WeatherForecastController : ControllerBase
                 "4f1ac8c0-051e-4a83-acd2-352c8a415557.jpeg",
                 "8e3c1efa-f386-4bb8-b08b-0d670f8c0a21.png"
             };
-            
-            var blob =
-                await _getAzureProtectedBlobStorageService.GetAsync<ReturnProtectedUrlOption>(containerName,
-                    "4f1ac8c0-051e-4a83-acd2-352c8a41asdas555sdsa7.jpeg", null);
 
-            var blobs =
-                await _getAzureProtectedBlobStorageService.GetSomeAsync<ReturnProtectedUrlOption>(containerName,
-                    blobNames, null);
+            var blob = await _getAzureProtectedBlobStorageService.GetAsync<ReturnProtectedUrlOption>(
+                containerName,
+                "4f1ac8c0-051e-4a83-acd2-352c8a41asdas555sdsa7.jpeg",
+                null,
+                cancellationToken);
+
+            var blobs = await _getAzureProtectedBlobStorageService.GetSomeAsync<ReturnProtectedUrlOption>(
+                containerName,
+                blobNames,
+                null,
+                cancellationToken);
 
             return Ok(blob);
         }
@@ -80,7 +84,7 @@ public class WeatherForecastController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Post([FromForm] AddBlobRequest addBlobRequest)
+    public async Task<IActionResult> Post([FromForm] AddBlobRequest addBlobRequest, CancellationToken cancellationToken = default)
     {
         _ = addBlobRequest ?? throw new ArgumentNullException(nameof(addBlobRequest));
 
@@ -91,7 +95,7 @@ public class WeatherForecastController : ControllerBase
 
         var command = new AddBlobStreamCommand(addBlobRequest.ContainerName, uniqueBlobName, fileStream);
 
-        var addBlobResult = await _addAzureBlobStorageService.ExecuteAsync(command);
+        var addBlobResult = await _addAzureBlobStorageService.ExecuteAsync(command, cancellationToken);
 
         if (addBlobResult)
         {
@@ -105,7 +109,7 @@ public class WeatherForecastController : ControllerBase
     [Route("/bytes")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Put([FromForm] UpdateBlobRequest updateBlobRequest)
+    public async Task<IActionResult> Put([FromForm] UpdateBlobRequest updateBlobRequest, CancellationToken cancellationToken = default)
     {
         _ = updateBlobRequest ?? throw new ArgumentNullException(nameof(updateBlobRequest));
 
@@ -121,7 +125,7 @@ public class WeatherForecastController : ControllerBase
             updateBlobRequest.BlobName,
             fileBytes);
 
-        var updateBlobResult = await _updateAzureBlobStorageService.ExecuteAsync(command);
+        var updateBlobResult = await _updateAzureBlobStorageService.ExecuteAsync(command, cancellationToken);
 
         if (updateBlobResult)
         {
@@ -135,7 +139,7 @@ public class WeatherForecastController : ControllerBase
     [Route("/base64")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> PutWithBase64([FromForm] UpdateBlobRequest updateBlobRequest)
+    public async Task<IActionResult> PutWithBase64([FromForm] UpdateBlobRequest updateBlobRequest, CancellationToken cancellationToken = default)
     {
         _ = updateBlobRequest ?? throw new ArgumentNullException(nameof(updateBlobRequest));
 
@@ -152,7 +156,7 @@ public class WeatherForecastController : ControllerBase
             updateBlobRequest.BlobName,
             fileBase64);
 
-        var updateBlobResult = await _updateAzureBlobStorageService.ExecuteAsync(command);
+        var updateBlobResult = await _updateAzureBlobStorageService.ExecuteAsync(command, cancellationToken);
 
         if (updateBlobResult)
         {
@@ -165,12 +169,12 @@ public class WeatherForecastController : ControllerBase
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Delete([FromForm] DeleteBlobRequest deleteBlobRequest)
+    public async Task<IActionResult> Delete([FromForm] DeleteBlobRequest deleteBlobRequest, CancellationToken cancellationToken = default)
     {
         _ = deleteBlobRequest ?? throw new ArgumentNullException(nameof(deleteBlobRequest));
         var command = new DeleteAzureBlobStorageCommand(deleteBlobRequest.ContainerName, deleteBlobRequest.BlobName);
 
-        var deleteBlobResult = await _deleteAzureBlobStorageService.ExecuteAsync(command);
+        var deleteBlobResult = await _deleteAzureBlobStorageService.ExecuteAsync(command, cancellationToken);
 
         if (deleteBlobResult)
         {

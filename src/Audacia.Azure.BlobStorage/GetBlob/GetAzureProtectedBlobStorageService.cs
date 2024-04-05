@@ -48,6 +48,7 @@ public class GetAzureProtectedBlobStorageService : BaseAzureBlobStorageService, 
     /// <param name="containerName">The name of the container where the blobs you want to return are stored in.</param>
     /// <param name="blobName">The name of the blob to get within the container.</param>
     /// <param name="policyName">The name of the security policy for the container.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
     /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
     /// <returns>Returns a blob within a container within the storage account.</returns>
     /// <exception cref="BlobContainerDoesNotExistException">
@@ -57,10 +58,11 @@ public class GetAzureProtectedBlobStorageService : BaseAzureBlobStorageService, 
     public async Task<string> GetAsync<TResponse>(
         string containerName,
         string blobName,
-        string? policyName)
+        string? policyName,
+        CancellationToken cancellationToken = default)
         where TResponse : ReturnProtectedUrlOption, new()
     {
-        var containerExists = await ContainerChecksAsync(containerName, true).ConfigureAwait(false);
+        var containerExists = await ContainerChecksAsync(containerName, true, cancellationToken).ConfigureAwait(false);
 
         if (containerExists)
         {
@@ -80,6 +82,7 @@ public class GetAzureProtectedBlobStorageService : BaseAzureBlobStorageService, 
     /// <param name="containerName">The name of the container where the blobs you want to return are stored in.</param>
     /// <param name="blobNames">The names of the blob's to get within the container.</param>
     /// <param name="policyName">The name of the security policy for the container.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
     /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
     /// <returns>A <see cref="IBlobReturnOption{TResult}"/> which has been configured by the generic arguments.</returns>
     /// <exception cref="BlobContainerDoesNotExistException">
@@ -93,14 +96,15 @@ public class GetAzureProtectedBlobStorageService : BaseAzureBlobStorageService, 
     public async Task<IDictionary<string, string>> GetSomeAsync<TResponse>(
         string containerName,
         IEnumerable<string> blobNames,
-        string? policyName) where TResponse : ReturnProtectedUrlOption, new()
+        string? policyName,
+        CancellationToken cancellationToken = default) where TResponse : ReturnProtectedUrlOption, new()
     {
         if (blobNames == null)
         {
             throw new ArgumentNullException(nameof(blobNames));
         }
 
-        var containerExists = await ContainerChecksAsync(containerName, true).ConfigureAwait(false);
+        var containerExists = await ContainerChecksAsync(containerName, true, cancellationToken).ConfigureAwait(false);
 
         if (containerExists)
         {
@@ -149,6 +153,7 @@ public class GetAzureProtectedBlobStorageService : BaseAzureBlobStorageService, 
     /// </summary>
     /// <param name="containerName">The name of the container where the blobs you want to return are stored in.</param>
     /// <param name="policyName">The name of the security policy for the container.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
     /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
     /// <returns>A collection of <see cref="IBlobReturnOption{T}"/> which has been configured by the generic arguments.</returns>
     /// <exception cref="BlobContainerDoesNotExistException">
@@ -157,7 +162,8 @@ public class GetAzureProtectedBlobStorageService : BaseAzureBlobStorageService, 
     /// </exception>
     public async Task<IDictionary<string, string>> GetAllAsync<TResponse>(
         string containerName,
-        string? policyName)
+        string? policyName,
+        CancellationToken cancellationToken = default)
         where TResponse : ReturnProtectedUrlOption, new()
     {
         var containers = BlobServiceClient.GetBlobContainers();
@@ -167,7 +173,7 @@ public class GetAzureProtectedBlobStorageService : BaseAzureBlobStorageService, 
         {
             var containerClient = BlobServiceClient.GetBlobContainerClient(containerName);
 
-            return await GetAllBlobsAsync<TResponse>(containerClient, policyName).ConfigureAwait(false);
+            return await GetAllBlobsAsync<TResponse>(containerClient, policyName, cancellationToken).ConfigureAwait(false);
         }
 
         throw new BlobContainerDoesNotExistException(containerName, FormatProvider);
@@ -175,13 +181,14 @@ public class GetAzureProtectedBlobStorageService : BaseAzureBlobStorageService, 
 
     private async Task<Dictionary<string, string>> GetAllBlobsAsync<TResponse>(
         BlobContainerClient containerClient,
-        string? policyName)
+        string? policyName,
+        CancellationToken cancellationToken)
         where TResponse : ReturnProtectedUrlOption, new()
     {
         var blobBytesDictionary = new Dictionary<string, string>();
         var blobs = new List<BlobItem>();
 
-        await foreach (var blob in containerClient.GetBlobsAsync())
+        await foreach (var blob in containerClient.GetBlobsAsync(cancellationToken: cancellationToken))
         {
             blobs.Add(blob);
         }
