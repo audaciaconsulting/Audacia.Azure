@@ -1,4 +1,5 @@
-﻿using Audacia.Azure.BlobStorage.Models;
+﻿using System;
+using Audacia.Azure.BlobStorage.Models;
 
 namespace Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions
 {

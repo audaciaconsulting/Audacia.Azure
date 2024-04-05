@@ -1,4 +1,7 @@
-﻿namespace Audacia.Azure.Common.ReturnOptions.ImageOption
+﻿using System;
+using System.Collections.Generic;
+
+namespace Audacia.Azure.Common.ReturnOptions.ImageOption
 {
     /// <summary>
     /// Return type of blob in enumerable of bytes.

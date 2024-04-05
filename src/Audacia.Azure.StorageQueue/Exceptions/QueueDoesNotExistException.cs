@@ -1,4 +1,6 @@
-﻿namespace Audacia.Azure.StorageQueue.Exceptions
+﻿using System;
+
+namespace Audacia.Azure.StorageQueue.Exceptions
 {
     /// <summary>
     /// Exception for when the Queue within Azure does not exist.

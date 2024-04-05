@@ -6,14 +6,14 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 
-namespace Audacia.Azure.BlobStorage.Tests;
-
-public class SetupAzureBlobStorageTests
+namespace Audacia.Azure.BlobStorage.Tests
 {
-    private IAddAzureBlobStorageService _addAzureBlobStorageService;
+    public class SetupAzureBlobStorageTests
+    {
+        private IAddAzureBlobStorageService _addAzureBlobStorageService;
 
-    [Fact]
-    public void Should_throw_exception_if_option_value_is_null()
+        [Fact]
+        public void Should_throw_exception_if_option_value_is_null()
     {
         // Arrange
         var blobStorageOptions = Options.Create<BlobStorageOption>(null);
@@ -38,8 +38,8 @@ public class SetupAzureBlobStorageTests
         Assert.Equal(expectedException.Message, thrownException.Message);
     }
 
-    [Fact]
-    public void Should_throw_exception_if_option_value_is_empty()
+        [Fact]
+        public void Should_throw_exception_if_option_value_is_empty()
     {
         // Arrange
         var blobStorageOption = new BlobStorageOption();
@@ -67,12 +67,12 @@ public class SetupAzureBlobStorageTests
         Assert.Equal(expectedException.Message, thrownException.Message);
     }
 
-    [Theory]
-    [InlineData("Photos-dev", null)]
-    [InlineData("Files", "")]
-    public void Should_throw_exception_if_account_key_option_value_is_null_or_empty(
-        string accountName,
-        string accountKey)
+        [Theory]
+        [InlineData("Photos-dev", null)]
+        [InlineData("Files", "")]
+        public void Should_throw_exception_if_account_key_option_value_is_null_or_empty(
+            string accountName,
+            string accountKey)
     {
         // Arrange
         var blobStorageOption = new BlobStorageOption
@@ -104,12 +104,12 @@ public class SetupAzureBlobStorageTests
         Assert.Equal(expectedException.Message, thrownException.Message);
     }
 
-    [Theory]
-    [InlineData(null, "123685924")]
-    [InlineData("", "968574125")]
-    public void Should_throw_exception_if_account_name_option_value_is_null_or_empty(
-        string accountName,
-        string accountKey)
+        [Theory]
+        [InlineData(null, "123685924")]
+        [InlineData("", "968574125")]
+        public void Should_throw_exception_if_account_name_option_value_is_null_or_empty(
+            string accountName,
+            string accountKey)
     {
         // Arrange
         var blobStorageOption = new BlobStorageOption
@@ -139,5 +139,6 @@ public class SetupAzureBlobStorageTests
         Assert.NotNull(thrownException);
         Assert.Equal(expectedException.GetType(), thrownException.GetType());
         Assert.Equal(expectedException.Message, thrownException.Message);
+    }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Azure.Storage.Blobs.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Azure.Storage.Blobs.Models;
 
 namespace Audacia.Azure.BlobStorage.Extensions
 {

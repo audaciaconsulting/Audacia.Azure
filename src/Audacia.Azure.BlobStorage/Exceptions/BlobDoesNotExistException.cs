@@ -1,4 +1,6 @@
-﻿namespace Audacia.Azure.BlobStorage.Exceptions
+﻿using System;
+
+namespace Audacia.Azure.BlobStorage.Exceptions
 {
     /// <summary>
     /// Exception thrown when blob does not exist in an Azure storage account.

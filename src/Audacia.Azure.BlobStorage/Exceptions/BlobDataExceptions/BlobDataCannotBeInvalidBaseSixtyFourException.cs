@@ -1,4 +1,6 @@
-﻿namespace Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions
+﻿using System;
+
+namespace Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions
 {
     /// <summary>
     /// Exception for when blob data is invalid base 64.

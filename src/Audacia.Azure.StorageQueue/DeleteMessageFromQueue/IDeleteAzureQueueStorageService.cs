@@ -1,4 +1,6 @@
-﻿namespace Audacia.Azure.StorageQueue.DeleteMessageFromQueue
+﻿using System.Threading.Tasks;
+
+namespace Audacia.Azure.StorageQueue.DeleteMessageFromQueue
 {
     /// <summary>
     /// Delete service for removing messages from an Azure Queue Storage account.

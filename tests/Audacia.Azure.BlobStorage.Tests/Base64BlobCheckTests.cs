@@ -3,12 +3,12 @@ using Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions;
 using Audacia.Azure.BlobStorage.Extensions;
 using Audacia.Azure.BlobStorage.Models;
 
-namespace Audacia.Azure.BlobStorage.Tests;
-
-public class Base64BlobCheckTests
+namespace Audacia.Azure.BlobStorage.Tests
 {
-    [Fact]
-    public void Checking_valid_base_64()
+    public class Base64BlobCheckTests
+    {
+        [Fact]
+        public void Checking_valid_base_64()
     {
         // Arrange
         var blobName = "Hello";
@@ -22,8 +22,8 @@ public class Base64BlobCheckTests
         Assert.NotEmpty(bytes);
     }
 
-    [Fact]
-    public void Checking_invalid_base_64()
+        [Fact]
+        public void Checking_invalid_base_64()
     {
         // Arrange
         var blobName = "Hello";
@@ -37,8 +37,8 @@ public class Base64BlobCheckTests
     }
 
 
-    [Fact]
-    public void Checking_empty_base_64()
+        [Fact]
+        public void Checking_empty_base_64()
     {
         // Arrange
         var blobName = "Hello";
@@ -49,5 +49,6 @@ public class Base64BlobCheckTests
 
         // Assert
         Assert.Equal($"Cannot add Blob: {blobName} which is of type {BlobDataType.BaseSixtyFour} be empty", exception.Message);
+    }
     }
 }
