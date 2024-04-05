@@ -1,13 +1,8 @@
 ﻿using System.Globalization;
-using System.Text.RegularExpressions;
 using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions;
 using Audacia.Azure.BlobStorage.Exceptions.BlobContainerExceptions;
-using Audacia.Azure.BlobStorage.Exceptions.BlobDataExceptions;
-using Audacia.Azure.BlobStorage.Extensions;
-using Audacia.Azure.BlobStorage.Models;
 using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -135,18 +130,19 @@ public abstract class BaseAzureBlobStorageService
     /// Creates a new container with an Azure blob storage account.
     /// </summary>
     /// <param name="containerName">Name of the container which is getting created.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>An instance of the newly created <see cref="BlobContainerClient"/>.</returns>
     /// <exception cref="BlobContainerNameInvalidException">
     /// Exception thrown when the name of the container is invalid.
     /// </exception>
-    protected async Task<BlobContainerClient> CreateContainerAsync(string containerName)
+    protected async Task<BlobContainerClient> CreateContainerAsync(string containerName, CancellationToken cancellationToken)
     {
         if (string.IsNullOrEmpty(containerName))
         {
             throw BlobContainerNameInvalidException.UnableToCreateWithContainerName(containerName, FormatProvider);
         }
 
-        return await BlobServiceClient.CreateBlobContainerAsync(containerName).ConfigureAwait(false);
+        return await BlobServiceClient.CreateBlobContainerAsync(containerName, cancellationToken: cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -156,6 +152,7 @@ public abstract class BaseAzureBlobStorageService
     /// <param name="doesContainerExist">
     /// Whether the container exists and whether that matches what has been passed apart of the command.
     /// </param>
+    /// <param name="cancellationToken">The cancellation token.</param>
     /// <exception cref="BlobContainerDoesNotExistException">
     /// Exception thrown when configuration is not set to create a new container and the container specified does
     /// not exist.
@@ -165,10 +162,10 @@ public abstract class BaseAzureBlobStorageService
     /// </exception>
     /// <returns>Returns a boolean representing if the container exists within the storage account.</returns>
 #pragma warning disable AV1564
-    protected async Task<bool> ContainerChecksAsync(string containerName, bool doesContainerExist)
+    protected async Task<bool> ContainerChecksAsync(string containerName, bool doesContainerExist, CancellationToken cancellationToken)
 #pragma warning restore AV1564
     {
-        var containerExists = await CheckContainerExistsAsync(containerName).ConfigureAwait(false);
+        var containerExists = await CheckContainerExistsAsync(containerName, cancellationToken).ConfigureAwait(false);
 
         if (doesContainerExist && !containerExists)
         {
@@ -184,10 +181,10 @@ public abstract class BaseAzureBlobStorageService
         return containerExists;
     }
 
-    private async Task<bool> CheckContainerExistsAsync(string containerName)
+    private async Task<bool> CheckContainerExistsAsync(string containerName, CancellationToken cancellationToken)
     {
         var containerExists = false;
-        var containers = BlobServiceClient.GetBlobContainersAsync().AsPages();
+        var containers = BlobServiceClient.GetBlobContainersAsync(cancellationToken: cancellationToken).AsPages();
 
         // Use the async method instead of all containers.
         await foreach (var pagedContainers in containers)
