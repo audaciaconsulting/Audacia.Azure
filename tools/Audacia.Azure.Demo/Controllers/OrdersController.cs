@@ -34,40 +34,40 @@ namespace Audacia.Azure.Demo.Controllers
 
         [HttpGet, Route("Queue/{queueName}")]
         [ProducesResponseType(typeof(AzureQueueStorageMessage), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get(string queueName)
+        public async Task<IActionResult> Get(string queueName, CancellationToken cancellationToken = default)
         {
             var command = new GetMessageStorageQueueCommand(queueName);
-            var messages = await _getAzureQueueStorageService.GetAsync(command);
+            var messages = await _getAzureQueueStorageService.GetAsync(command, cancellationToken);
 
             return Ok(messages);
         }
 
         [HttpGet, Route("Queue/GetAll/{queueName}")]
         [ProducesResponseType(typeof(IEnumerable<AzureQueueStorageMessage>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAll(string queueName)
+        public async Task<IActionResult> GetAll(string queueName, CancellationToken cancellationToken = default)
         {
             var command = new GetMessagesStorageQueueCommand(queueName, 10);
-            var messages = await _getAzureQueueStorageService.GetSomeAsync(command);
+            var messages = await _getAzureQueueStorageService.GetSomeAsync(command, cancellationToken);
 
             return Ok(messages);
         }
 
         [HttpPost, Route("Queue/Add")]
         [ProducesResponseType(typeof(SendReceipt), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Post([FromForm] AddQueueRequest request)
+        public async Task<IActionResult> Post([FromForm] AddQueueRequest request, CancellationToken cancellationToken = default)
         {
             _ = request ?? throw new ArgumentNullException(nameof(request));
             
-            var messages = await _addAzureQueueStorageService.ExecuteAsync(request.QueueName, request.Message);
+            var messages = await _addAzureQueueStorageService.ExecuteAsync(request.QueueName, request.Message, cancellationToken);
 
             return Ok(messages);
         }
 
         [HttpDelete, Route("Queue/{queueName}/{id}")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete(string queueName, string id)
+        public async Task<IActionResult> Delete(string queueName, string id, CancellationToken cancellationToken = default)
         {
-            var result = await _deleteAzureQueueStorageService.ExecuteAsync(queueName, id);
+            var result = await _deleteAzureQueueStorageService.ExecuteAsync(queueName, id, cancellationToken);
 
             return Ok(result);
         }

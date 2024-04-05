@@ -12,7 +12,8 @@ namespace Audacia.Azure.StorageQueue.AddMessageToQueue
         /// </summary>
         /// <param name="queueName">Name of the queue which the message will be added too.</param>
         /// <param name="queueMessage">String containing the context of the message.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The receipt from adding a message to the queue.</returns>
-        Task<SendReceipt> ExecuteAsync(string queueName, string queueMessage);
+        Task<SendReceipt> ExecuteAsync(string queueName, string queueMessage, CancellationToken cancellationToken = default);
     }
 }
