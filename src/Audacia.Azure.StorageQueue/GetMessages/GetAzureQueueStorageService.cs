@@ -35,25 +35,26 @@ namespace Audacia.Azure.StorageQueue.GetMessages
         /// <param name="command">
         /// Containing information of the queue name and whether to delete the message from storage after it has been received.
         /// </param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The message from the queue if there is one.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-        public async Task<AzureQueueStorageMessage?> GetAsync(GetMessageStorageQueueCommand command)
+        public async Task<AzureQueueStorageMessage?> GetAsync(GetMessageStorageQueueCommand command, CancellationToken cancellationToken = default)
         {
             if (command == null)
             {
                 throw new ArgumentNullException(nameof(command));
             }
 
-            await PreQueueChecksAsync(command.QueueName).ConfigureAwait(false);
+            await PreQueueChecksAsync(command.QueueName, cancellationToken).ConfigureAwait(false);
 
-            var queueProperties = await QueueClient.GetPropertiesAsync().ConfigureAwait(false);
+            var queueProperties = await QueueClient.GetPropertiesAsync(cancellationToken).ConfigureAwait(false);
             if (queueProperties.Value.ApproximateMessagesCount > 0)
             {
-                var nextMessage = await QueueClient.ReceiveMessageAsync().ConfigureAwait(false);
+                var nextMessage = await QueueClient.ReceiveMessageAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
                 if (command.ShouldDeleteMessageAfterReceiving)
                 {
-                    await DeleteMessageAsync(nextMessage.Value).ConfigureAwait(false);
+                    await DeleteMessageAsync(nextMessage.Value, cancellationToken).ConfigureAwait(false);
                 }
 
                 return new AzureQueueStorageMessage(
@@ -74,27 +75,28 @@ namespace Audacia.Azure.StorageQueue.GetMessages
         /// Command containing the queue name, the amount of messages to get and whether to delete the messages after
         /// they have been pulled from storage.
         /// </param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
         /// A collection of size <paramref name="command.AmountToReceive"/> of <see cref="AzureQueueStorageMessage"/>'s if
         /// available if not the remaining amount that are currently in the queue.
         /// </returns>
         /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-        public async Task<IEnumerable<AzureQueueStorageMessage>> GetSomeAsync(GetMessagesStorageQueueCommand command)
+        public async Task<IEnumerable<AzureQueueStorageMessage>> GetSomeAsync(GetMessagesStorageQueueCommand command, CancellationToken cancellationToken = default)
         {
             if (command == null)
             {
                 throw new ArgumentNullException(nameof(command));
             }
 
-            await PreQueueChecksAsync(command.QueueName).ConfigureAwait(false);
+            await PreQueueChecksAsync(command.QueueName, cancellationToken).ConfigureAwait(false);
 
-            var queueProperties = await QueueClient.GetPropertiesAsync().ConfigureAwait(false);
+            var queueProperties = await QueueClient.GetPropertiesAsync(cancellationToken).ConfigureAwait(false);
             if (queueProperties.Value.ApproximateMessagesCount > 0)
             {
-                var response = await QueueClient.ReceiveMessagesAsync(command.AmountToReceive).ConfigureAwait(false);
+                var response = await QueueClient.ReceiveMessagesAsync(command.AmountToReceive, cancellationToken: cancellationToken).ConfigureAwait(false);
                 var nextMessages = response.Value;
 
-                await ProcessDeletingMessageAsync(command, nextMessages).ConfigureAwait(false);
+                await ProcessDeletingMessageAsync(command, nextMessages, cancellationToken).ConfigureAwait(false);
 
                 return nextMessages.Select(message => new AzureQueueStorageMessage(
                         message.MessageId,
@@ -110,13 +112,14 @@ namespace Audacia.Azure.StorageQueue.GetMessages
 
         private async Task ProcessDeletingMessageAsync(
             GetMessagesStorageQueueCommand command,
-            IEnumerable<QueueMessage> nextMessages)
+            IEnumerable<QueueMessage> nextMessages,
+            CancellationToken cancellationToken)
         {
             if (command.ShouldDeleteMessageAfterReceiving)
             {
                 foreach (var nextMessage in nextMessages)
                 {
-                    await DeleteMessageAsync(nextMessage).ConfigureAwait(false);
+                    await DeleteMessageAsync(nextMessage, cancellationToken).ConfigureAwait(false);
                 }
             }
         }

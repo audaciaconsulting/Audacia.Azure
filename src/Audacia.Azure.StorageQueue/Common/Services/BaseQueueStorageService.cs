@@ -93,15 +93,16 @@ namespace Audacia.Azure.StorageQueue.Common.Services
         /// Checks on the queue before any actions are done.
         /// </summary>
         /// <param name="queueName">Name of the queue you are checking.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <exception cref="QueueDoesNotExistException">
         /// If the queue you are wanting to do something with, does not exist.
         /// </exception>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        protected async Task PreQueueChecksAsync(string queueName)
+        protected async Task PreQueueChecksAsync(string queueName, CancellationToken cancellationToken)
         {
             QueueClient = new QueueClient(StorageAccountConnectionString, queueName);
 
-            var queueExists = await QueueClient.ExistsAsync().ConfigureAwait(false);
+            var queueExists = await QueueClient.ExistsAsync(cancellationToken).ConfigureAwait(false);
 
             if (!queueExists)
             {
@@ -113,9 +114,10 @@ namespace Audacia.Azure.StorageQueue.Common.Services
         /// Deletes a message from a <see cref="QueueClient"/>.
         /// </summary>
         /// <param name="message"><see cref="QueueMessage"/> to be removed from the <see cref="QueueClient"/>.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Whether the message has been removed.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="message"/> is null.</exception>
-        protected async Task<bool> DeleteMessageAsync(QueueMessage message)
+        protected async Task<bool> DeleteMessageAsync(QueueMessage message, CancellationToken cancellationToken)
         {
             if (message == null)
             {
@@ -125,7 +127,7 @@ namespace Audacia.Azure.StorageQueue.Common.Services
             var receivedMessageId = message.MessageId;
             var receivedMessagePopReceipt = message.PopReceipt;
 
-            using var response = await QueueClient.DeleteMessageAsync(receivedMessageId, receivedMessagePopReceipt)
+            using var response = await QueueClient.DeleteMessageAsync(receivedMessageId, receivedMessagePopReceipt, cancellationToken)
                 .ConfigureAwait(false);
 
             return response.Status == 200; // might be 202 as might not execute
