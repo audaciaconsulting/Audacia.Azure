@@ -12,7 +12,8 @@ namespace Audacia.Azure.StorageQueue.DeleteMessageFromQueue
         /// </summary>
         /// <param name="queueName">The name of the queue you want to remove a message from.</param>
         /// <param name="messageId">Id of the message which you want to delete.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Bool whether the message was deleted from the queue.</returns>
-        Task<bool> ExecuteAsync(string queueName, string messageId);
+        Task<bool> ExecuteAsync(string queueName, string messageId, CancellationToken cancellationToken = default);
     }
 }

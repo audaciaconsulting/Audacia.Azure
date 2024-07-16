@@ -36,12 +36,13 @@ namespace Audacia.Azure.StorageQueue.DeleteMessageFromQueue
         /// </summary>
         /// <param name="queueName">The name of the queue you want to remove a message from.</param>
         /// <param name="messageId">Id of the message which you want to delete.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Bool whether the message was deleted from the queue.</returns>
-        public async Task<bool> ExecuteAsync(string queueName, string messageId)
+        public async Task<bool> ExecuteAsync(string queueName, string messageId, CancellationToken cancellationToken = default)
         {
-            await PreQueueChecksAsync(queueName).ConfigureAwait(false);
+            await PreQueueChecksAsync(queueName, cancellationToken).ConfigureAwait(false);
 
-            var queueMessages = await QueueClient.ReceiveMessagesAsync(32).ConfigureAwait(false);
+            var queueMessages = await QueueClient.ReceiveMessagesAsync(32, cancellationToken: cancellationToken).ConfigureAwait(false);
 
             var peekedMessages = queueMessages.Value;
 
@@ -49,7 +50,7 @@ namespace Audacia.Azure.StorageQueue.DeleteMessageFromQueue
 
             if (peekMessage != null)
             {
-                using var deleteResponse = await QueueClient.DeleteMessageAsync(messageId, peekMessage.PopReceipt).ConfigureAwait(false);
+                using var deleteResponse = await QueueClient.DeleteMessageAsync(messageId, peekMessage.PopReceipt, cancellationToken).ConfigureAwait(false);
 
                 return deleteResponse.Status == 204;
             }
