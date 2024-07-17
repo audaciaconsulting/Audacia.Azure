@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{21BEADF6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audacia.Azure.Demo", "tools\Audacia.Azure.Demo\Audacia.Azure.Demo.csproj", "{A49DDA7B-E131-4FF1-87C8-56EE5A306315}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audacia.Azure.QueueStorage.Tests", "tests\Audacia.Azure.QueueStorage.Tests\Audacia.Azure.QueueStorage.Tests.csproj", "{E7444CDB-CA31-4827-8938-CAC6F684A3C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audacia.Azure.StorageQueue.Tests", "tests\Audacia.Azure.StorageQueue.Tests\Audacia.Azure.StorageQueue.Tests.csproj", "{E7444CDB-CA31-4827-8938-CAC6F684A3C0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audacia.Azure.BlobStorage.Tests", "tests\Audacia.Azure.BlobStorage.Tests\Audacia.Azure.BlobStorage.Tests.csproj", "{EA3DC0BB-304F-410E-A9C9-274D00441F19}"
 EndProject

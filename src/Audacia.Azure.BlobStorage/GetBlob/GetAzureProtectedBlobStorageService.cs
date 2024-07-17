@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -136,7 +137,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// <param name="policyName">The name of the security policy that the container ir protected with.</param>
         /// <typeparam name="TResponse">The return option which you want the blob to be returned in.</typeparam>
         /// <returns>Dictionary of Blobs, where the key is the name of the blob and the value is the blob itself.</returns>
-        private IDictionary<string, string> GetSomeBlobs<TResponse>(
+        private static IDictionary<string, string> GetSomeBlobs<TResponse>(
             BlobContainerClient containerClient,
             IEnumerable<string> blobNames,
             string? policyName) where TResponse : ReturnProtectedUrlOption, new()
@@ -184,7 +185,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             throw new BlobContainerDoesNotExistException(containerName, FormatProvider);
         }
 
-        private async Task<Dictionary<string, string>> GetAllBlobsAsync<TResponse>(
+        private static async Task<Dictionary<string, string>> GetAllBlobsAsync<TResponse>(
             BlobContainerClient containerClient,
             string? policyName,
             CancellationToken cancellationToken)
@@ -208,7 +209,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             return blobBytesDictionary;
         }
 
-        private string ProcessProtectedBlob<TResponse>(
+        private static string ProcessProtectedBlob<TResponse>(
             BlobContainerClient containerClient,
             string blobName,
             string? policyName) where TResponse : ReturnProtectedUrlOption, new()

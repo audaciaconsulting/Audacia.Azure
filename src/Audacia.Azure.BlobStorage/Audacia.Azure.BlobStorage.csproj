@@ -12,11 +12,10 @@
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <TargetFrameworks>net6.0;netstandard2.1</TargetFrameworks>
-		<ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Audacia.CodeAnalysis" Version="1.8.0">
+      <PackageReference Include="Audacia.CodeAnalysis" Version="1.9.0">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>

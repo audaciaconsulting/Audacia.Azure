@@ -39,7 +39,7 @@ namespace Audacia.Azure.BlobStorage.Common.Services
         /// <summary>
         /// Gets the format provider for formatting exception messages.
         /// </summary>
-        protected IFormatProvider FormatProvider { get; }
+        protected static IFormatProvider FormatProvider => CultureInfo.InvariantCulture;
 
         /// <summary>
         /// Gets an instance of the service client for a blob to provide an object to carry out the required operations.
@@ -60,7 +60,6 @@ namespace Audacia.Azure.BlobStorage.Common.Services
 
             Logger = logger;
             _accountName = blobServiceClient.AccountName;
-            FormatProvider = CultureInfo.InvariantCulture;
         }
 
         /// <summary>
@@ -70,8 +69,6 @@ namespace Audacia.Azure.BlobStorage.Common.Services
         /// <param name="blobStorageConfig">Config options for creating a new <see cref="BlobServiceClient"/>.</param>
         protected BaseAzureBlobStorageService(ILogger logger, IOptions<BlobStorageOption> blobStorageConfig)
         {
-            FormatProvider = CultureInfo.InvariantCulture;
-
             OptionsConfigCheck(blobStorageConfig);
 
             var storageAccountConnectionString = string.Format(
@@ -92,7 +89,7 @@ namespace Audacia.Azure.BlobStorage.Common.Services
         /// <exception cref="BlobStorageConfigurationException">
         /// Exception thrown when a property from the <see cref="BlobStorageOption"/> is either null or empty.
         /// </exception>
-        private void OptionsConfigCheck(IOptions<BlobStorageOption> blobStorageConfig)
+        private static void OptionsConfigCheck(IOptions<BlobStorageOption> blobStorageConfig)
         {
             if (blobStorageConfig?.Value == null)
             {

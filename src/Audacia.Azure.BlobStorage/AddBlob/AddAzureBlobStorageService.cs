@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -28,8 +29,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <param name="blobServiceClient">An instance of the <see cref="BlobServiceClient"/>.</param>
         public AddAzureBlobStorageService(
             ILogger<AddAzureBlobStorageService> logger,
-            BlobServiceClient blobServiceClient) : base(
-            logger, blobServiceClient)
+            BlobServiceClient blobServiceClient) : base(logger, blobServiceClient)
         {
         }
 
@@ -54,17 +54,27 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A boolean on whether the blob has been successfully added.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-        public async Task<bool> ExecuteAsync(AddBlobBaseSixtyFourCommand command, CancellationToken cancellationToken = default)
+        public async Task<bool> ExecuteAsync(
+            AddBlobBaseSixtyFourCommand command,
+            CancellationToken cancellationToken = default)
         {
             if (command != null)
             {
-                await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist, cancellationToken).ConfigureAwait(false);
+                await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist, cancellationToken)
+                    .ConfigureAwait(false);
 
-                var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist, cancellationToken)
+                var container = await GetOrCreateContainerAsync(
+                        command.ContainerName,
+                        command.DoesContainerExist,
+                        cancellationToken)
                     .ConfigureAwait(false);
                 var blobData = command.BlobData.BaseSixtyFourBlobChecks(command.BlobName, FormatProvider);
 
-                return await UploadBlobToBlobStorageAsync(container, command, (IEnumerable<byte>)blobData, cancellationToken).ConfigureAwait(false);
+                return await UploadBlobToBlobStorageAsync(
+                    container,
+                    command,
+                    (IEnumerable<byte>)blobData,
+                    cancellationToken).ConfigureAwait(false);
             }
 
             throw new ArgumentNullException(nameof(command));
@@ -81,17 +91,24 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// A blob with the same name as the one on the command exists within the specified container.
         /// </exception>
         /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-        public async Task<bool> ExecuteAsync(AddBlobFileCommand command, CancellationToken cancellationToken = default)
+        public async Task<bool> ExecuteAsync(
+            AddBlobFileCommand command,
+            CancellationToken cancellationToken = default)
         {
             if (command != null)
             {
-                await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist, cancellationToken).ConfigureAwait(false);
+                await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist, cancellationToken)
+                    .ConfigureAwait(false);
 
-                var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist, cancellationToken)
+                var container = await GetOrCreateContainerAsync(
+                        command.ContainerName,
+                        command.DoesContainerExist,
+                        cancellationToken)
                     .ConfigureAwait(false);
                 var blobData = GetFileData(command.FilePath);
 
-                return await UploadBlobToBlobStorageAsync(container, command, blobData, cancellationToken).ConfigureAwait(false);
+                return await UploadBlobToBlobStorageAsync(container, command, blobData, cancellationToken)
+                    .ConfigureAwait(false);
             }
 
             throw new ArgumentNullException(nameof(command));
@@ -108,16 +125,23 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// A blob with the same name as the one on the command exists within the specified container.
         /// </exception>
         /// <exception cref="ArgumentNullException"><paramref name="command"/> is null.</exception>
-        public async Task<bool> ExecuteAsync(AddBlobBytesCommand command, CancellationToken cancellationToken = default)
+        public async Task<bool> ExecuteAsync(
+            AddBlobBytesCommand command,
+            CancellationToken cancellationToken = default)
         {
             if (command != null)
             {
-                await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist, cancellationToken).ConfigureAwait(false);
-
-                var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist, cancellationToken)
+                await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist, cancellationToken)
                     .ConfigureAwait(false);
 
-                return await UploadBlobToBlobStorageAsync(container, command, command.BlobData, cancellationToken).ConfigureAwait(false);
+                var container = await GetOrCreateContainerAsync(
+                        command.ContainerName,
+                        command.DoesContainerExist,
+                        cancellationToken)
+                    .ConfigureAwait(false);
+
+                return await UploadBlobToBlobStorageAsync(container, command, command.BlobData, cancellationToken)
+                    .ConfigureAwait(false);
             }
 
             throw new ArgumentNullException(nameof(command));
@@ -136,13 +160,19 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <exception cref="ArgumentNullException">
         /// Command for service is null therefore cannot continue.
         /// </exception>
-        public async Task<bool> ExecuteAsync(AddBlobStreamCommand command, CancellationToken cancellationToken = default)
+        public async Task<bool> ExecuteAsync(
+            AddBlobStreamCommand command,
+            CancellationToken cancellationToken = default)
         {
             if (command != null)
             {
-                await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist, cancellationToken).ConfigureAwait(false);
+                await ContainerChecksAsync(command.ContainerName, command.DoesContainerExist, cancellationToken)
+                    .ConfigureAwait(false);
 
-                var container = await GetOrCreateContainerAsync(command.ContainerName, command.DoesContainerExist, cancellationToken)
+                var container = await GetOrCreateContainerAsync(
+                        command.ContainerName,
+                        command.DoesContainerExist,
+                        cancellationToken)
                     .ConfigureAwait(false);
                 var blobClient = container.GetBlobClient(command.BlobName);
 
@@ -199,6 +229,10 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <exception cref="BlobNameAlreadyExistsException">
         /// A blob with the same name as the one on the command exists within the specified container.
         /// </exception>
+        [SuppressMessage(
+            "Reliability",
+            "CA2007:Consider calling ConfigureAwait on the awaited task",
+            Justification = "Cannot use configure await on Memory stream.")]
         private async Task<bool> UploadBlobToBlobStorageAsync(
             BlobContainerClient container,
             BaseAddBlobStorageCommand command,
@@ -211,8 +245,7 @@ namespace Audacia.Azure.BlobStorage.AddBlob
 
             if (!blobExists.Value)
             {
-                Logger.LogInformation(
-                    $"Uploading blob: {command.BlobName} data to container: {command.ContainerName}");
+                Logger.LogInformation($"Uploading blob: {command.BlobName} data to container: {command.ContainerName}");
                 return await UploadFileBlobAsync(blobData, blobClient, cancellationToken).ConfigureAwait(false);
             }
 
@@ -226,10 +259,17 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <param name="blobClient">Blob client where the blob data is being uploaded too.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>A boolean on whether the blob has been successfully uploaded.</returns>
-        private static async Task<bool> UploadFileBlobAsync(IEnumerable<byte> blobData, BlobClient blobClient, CancellationToken cancellationToken)
+        [SuppressMessage(
+            "Reliability",
+            "CA2007:Consider calling ConfigureAwait on the awaited task",
+            Justification = "Cannot use configure await on Memory stream.")]
+        private static async Task<bool> UploadFileBlobAsync(
+            IEnumerable<byte> blobData,
+            BlobClient blobClient,
+            CancellationToken cancellationToken)
         {
             var blobDataArray = blobData.ToArray();
-            using var ms = new MemoryStream(blobDataArray, false);
+            await using var ms = new MemoryStream(blobDataArray, false);
             await blobClient.UploadAsync(ms, cancellationToken).ConfigureAwait(false);
 
             return true;
