@@ -5,6 +5,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
+        <AssemblyName>Audacia.Azure.StorageQueue.Tests</AssemblyName>
+        <RootNamespace>Audacia.Azure.StorageQueue.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

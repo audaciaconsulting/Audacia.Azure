@@ -1,4 +1,6 @@
-﻿namespace Audacia.Azure.Common.ReturnOptions.ImageOption
+﻿using System;
+
+namespace Audacia.Azure.Common.ReturnOptions.ImageOption
 {
     /// <summary>
     /// Return type of blob in URL format.

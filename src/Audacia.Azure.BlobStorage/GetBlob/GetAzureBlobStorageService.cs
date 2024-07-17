@@ -1,4 +1,11 @@
-﻿using Audacia.Azure.BlobStorage.Common.Services;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Audacia.Azure.BlobStorage.Common.Services;
 using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions.BlobContainerExceptions;
 using Audacia.Azure.Common.ReturnOptions;
@@ -216,12 +223,16 @@ namespace Audacia.Azure.BlobStorage.GetBlob
         /// <param name="blobName">Name of the blob which is going to be downloaded from the storage account.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Byte array of the data of the blob.</returns>
+        [SuppressMessage(
+            "Reliability",
+            "CA2007:Consider calling ConfigureAwait on the awaited task",
+            Justification = "Cannot use configure await on Memory stream.")]
         private static async Task<byte[]> GetBlobBytesAsync(BlobContainerClient containerClient, string blobName, CancellationToken cancellationToken)
         {
             var blobClient = containerClient.GetBlobClient(blobName);
             var blobDownloadInfo = await blobClient.DownloadAsync(cancellationToken).ConfigureAwait(false);
 
-            using var memoryStream = new MemoryStream();
+            await using var memoryStream = new MemoryStream();
             await blobDownloadInfo.Value.Content.CopyToAsync(memoryStream, cancellationToken).ConfigureAwait(false);
 
             var blobBytes = memoryStream.ToArray();

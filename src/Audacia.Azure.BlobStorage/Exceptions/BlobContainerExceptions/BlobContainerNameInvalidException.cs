@@ -1,4 +1,6 @@
-﻿namespace Audacia.Azure.BlobStorage.Exceptions.BlobContainerExceptions
+﻿using System;
+
+namespace Audacia.Azure.BlobStorage.Exceptions.BlobContainerExceptions
 {
     /// <summary>
     /// Exception for when the blob container name is invalid.

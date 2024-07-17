@@ -1,4 +1,6 @@
-﻿namespace Audacia.Azure.Common.ReturnOptions
+﻿using System;
+
+namespace Audacia.Azure.Common.ReturnOptions
 {
     /// <summary>
     /// Generic interface for return blob option.

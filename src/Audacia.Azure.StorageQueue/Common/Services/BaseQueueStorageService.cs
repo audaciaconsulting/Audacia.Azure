@@ -1,4 +1,7 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
 using Audacia.Azure.StorageQueue.Config;
 using Audacia.Azure.StorageQueue.Exceptions;
 using Azure.Storage.Queues;
@@ -35,7 +38,7 @@ namespace Audacia.Azure.StorageQueue.Common.Services
         /// <summary>
         ///  Gets the Url of the Azure Storage account.
         /// </summary>
-        protected Uri StorageAccountUrl => new(StorageAccountString);
+        protected Uri StorageAccountUrl => new Uri(StorageAccountString);
 
         /// <summary>
         ///  Gets the connection string used to connect to the Azure Storage account.

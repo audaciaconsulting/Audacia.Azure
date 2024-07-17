@@ -1,4 +1,6 @@
-﻿namespace Audacia.Azure.BlobStorage.Exceptions.BlobContainerExceptions
+﻿using System;
+
+namespace Audacia.Azure.BlobStorage.Exceptions.BlobContainerExceptions
 {
     /// <summary>
     /// Exception for when the Blob container already exists but expects to create the container.

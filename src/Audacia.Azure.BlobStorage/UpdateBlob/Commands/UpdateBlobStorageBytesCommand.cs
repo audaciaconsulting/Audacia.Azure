@@ -1,4 +1,6 @@
-﻿namespace Audacia.Azure.BlobStorage.UpdateBlob.Commands
+﻿using System.Collections.Generic;
+
+namespace Audacia.Azure.BlobStorage.UpdateBlob.Commands
 {
     /// <summary>
     /// Command used for adding a blob which has it's data in an enumerable of bytes.

@@ -4,12 +4,10 @@ using Audacia.Azure.StorageQueue.Config;
 using Audacia.Azure.StorageQueue.Exceptions;
 using Microsoft.Extensions.Options;
 
-namespace Audacia.Azure.QueueStorage.Tests
+namespace Audacia.Azure.StorageQueue.Tests
 {
     public class SetupAzureQueueStorageTests
     {
-        private IAddAzureQueueStorageService _addAzureQueueStorageService;
-
         [Fact]
         public async Task Should_throw_exception_if_option_value_is_null()
         {
@@ -21,7 +19,7 @@ namespace Audacia.Azure.QueueStorage.Tests
             Exception thrownException = null;
             try
             {
-                _addAzureQueueStorageService =
+                var addAzureQueueStorageService =
                     new AddAzureQueueStorageService(queueStorageOption);
             }
             catch (StorageQueueConfigurationException exception)
@@ -49,7 +47,7 @@ namespace Audacia.Azure.QueueStorage.Tests
             Exception thrownException = null;
             try
             {
-                _addAzureQueueStorageService =
+                var addAzureQueueStorageService =
                     new AddAzureQueueStorageService(queueStorageOptions);
             }
             catch (StorageQueueConfigurationException exception)
@@ -85,7 +83,7 @@ namespace Audacia.Azure.QueueStorage.Tests
             Exception thrownException = null;
             try
             {
-                _addAzureQueueStorageService =
+                var addAzureQueueStorageService =
                     new AddAzureQueueStorageService(queueStorageOptions);
             }
             catch (StorageQueueConfigurationException exception)
@@ -121,7 +119,7 @@ namespace Audacia.Azure.QueueStorage.Tests
             Exception thrownException = null;
             try
             {
-                _addAzureQueueStorageService =
+                var addAzureQueueStorageService =
                     new AddAzureQueueStorageService(queueStorageOptions);
             }
             catch (StorageQueueConfigurationException exception)
