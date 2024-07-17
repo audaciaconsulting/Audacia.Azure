@@ -229,10 +229,6 @@ namespace Audacia.Azure.BlobStorage.AddBlob
         /// <exception cref="BlobNameAlreadyExistsException">
         /// A blob with the same name as the one on the command exists within the specified container.
         /// </exception>
-        [SuppressMessage(
-            "Reliability",
-            "CA2007:Consider calling ConfigureAwait on the awaited task",
-            Justification = "Cannot use configure await on Memory stream.")]
         private async Task<bool> UploadBlobToBlobStorageAsync(
             BlobContainerClient container,
             BaseAddBlobStorageCommand command,
