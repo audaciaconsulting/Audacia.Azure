@@ -19,5 +19,10 @@
         /// Gets or sets the key of the Azure Blob Storage account.
         /// </summary>
         public string AccountKey { get; set; } = default!;
+
+        /// <summary>
+        /// Gets or sets the URL of the Blob Service Uri.
+        /// </summary>
+        public string BlobEndpoint { get; set; } = default!;
     }
 }

@@ -77,6 +77,12 @@ namespace Audacia.Azure.BlobStorage.Common.Services
                 blobStorageConfig.Value.AccountName,
                 blobStorageConfig.Value.AccountKey);
 
+            if (!string.IsNullOrEmpty(blobStorageConfig.Value.BlobEndpoint))
+            {
+                _storageAccountUrl = blobStorageConfig.Value.BlobEndpoint;
+                storageAccountConnectionString += $";BlobEndpoint={blobStorageConfig.Value.BlobEndpoint}";
+            }
+
             BlobServiceClient = new BlobServiceClient(storageAccountConnectionString);
             Logger = logger;
             _accountName = blobStorageConfig.Value.AccountName;
