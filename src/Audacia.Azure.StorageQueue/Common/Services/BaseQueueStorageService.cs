@@ -16,7 +16,7 @@ namespace Audacia.Azure.StorageQueue.Common.Services
     public class BaseQueueStorageService
     {
         private readonly string _storageAccountConnectionString =
-            "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};";
+            "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};QueueEndpoint={2};";
 
         private readonly string _storageAccountUrl = "https://{0}.queue.core.windows.net";
 
@@ -85,17 +85,17 @@ namespace Audacia.Azure.StorageQueue.Common.Services
 
             _accountName = queueStorageConfig.Value.AccountName;
 
+            if (!string.IsNullOrEmpty(queueStorageConfig.Value.QueueEndpoint))
+            {
+                _storageAccountUrl = queueStorageConfig.Value.QueueEndpoint;
+            }
+
             StorageAccountConnectionString = string.Format(
                 FormatProvider,
                 _storageAccountConnectionString,
                 queueStorageConfig.Value.AccountName,
-                queueStorageConfig.Value.AccountKey);
-
-            if (!string.IsNullOrEmpty(queueStorageConfig.Value.QueueEndpoint))
-            {
-                _storageAccountUrl = queueStorageConfig.Value.QueueEndpoint;
-                StorageAccountConnectionString += $"QueueEndpoint={queueStorageConfig.Value.QueueEndpoint}";
-            }
+                queueStorageConfig.Value.AccountKey,
+                StorageAccountString);
         }
 
         /// <summary>

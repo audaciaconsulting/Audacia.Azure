@@ -18,7 +18,7 @@ namespace Audacia.Azure.BlobStorage.Common.Services
     public abstract class BaseAzureBlobStorageService
     {
         private readonly string _storageAccountConnectionString =
-            "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};";
+            "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};BlobEndpoint={2}";
 
         private readonly string _storageAccountUrl = "https://{0}.blob.core.windows.net";
 
@@ -71,17 +71,17 @@ namespace Audacia.Azure.BlobStorage.Common.Services
         {
             OptionsConfigCheck(blobStorageConfig);
 
+            if (!string.IsNullOrEmpty(blobStorageConfig.Value.BlobEndpoint))
+            {
+                _storageAccountUrl = blobStorageConfig.Value.BlobEndpoint;
+            }
+
             var storageAccountConnectionString = string.Format(
                 FormatProvider,
                 _storageAccountConnectionString,
                 blobStorageConfig.Value.AccountName,
-                blobStorageConfig.Value.AccountKey);
-
-            if (!string.IsNullOrEmpty(blobStorageConfig.Value.BlobEndpoint))
-            {
-                _storageAccountUrl = blobStorageConfig.Value.BlobEndpoint;
-                storageAccountConnectionString += $"BlobEndpoint={blobStorageConfig.Value.BlobEndpoint}";
-            }
+                blobStorageConfig.Value.AccountKey,
+                StorageAccountString);
 
             BlobServiceClient = new BlobServiceClient(storageAccountConnectionString);
             Logger = logger;
