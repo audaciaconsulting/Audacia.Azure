@@ -28,9 +28,9 @@ namespace Audacia.Azure.StorageQueue.Common.Services
         protected QueueClient QueueClient { get; set; } = default!;
 
         /// <summary>
-        ///  Gets the Format provider used to format all exception messages.
+        /// Gets the format provider for formatting exception messages.
         /// </summary>
-        protected IFormatProvider FormatProvider { get; }
+        protected static IFormatProvider FormatProvider => CultureInfo.InvariantCulture;
 
         private string StorageAccountString =>
             string.Format(FormatProvider, _storageAccountUrl, _accountName);
@@ -53,7 +53,6 @@ namespace Audacia.Azure.StorageQueue.Common.Services
         protected BaseQueueStorageService(QueueClient queueClient)
         {
             QueueClient = queueClient ?? throw StorageQueueConfigurationException.QueueClientNotConfigured();
-            FormatProvider = CultureInfo.InvariantCulture;
             _accountName = queueClient.AccountName;
         }
 
@@ -66,22 +65,7 @@ namespace Audacia.Azure.StorageQueue.Common.Services
         /// </exception>
         protected BaseQueueStorageService(IOptions<QueueStorageOption> queueStorageConfig)
         {
-            FormatProvider = CultureInfo.InvariantCulture;
-
-            if (queueStorageConfig?.Value == null)
-            {
-                throw StorageQueueConfigurationException.OptionsNotConfigured();
-            }
-
-            if (string.IsNullOrEmpty(queueStorageConfig.Value.AccountName))
-            {
-                throw StorageQueueConfigurationException.AccountNameNotConfigured(FormatProvider);
-            }
-
-            if (string.IsNullOrEmpty(queueStorageConfig.Value.AccountKey))
-            {
-                throw StorageQueueConfigurationException.AccountKeyNotConfigured(FormatProvider);
-            }
+            OptionsConfigCheck(queueStorageConfig: queueStorageConfig);
 
             _accountName = queueStorageConfig.Value.AccountName;
 
@@ -96,6 +80,31 @@ namespace Audacia.Azure.StorageQueue.Common.Services
                 queueStorageConfig.Value.AccountName,
                 queueStorageConfig.Value.AccountKey,
                 StorageAccountString);
+        }
+
+        /// <summary>
+        /// Checks if the <paramref name="queueStorageConfig"/> are valid to create a <see cref="QueueClient"/>.
+        /// </summary>
+        /// <param name="queueStorageConfig">An instance of the <see cref="QueueStorageOption"/>.</param>
+        /// <exception cref="StorageQueueConfigurationException">
+        /// Exception thrown when a property from the <see cref="QueueStorageOption"/> is either null or empty.
+        /// </exception>
+        private static void OptionsConfigCheck(IOptions<QueueStorageOption> queueStorageConfig)
+        {
+            if (queueStorageConfig?.Value == null)
+            {
+                throw StorageQueueConfigurationException.OptionsNotConfigured();
+            }
+
+            if (string.IsNullOrEmpty(queueStorageConfig.Value.AccountName))
+            {
+                throw StorageQueueConfigurationException.AccountNameNotConfigured(FormatProvider);
+            }
+
+            if (string.IsNullOrEmpty(queueStorageConfig.Value.AccountKey))
+            {
+                throw StorageQueueConfigurationException.AccountKeyNotConfigured(FormatProvider);
+            }
         }
 
         /// <summary>
