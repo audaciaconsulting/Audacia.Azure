@@ -36,15 +36,22 @@
 
    - Use and enter the following information within your ***application configuration*** to connect to your Azure hosted  storage account:
 
-   - ***Azure:BlobStorageConfig:***
-        - ***AccountName:*** `Storage Account Name` set within step 3.
-        - ***AccessKey:*** `Access Key` from step 6.
-        - ***BlobEndpoint:*** `Leave empty when using azure hosted storage account`
-
-   - ***Azure:QueueStorageConfig:***
-        - ***AccountName:*** `Storage Account Name` set within step 3.
-        - ***AccessKey:*** `Access Key` from step 6.
-        - ***QueueEndpoint:*** `Leave empty when using azure hosted storage account`
+   ```JSON
+    {
+        "Azure": {
+            "BlobStorageConfig": {
+                "AccountName": "",//Storage Account Name set within step 3.
+                "AccessKey": "",//Access Key from step 6.
+                "BlobEndpoint": "" //Leave empty when using Azure hosted Storage Account
+            },
+            "QueueStorageConfig": {
+                "AccountName": "", //Storage Account Name set within step 3.
+                "AccessKey": "", //Access Key from step 6.
+                "QueueEndpoint": "" //Leave empty when using Azure hosted Storage Account
+            }
+        }
+    }
+   ```
 
 ##### Example:
 
@@ -87,14 +94,21 @@ To simulate Azure Storage services on your local machine, you can use **Azurite*
 
    - Use and enter the following information within your ***application configuration*** to connect to your local Azurite storage:
 
-   - ***Azure:BlobStorageConfig:***
-        - ***AccountName:*** `By default "devstoreaccount1"`
-        - ***AccessKey:*** `Found within Azure Storage Explorer under the name "Primary Key"`
-        - ***BlobEndpoint:*** `default is "http://127.0.0.1:10000/{Account Name}"`
-
-   - ***Azure:QueueStorageConfig:***
-        - ***AccountName:*** `By default "devstoreaccount1"`
-        - ***AccessKey:*** `Found within Azure Storage Explorer under the name "Primary Key"`
-        - ***QueueEndpoint:*** `default is "http://127.0.0.1:10001/{Account Name}"`
+   ```JSON
+    {
+        "Azure": {
+            "BlobStorageConfig": {
+                "AccountName": "", //By default "devstoreaccount1", set when creating Azurite instance.
+                "AccessKey": "", //Found within ASE (Azure Storage Explorer) under the name "Primary Key"
+                "BlobEndpoint": "" //default is "http://127.0.0.1:10000/{Account Name}", otherwise found within ASE.
+            },
+            "QueueStorageConfig": {
+                "AccountName": "", //By default "devstoreaccount1", set when creating Azurite instance.
+                "AccessKey": "", //Found within ASE (Azure Storage Explorer) under the name "Primary Key"
+                "QueueEndpoint": "" //default is "http://127.0.0.1:10001/{Account Name}", otherwise found within ASE.
+            }
+        }
+    }
+   ```
 
 > **Note:** Azurite is designed for development and testing purposes only. It should not be used in a production environment.
