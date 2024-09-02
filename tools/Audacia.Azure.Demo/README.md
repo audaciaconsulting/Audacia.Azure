@@ -33,9 +33,8 @@
    - Note down the **Storage Account Name** and **Access Key** (copy `key1` or `key2`).
 
 7. **Configure Connection Information:**
-   - Using a tool like **Azure Storage Explorer** you can view the information required for your application config when using this package.
 
-   - Use and enter the following information within your ***application configuration*** to connect to your local Azurite storage:
+   - Use and enter the following information within your ***application configuration*** to connect to your Azure hosted  storage account:
 
    - ***Azure:BlobStorageConfig:***
         - ***AccountName:*** `Storage Account Name` set within step 3.
