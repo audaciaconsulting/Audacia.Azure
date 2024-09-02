@@ -16,7 +16,7 @@ namespace Audacia.Azure.StorageQueue.Common.Services
     public class BaseQueueStorageService
     {
         private readonly string _storageAccountConnectionString =
-            "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}";
+            "DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1};QueueEndpoint={2};";
 
         private readonly string _storageAccountUrl = "https://{0}.queue.core.windows.net";
 
@@ -28,9 +28,9 @@ namespace Audacia.Azure.StorageQueue.Common.Services
         protected QueueClient QueueClient { get; set; } = default!;
 
         /// <summary>
-        ///  Gets the Format provider used to format all exception messages.
+        /// Gets the format provider for formatting exception messages.
         /// </summary>
-        protected IFormatProvider FormatProvider { get; }
+        protected static IFormatProvider FormatProvider => CultureInfo.InvariantCulture;
 
         private string StorageAccountString =>
             string.Format(FormatProvider, _storageAccountUrl, _accountName);
@@ -53,7 +53,6 @@ namespace Audacia.Azure.StorageQueue.Common.Services
         protected BaseQueueStorageService(QueueClient queueClient)
         {
             QueueClient = queueClient ?? throw StorageQueueConfigurationException.QueueClientNotConfigured();
-            FormatProvider = CultureInfo.InvariantCulture;
             _accountName = queueClient.AccountName;
         }
 
@@ -66,8 +65,33 @@ namespace Audacia.Azure.StorageQueue.Common.Services
         /// </exception>
         protected BaseQueueStorageService(IOptions<QueueStorageOption> queueStorageConfig)
         {
-            FormatProvider = CultureInfo.InvariantCulture;
+            OptionsConfigCheck(queueStorageConfig: queueStorageConfig);
 
+            _accountName = queueStorageConfig.Value.AccountName;
+
+            var queueEndpoint = queueStorageConfig?.Value?.QueueEndpoint?.ToString();
+            if (!string.IsNullOrEmpty(queueEndpoint))
+            {
+                _storageAccountUrl = queueEndpoint;
+            }
+
+            StorageAccountConnectionString = string.Format(
+                FormatProvider,
+                _storageAccountConnectionString,
+                queueStorageConfig!.Value.AccountName,
+                queueStorageConfig!.Value.AccountKey,
+                StorageAccountString);
+        }
+
+        /// <summary>
+        /// Checks if the <paramref name="queueStorageConfig"/> are valid to create a <see cref="QueueClient"/>.
+        /// </summary>
+        /// <param name="queueStorageConfig">An instance of the <see cref="QueueStorageOption"/>.</param>
+        /// <exception cref="StorageQueueConfigurationException">
+        /// Exception thrown when a property from the <see cref="QueueStorageOption"/> is either null or empty.
+        /// </exception>
+        private static void OptionsConfigCheck(IOptions<QueueStorageOption> queueStorageConfig)
+        {
             if (queueStorageConfig?.Value == null)
             {
                 throw StorageQueueConfigurationException.OptionsNotConfigured();
@@ -82,14 +106,6 @@ namespace Audacia.Azure.StorageQueue.Common.Services
             {
                 throw StorageQueueConfigurationException.AccountKeyNotConfigured(FormatProvider);
             }
-
-            _accountName = queueStorageConfig.Value.AccountName;
-
-            StorageAccountConnectionString = string.Format(
-                FormatProvider,
-                _storageAccountConnectionString,
-                queueStorageConfig.Value.AccountName,
-                queueStorageConfig.Value.AccountKey);
         }
 
         /// <summary>

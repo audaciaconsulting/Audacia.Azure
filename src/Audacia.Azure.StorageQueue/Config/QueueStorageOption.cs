@@ -1,4 +1,6 @@
-﻿namespace Audacia.Azure.StorageQueue.Config
+﻿using System;
+
+namespace Audacia.Azure.StorageQueue.Config
 {
     /// <summary>
     /// Config class used for added the relevant config options needed to connect Azure queue storage account.
@@ -19,5 +21,10 @@
         /// Gets or sets the key of the Azure Blob Storage account.
         /// </summary>
         public string AccountKey { get; set; } = default!;
+
+        /// <summary>
+        /// Gets or sets the URL of the Queue Client Uri.
+        /// </summary>
+        public Uri QueueEndpoint { get; set; } = default!;
     }
 }
