@@ -1,4 +1,6 @@
-﻿namespace Audacia.Azure.BlobStorage.Config
+﻿using System;
+
+namespace Audacia.Azure.BlobStorage.Config
 {
     /// <summary>
     /// Config class used for added the relevant config options needed to connect Azure blob storage account.
@@ -23,6 +25,6 @@
         /// <summary>
         /// Gets or sets the URL of the Blob Service Uri.
         /// </summary>
-        public string BlobEndpoint { get; set; } = default!;
+        public Uri BlobEndpoint { get; set; } = default!;
     }
 }

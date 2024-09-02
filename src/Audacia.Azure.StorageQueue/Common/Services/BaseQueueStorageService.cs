@@ -69,16 +69,17 @@ namespace Audacia.Azure.StorageQueue.Common.Services
 
             _accountName = queueStorageConfig.Value.AccountName;
 
-            if (!string.IsNullOrEmpty(queueStorageConfig.Value.QueueEndpoint))
+            var queueEndpoint = queueStorageConfig?.Value?.QueueEndpoint?.ToString();
+            if (!string.IsNullOrEmpty(queueEndpoint))
             {
-                _storageAccountUrl = queueStorageConfig.Value.QueueEndpoint;
+                _storageAccountUrl = queueEndpoint;
             }
 
             StorageAccountConnectionString = string.Format(
                 FormatProvider,
                 _storageAccountConnectionString,
-                queueStorageConfig.Value.AccountName,
-                queueStorageConfig.Value.AccountKey,
+                queueStorageConfig!.Value.AccountName,
+                queueStorageConfig!.Value.AccountKey,
                 StorageAccountString);
         }
 

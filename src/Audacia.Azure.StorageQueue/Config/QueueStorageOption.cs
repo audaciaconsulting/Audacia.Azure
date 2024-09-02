@@ -1,4 +1,6 @@
-﻿namespace Audacia.Azure.StorageQueue.Config
+﻿using System;
+
+namespace Audacia.Azure.StorageQueue.Config
 {
     /// <summary>
     /// Config class used for added the relevant config options needed to connect Azure queue storage account.
@@ -23,6 +25,6 @@
         /// <summary>
         /// Gets or sets the URL of the Queue Client Uri.
         /// </summary>
-        public string QueueEndpoint { get; set; } = default!;
+        public Uri QueueEndpoint { get; set; } = default!;
     }
 }
