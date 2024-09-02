@@ -41,12 +41,12 @@
         "Azure": {
             "BlobStorageConfig": {
                 "AccountName": "",//Storage Account Name set within step 3.
-                "AccessKey": "",//Access Key from step 6.
+                "AccountKey": "",//Access Key from step 6.
                 "BlobEndpoint": "" //Leave empty when using Azure hosted Storage Account
             },
             "QueueStorageConfig": {
                 "AccountName": "", //Storage Account Name set within step 3.
-                "AccessKey": "", //Access Key from step 6.
+                "AccountKey": "", //Access Key from step 6.
                 "QueueEndpoint": "" //Leave empty when using Azure hosted Storage Account
             }
         }
@@ -99,12 +99,12 @@ To simulate Azure Storage services on your local machine, you can use **Azurite*
         "Azure": {
             "BlobStorageConfig": {
                 "AccountName": "", //By default "devstoreaccount1", set when creating Azurite instance.
-                "AccessKey": "", //Found within ASE (Azure Storage Explorer) under the name "Primary Key"
+                "AccountKey": "", //Found within ASE (Azure Storage Explorer) under the name "Primary Key"
                 "BlobEndpoint": "" //default is "http://127.0.0.1:10000/{Account Name}", otherwise found within ASE.
             },
             "QueueStorageConfig": {
                 "AccountName": "", //By default "devstoreaccount1", set when creating Azurite instance.
-                "AccessKey": "", //Found within ASE (Azure Storage Explorer) under the name "Primary Key"
+                "AccountKey": "", //Found within ASE (Azure Storage Explorer) under the name "Primary Key"
                 "QueueEndpoint": "" //default is "http://127.0.0.1:10001/{Account Name}", otherwise found within ASE.
             }
         }
