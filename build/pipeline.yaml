@@ -1,4 +1,4 @@
-﻿name: $(Year:yy)$(DayOfYear).$(Rev:r)
+name: $(Year:yy)$(DayOfYear).$(Rev:r)
 trigger: [main]
 pr: { branches: { include: [main] } }
 resources: { repositories: [ { repository: templates, type: git, name: Audacia/Audacia.Build } ] }
