@@ -193,7 +193,7 @@ namespace Audacia.Azure.BlobStorage.GetBlob
             var blobBytesDictionary = new Dictionary<string, string>();
             var blobs = new List<BlobItem>();
 
-            await foreach (var blob in containerClient.GetBlobsAsync(cancellationToken: cancellationToken))
+            await foreach (var blob in containerClient.GetBlobsAsync(cancellationToken: cancellationToken).ConfigureAwait(false))
             {
                 blobs.Add(blob);
             }
