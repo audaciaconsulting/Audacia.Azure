@@ -22,6 +22,7 @@ stages:
         parameters:
           projects: 'src/**/*.csproj'
           tests: 'tests/**/*.csproj'
+          excludePaths: 'Audacia.Azure.Demo.csproj'
 
   - stage: Stage_Release
     displayName: Release
