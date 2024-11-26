@@ -196,7 +196,7 @@ namespace Audacia.Azure.BlobStorage.Common.Services
             var containers = BlobServiceClient.GetBlobContainersAsync(cancellationToken: cancellationToken).AsPages();
 
             // Use the async method instead of all containers.
-            await foreach (var pagedContainers in containers)
+            await foreach (var pagedContainers in containers.ConfigureAwait(false))
             {
                 containerExists = pagedContainers.Values.Any(containerItem => containerItem.Name == containerName);
 
