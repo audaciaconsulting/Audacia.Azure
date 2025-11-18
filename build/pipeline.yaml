@@ -29,8 +29,8 @@ stages:
           trustedSigningEndpoint: $(TrustedSigningEndpoint)
           trustedSigningAccount: $(TrustedSigningAccount)
           trustedSigningCertificateProfile: $(TrustedSigningCertificateProfile)
-          directory: $(Build.SourcesDirectory)/Audacia.Random
-          fileToSignPattern: 'Audacia.Random.dll'
+          directory: $(Build.SourcesDirectory)/src
+          fileToSignPattern: 'Audacia.Azure.*.dll'
           serviceConnection: 'Audacia Code Signing'
 
   - stage: Stage_Release
