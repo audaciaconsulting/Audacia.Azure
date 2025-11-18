@@ -26,6 +26,7 @@ stages:
           projects: 'src/**/*.csproj'
           testPath: 'tests/**/*.csproj'
           excludePaths: '*.Tests.csproj,Audacia.Azure.Demo.csproj'
+          dotNetVersion: '10.x'
           trustedSigningEndpoint: $(TrustedSigningEndpoint)
           trustedSigningAccount: $(TrustedSigningAccount)
           trustedSigningCertificateProfile: $(TrustedSigningCertificateProfile)
