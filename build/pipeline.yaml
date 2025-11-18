@@ -24,7 +24,7 @@ stages:
       - template: src/build/dotnet/jobs/signed-nuget-package.job.yaml@templates
         parameters:
           projects: 'src/**/*.csproj'
-          tests: 'tests/**/*.csproj'
+          testPath: 'tests/**/*.csproj'
           excludePaths: '*.Tests.csproj,Audacia.Azure.Demo.csproj'
           trustedSigningEndpoint: $(TrustedSigningEndpoint)
           trustedSigningAccount: $(TrustedSigningAccount)
