@@ -64,7 +64,7 @@ stages:
           # Generate .NET SBOMs
           - template: /src/security/dependency-track/steps/generate-dotnet-sbom.steps.yaml@templates
             parameters:
-              dotnetProjects: audaciaAzureProjectPaths
+              dotnetProjects: $(audaciaAzureProjectPaths)
               vstsFeed: ${{ variables.vstsFeed }}
               publishArtifact: ${{ variables.publishArtifact }}
               artifactName: $(artifactName)
