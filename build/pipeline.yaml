@@ -1,10 +1,7 @@
 name: $(Year:yy)$(DayOfYear).$(Rev:r)
 trigger:
   - main
-pr:
-  branches:
-    include:
-      - main
+pr: none
 resources:
   repositories:
     - repository: templates
@@ -13,15 +10,21 @@ resources:
       name: audaciaconsulting/Audacia.Build
 pool:
   vmImage: windows-latest
+variables:
+  - group: Code Signing
 
 stages:
   - stage: Stage_Build
     displayName: Build
     jobs:
-      - template: src/build/dotnet/jobs/nuget-package.job.yaml@templates
+      - template: src/build/dotnet/jobs/signed-nuget-package.job.yaml@templates
         parameters:
-          projects: 'src/**/*.csproj'
-          tests: 'tests/**/*.csproj'
+          trustedSigningEndpoint: $(TrustedSigningEndpoint)
+          trustedSigningAccount: $(TrustedSigningAccount)
+          trustedSigningCertificateProfile: $(TrustedSigningCertificateProfile)
+          directory: $(Build.SourcesDirectory)/src
+          fileToSignPattern: 'Audacia.Azure.dll'
+          serviceConnection: 'Audacia Code Signing'
           excludePaths: '*.Tests.csproj,Audacia.Azure.Demo.csproj'
 
   - stage: Stage_Release
@@ -34,4 +37,4 @@ stages:
         eq(dependencies.Stage_Build.outputs['Job_Build.UpdateVersions.ShouldPublish'], true)
       )
     jobs:
-      - template: src/deployment/nuget/jobs/internal-public-nuget-package.job.yaml@templates
+      - template: src/deployment/nuget/jobs/public-nuget-package.job.yaml@templates
