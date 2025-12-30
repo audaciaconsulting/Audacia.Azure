@@ -23,7 +23,7 @@ stages:
           trustedSigningAccount: $(TrustedSigningAccount)
           trustedSigningCertificateProfile: $(TrustedSigningCertificateProfile)
           directory: $(Build.SourcesDirectory)/src
-          fileToSignPattern: 'Audacia.Azure.dll'
+          fileToSignPattern: 'Audacia.Azure.*.dll'
           serviceConnection: 'Audacia Code Signing'
           excludePaths: '*.Tests.csproj,Audacia.Azure.Demo.csproj'
           runTests: false
