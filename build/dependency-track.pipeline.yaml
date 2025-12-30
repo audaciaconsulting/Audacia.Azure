@@ -36,6 +36,9 @@ variables:
   # Project paths and settings
   - name: audaciaAzureProjectPaths
     value: |
+      $(System.DefaultWorkingDirectory)/src/Audacia.Azure.BlobStorage/Audacia.Azure.BlobStorage.csproj
+      $(System.DefaultWorkingDirectory)/src/Audacia.Azure.Common/Audacia.Azure.Common.csproj
+      $(System.DefaultWorkingDirectory)/src/Audacia.Azure.StorageQueue/Audacia.Azure.StorageQueue.csproj
       $(System.DefaultWorkingDirectory)/tools/Audacia.Azure.Demo/Audacia.Azure.Demo.csproj
       $(System.DefaultWorkingDirectory)/tests/Audacia.Azure.BlobStorage.Tests/Audacia.Azure.BlobStorage.Tests.csproj
       $(System.DefaultWorkingDirectory)/tests/Audacia.Azure.StorageQueue.Tests/Audacia.Azure.StorageQueue.Tests.csproj
@@ -56,7 +59,7 @@ stages:
   # 1) GENERATE STAGE
   # =========================
   - stage: generate
-    displayName: "Generate SBOMs (npm + .NET via CycloneDX)"
+    displayName: "Generate SBOMs (.NET via CycloneDX)"
     jobs:
       - job: generate_sbom
         displayName: "Generate SBOMs & publish artifact"
