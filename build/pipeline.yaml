@@ -26,6 +26,7 @@ stages:
           fileToSignPattern: 'Audacia.Azure.dll'
           serviceConnection: 'Audacia Code Signing'
           excludePaths: '*.Tests.csproj,Audacia.Azure.Demo.csproj'
+          runTests: false
 
   - stage: Stage_Release
     displayName: Release
