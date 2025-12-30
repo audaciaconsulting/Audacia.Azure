@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <Authors>Audacia</Authors>
+        <Version>1.4.0</Version>
         <PackageIcon>package-icon.png</PackageIcon>
         <Copyright>Copyright © Audacia $([System.DateTime]::UtcNow.Year)</Copyright>
         <Description>Core library for using Azure services.</Description>
