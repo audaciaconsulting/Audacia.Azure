@@ -1,35 +1,24 @@
-﻿namespace Audacia.Azure.StorageQueue.GetMessages.Commands
+﻿namespace Audacia.Azure.StorageQueue.GetMessages.Commands;
+
+/// <summary>
+/// Command for getting messages from a storage queue and removes it.
+/// </summary>
+/// <param name="queueName">Name of queue which you want to get the messages from.</param>
+/// <param name="amountToReceive">The amount of messages you want to get from the queue.</param>
+public class GetWithCleanUpMessagesStorageQueueCommand(string queueName, int amountToReceive)
 {
     /// <summary>
-    /// Command for getting messages from a storage queue and removes it.
+    /// Gets the Name of the queue.
     /// </summary>
-    public class GetWithCleanUpMessagesStorageQueueCommand
-    {
-        /// <summary>
-        /// Gets the Name of the queue.
-        /// </summary>
-        public string QueueName { get; }
+    public string QueueName { get; } = queueName;
 
-        /// <summary>
-        /// Gets the number of messages to receive.
-        /// </summary>
-        public int AmountToReceive { get; }
+    /// <summary>
+    /// Gets the number of messages to receive.
+    /// </summary>
+    public int AmountToReceive { get; } = amountToReceive;
 
-        /// <summary>
-        /// Gets a value indicating whether the message is to be delete after received.
-        /// </summary>
-        public bool ShouldDeleteMessageAfterReceiving { get; }
-
-        /// <summary>
-        /// Command for getting messages from a storage queue and removes it.
-        /// </summary>
-        /// <param name="queueName">Name of queue which you want to get the messages from.</param>
-        /// <param name="amountToReceive">The amount of messages you want to get from the queue.</param>
-        public GetWithCleanUpMessagesStorageQueueCommand(string queueName, int amountToReceive)
-        {
-            QueueName = queueName;
-            AmountToReceive = amountToReceive;
-            ShouldDeleteMessageAfterReceiving = true;
-        }
-    }
+    /// <summary>
+    /// Gets a value indicating whether the message is to be delete after received.
+    /// </summary>
+    public bool ShouldDeleteMessageAfterReceiving { get; } = true;
 }

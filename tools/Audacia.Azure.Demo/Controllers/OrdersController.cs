@@ -7,69 +7,57 @@ using Audacia.Azure.StorageQueue.Models;
 using Azure.Storage.Queues.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Audacia.Azure.Demo.Controllers
+namespace Audacia.Azure.Demo.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class OrdersController(IGetAzureQueueStorageService getAzureQueueStorageService,
+    IAddAzureQueueStorageService addAzureQueueStorageService,
+    IDeleteAzureQueueStorageService deleteAzureQueueStorageService) : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class OrdersController : ControllerBase
+    private readonly IGetAzureQueueStorageService _getAzureQueueStorageService = getAzureQueueStorageService;
+
+    private readonly IAddAzureQueueStorageService _addAzureQueueStorageService = addAzureQueueStorageService;
+
+    private readonly IDeleteAzureQueueStorageService _deleteAzureQueueStorageService = deleteAzureQueueStorageService;
+
+    [HttpGet, Route("Queue/{queueName}")]
+    [ProducesResponseType(typeof(AzureQueueStorageMessage), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Get(string queueName, CancellationToken cancellationToken = default)
     {
-        private readonly IGetAzureQueueStorageService _getAzureQueueStorageService;
+        var command = new GetMessageStorageQueueCommand(queueName);
+        var messages = await _getAzureQueueStorageService.GetAsync(command, cancellationToken);
 
-        private readonly IAddAzureQueueStorageService _addAzureQueueStorageService;
+        return Ok(messages);
+    }
 
-        private readonly IDeleteAzureQueueStorageService _deleteAzureQueueStorageService;
+    [HttpGet, Route("Queue/GetAll/{queueName}")]
+    [ProducesResponseType(typeof(IEnumerable<AzureQueueStorageMessage>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll(string queueName, CancellationToken cancellationToken = default)
+    {
+        var command = new GetMessagesStorageQueueCommand(queueName, 10);
+        var messages = await _getAzureQueueStorageService.GetSomeAsync(command, cancellationToken);
 
-        private readonly ILogger<OrdersController> _logger;
+        return Ok(messages);
+    }
 
-        public OrdersController(IGetAzureQueueStorageService getAzureQueueStorageService,
-            IAddAzureQueueStorageService addAzureQueueStorageService,
-            IDeleteAzureQueueStorageService deleteAzureQueueStorageService,
-            ILogger<OrdersController> logger)
-        {
-            _getAzureQueueStorageService = getAzureQueueStorageService;
-            _addAzureQueueStorageService = addAzureQueueStorageService;
-            _deleteAzureQueueStorageService = deleteAzureQueueStorageService;
-            _logger = logger;
-        }
+    [HttpPost, Route("Queue/Add")]
+    [ProducesResponseType(typeof(SendReceipt), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Post([FromForm] AddQueueRequest request, CancellationToken cancellationToken = default)
+    {
+        _ = request ?? throw new ArgumentNullException(nameof(request));
 
-        [HttpGet, Route("Queue/{queueName}")]
-        [ProducesResponseType(typeof(AzureQueueStorageMessage), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get(string queueName, CancellationToken cancellationToken = default)
-        {
-            var command = new GetMessageStorageQueueCommand(queueName);
-            var messages = await _getAzureQueueStorageService.GetAsync(command, cancellationToken);
+        var messages = await _addAzureQueueStorageService.ExecuteAsync(request.QueueName, request.Message, cancellationToken);
 
-            return Ok(messages);
-        }
+        return Ok(messages);
+    }
 
-        [HttpGet, Route("Queue/GetAll/{queueName}")]
-        [ProducesResponseType(typeof(IEnumerable<AzureQueueStorageMessage>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAll(string queueName, CancellationToken cancellationToken = default)
-        {
-            var command = new GetMessagesStorageQueueCommand(queueName, 10);
-            var messages = await _getAzureQueueStorageService.GetSomeAsync(command, cancellationToken);
+    [HttpDelete, Route("Queue/{queueName}/{id}")]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Delete(string queueName, string id, CancellationToken cancellationToken = default)
+    {
+        var result = await _deleteAzureQueueStorageService.ExecuteAsync(queueName, id, cancellationToken);
 
-            return Ok(messages);
-        }
-
-        [HttpPost, Route("Queue/Add")]
-        [ProducesResponseType(typeof(SendReceipt), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Post([FromForm] AddQueueRequest request, CancellationToken cancellationToken = default)
-        {
-            _ = request ?? throw new ArgumentNullException(nameof(request));
-            
-            var messages = await _addAzureQueueStorageService.ExecuteAsync(request.QueueName, request.Message, cancellationToken);
-
-            return Ok(messages);
-        }
-
-        [HttpDelete, Route("Queue/{queueName}/{id}")]
-        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete(string queueName, string id, CancellationToken cancellationToken = default)
-        {
-            var result = await _deleteAzureQueueStorageService.ExecuteAsync(queueName, id, cancellationToken);
-
-            return Ok(result);
-        }
+        return Ok(result);
     }
 }
