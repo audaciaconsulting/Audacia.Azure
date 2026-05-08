@@ -1,9 +1,8 @@
-﻿namespace Audacia.Azure.Demo.Models.Requests
+﻿namespace Audacia.Azure.Demo.Models.Requests.Blob;
+
+public class AddBlobRequest
 {
-    public class AddBlobRequest
-    {
-        public string ContainerName { get; set; } = default!;
-        
-        public IFormFile File { get; set; } = default!;
-    }
+    public string ContainerName { get; set; } = default!;
+
+    public IFormFile File { get; set; } = default!;
 }

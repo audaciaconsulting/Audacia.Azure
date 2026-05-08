@@ -1,9 +1,8 @@
-﻿namespace Audacia.Azure.Demo.Models.Requests
-{
-    public class DeleteBlobRequest
-    {
-        public string ContainerName { get; set; } = default!;
+﻿namespace Audacia.Azure.Demo.Models.Requests.Blob;
 
-        public string BlobName { get; set; } = default!;
-    }
+public class DeleteBlobRequest
+{
+    public string ContainerName { get; set; } = default!;
+
+    public string BlobName { get; set; } = default!;
 }

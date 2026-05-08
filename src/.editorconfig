@@ -6,6 +6,9 @@
 # Code files
 [*.cs]
 
+# [STYLE] Convert to conditional expression - disabled as throwing exceptions in ternaries is unreadable
+dotnet_diagnostic.IDE0046.severity = none
+
 
 # [DESIGN] Implement standard exception constructors
 dotnet_diagnostic.CA1032.severity = warning
