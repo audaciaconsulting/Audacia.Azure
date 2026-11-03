@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.2 - 2026-11-02
+
+### Changed
+- Microsoft.Extensions.Logging.Abstractions dependency updated to version 10.0.14.
+- Microsoft.Extensions.Options dependency updated to version 10.0.14.
+- Microsoft.Extensions.Logging dependency updated to version 10.0.14.
+- Microsoft.NET.Test.Sdk dependency updated to version 18.11.0.
+- Swashbuckle.AspNetCore dependency updated to version 10.3.1.
+
 ## 2.0.1 - 2026-10-30
 
 ### Changed
