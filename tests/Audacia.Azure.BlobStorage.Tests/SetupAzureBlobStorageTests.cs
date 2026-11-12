@@ -4,7 +4,7 @@ using Audacia.Azure.BlobStorage.Config;
 using Audacia.Azure.BlobStorage.Exceptions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Moq;
+using NSubstitute;
 
 namespace Audacia.Azure.BlobStorage.Tests;
 
@@ -17,7 +17,7 @@ public class SetupAzureBlobStorageTests
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
         var blobStorageOptions = Options.Create<BlobStorageOption>(null);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
-        var mockLogger = new Mock<ILogger<AddAzureBlobStorageService>>();
+        var mockLogger = Substitute.For<ILogger<AddAzureBlobStorageService>>();
 
         // Act
         var expectedException = BlobStorageConfigurationException.OptionsNotConfigured();
@@ -25,7 +25,7 @@ public class SetupAzureBlobStorageTests
         try
         {
             var addAzureBlobStorageService =
-                new AddAzureBlobStorageService(mockLogger.Object, blobStorageOptions);
+                new AddAzureBlobStorageService(mockLogger, blobStorageOptions);
         }
         catch (BlobStorageConfigurationException exception)
         {
@@ -45,7 +45,7 @@ public class SetupAzureBlobStorageTests
         var blobStorageOption = new BlobStorageOption();
 
         var blobStorageOptions = Options.Create(blobStorageOption);
-        var mockLogger = new Mock<ILogger<AddAzureBlobStorageService>>();
+        var mockLogger = Substitute.For<ILogger<AddAzureBlobStorageService>>();
 
         // Act
         var expectedException =
@@ -54,7 +54,7 @@ public class SetupAzureBlobStorageTests
         try
         {
             var addAzureBlobStorageService =
-                new AddAzureBlobStorageService(mockLogger.Object, blobStorageOptions);
+                new AddAzureBlobStorageService(mockLogger, blobStorageOptions);
         }
         catch (BlobStorageConfigurationException exception)
         {
@@ -82,7 +82,7 @@ public class SetupAzureBlobStorageTests
         };
 
         var blobStorageOptions = Options.Create(blobStorageOption);
-        var mockLogger = new Mock<ILogger<AddAzureBlobStorageService>>();
+        var mockLogger = Substitute.For<ILogger<AddAzureBlobStorageService>>();
 
         // Act
         var expectedException =
@@ -91,7 +91,7 @@ public class SetupAzureBlobStorageTests
         try
         {
             var addAzureBlobStorageService =
-                new AddAzureBlobStorageService(mockLogger.Object, blobStorageOptions);
+                new AddAzureBlobStorageService(mockLogger, blobStorageOptions);
         }
         catch (BlobStorageConfigurationException exception)
         {
@@ -119,7 +119,7 @@ public class SetupAzureBlobStorageTests
         };
 
         var blobStorageOptions = Options.Create(blobStorageOption);
-        var mockLogger = new Mock<ILogger<AddAzureBlobStorageService>>();
+        var mockLogger = Substitute.For<ILogger<AddAzureBlobStorageService>>();
 
         // Act
         var expectedException =
@@ -128,7 +128,7 @@ public class SetupAzureBlobStorageTests
         try
         {
             var addAzureBlobStorageService =
-                new AddAzureBlobStorageService(mockLogger.Object, blobStorageOptions);
+                new AddAzureBlobStorageService(mockLogger, blobStorageOptions);
         }
         catch (BlobStorageConfigurationException exception)
         {
